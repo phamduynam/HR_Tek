@@ -28,9 +28,4 @@ public class JobWorkSkill {
     @Column(name = "skill_id")
     private int skillId;
 
-    //FK
-    @Column(name = "level_id")
-    private int lavelId;
-
-
 }

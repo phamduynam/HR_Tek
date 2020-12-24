@@ -15,8 +15,7 @@ import java.util.Date;
 public class JobRequirements {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "job_recruitment_id")
+    @Column(name = "job_recruiment_id")
     private String jobRecruitmentId;
 
     @Column(name = "job_title")

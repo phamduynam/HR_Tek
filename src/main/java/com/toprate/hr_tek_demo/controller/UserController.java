@@ -16,7 +16,12 @@ public class UserController {
     }
 
     @GetMapping("/add-contact")
-    public String getAddContactView(){
+    public String getAddContact(){
         return "user/add-contact";
+    }
+
+    @GetMapping("/view-contacts")
+    public String getContactView(){
+        return "user/contacts";
     }
 }

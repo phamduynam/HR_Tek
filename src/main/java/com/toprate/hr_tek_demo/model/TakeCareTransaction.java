@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class TakeCareTransaction {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "takecare_transaction_id")
     private int takecareTransacntion;
 

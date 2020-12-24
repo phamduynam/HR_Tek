@@ -1,27 +1,24 @@
 package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.model.User;
-import com.toprate.hr_tek_demo.repository.UserRepository;
+import com.toprate.hr_tek_demo.secvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @Controller
 public class LoginController {
     @Autowired
-    UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
@@ -45,7 +42,8 @@ public class LoginController {
         OidcUserAuthority authority = (OidcUserAuthority) authorities.get(0);
         String gmail = authority.getAttributes().get("email").toString();
 
-        User user = userRepository.findByGmail(gmail);
+        User user = userService.getUserByGmail(gmail);
+
         if(user != null){
             // Ở đây có thể check quyền sau đó add vào mav các view phù hợp
             if(user.getRole_name().equals("ADMIN")){
