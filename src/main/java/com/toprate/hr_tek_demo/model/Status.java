@@ -1,10 +1,9 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,7 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Table(name = "status")
 public class Status {
-    //FK
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "status_id")
@@ -21,8 +19,15 @@ public class Status {
     @Column(name = "status_name")
     private String statusName;
 
-    @Column(name = "takecare_transaction_id")
-    private int takecareTransactionId;
+    @ManyToOne
+    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private TakeCareTransaction takeCareTransaction;
 
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<NoteStatus> noteStatusList;
 
 }

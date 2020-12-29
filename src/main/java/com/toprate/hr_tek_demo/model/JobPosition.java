@@ -1,8 +1,6 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,19 +11,25 @@ import javax.persistence.*;
 @Table(name = "job_position")
 public class JobPosition {
     @Id
-    @Column(name = "job_position_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "job_positon_id")
     private int jobPositionId;
 
 
     @Column(name = "description")
     private String description;
 
-    // FK
-    @Column(name = "job_id")
-    private String jobId;
-    // FK
 
-    @Column(name = "position_id")
-    private int positionId;
-
+    //FK
+    @ManyToOne
+    @JoinColumn(name = "job_recruitment_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private JobRequirements jobRequirements;
+    //FK
+    @ManyToOne
+    @JoinColumn(name = "position_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Position position;
 }

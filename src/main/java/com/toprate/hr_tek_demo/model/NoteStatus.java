@@ -1,13 +1,8 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,10 +12,17 @@ import javax.persistence.Table;
 public class NoteStatus {
     //FK
     @Id
-    @Column(name = "status_id")
-    private int statusId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "note_status_id")
+    private int noteStatusId;
 
     @Column(name = "note_description")
     private String noteDescription;
+
+    @ManyToOne
+    @JoinColumn(name = "status_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Status status;
 
 }

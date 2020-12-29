@@ -1,8 +1,6 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -20,7 +18,13 @@ public class BlackListAction {
 
     @Column(name = "reason")
     private String reason;
+
+
     // FK
-    @Column(name = "takecare_transaction_id")
-    private int takecareTransactionID;
+    @ManyToOne
+    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private TakeCareTransaction takeCareTransaction;
+
 }

@@ -1,8 +1,6 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,7 +24,10 @@ public class TodoTask {
 
     @Column(name = "date_end")
     private Date dateEnd;
-    //FK
-    @Column(name = "takecare_transaction_id")
-    private int takecareTransactionId;
+
+    @ManyToOne
+    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private TakeCareTransaction takeCareTransaction;
 }

@@ -1,9 +1,7 @@
 package com.toprate.hr_tek_demo.model;
 
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -21,11 +19,18 @@ public class AssignHrJob {
     @Column(name = "description")
     private String description;
     // Fk
-    @Column(name = "assign_hr_id")
-    private int assignHrId;
+    @ManyToOne
+    @JoinColumn(name = "assign_hr_id") // thông qua khóa ngoại assign_hr_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private AssignHr assignHr;
+
     // Fk
-    @Column(name = "job_recruitment_id")
-    private String jobRecuitmentId;
+    @ManyToOne
+    @JoinColumn(name = "job_recruitment_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private JobRequirements jobRequirements;
 
 
 }

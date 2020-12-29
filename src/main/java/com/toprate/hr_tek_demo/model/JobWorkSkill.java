@@ -1,8 +1,6 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,9 +12,9 @@ import javax.persistence.*;
 public class JobWorkSkill {
     //FK
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "job_recruitment_id")
-    private String jobRecruitmentId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "job_work_skill_id")
+    private int jobworkSkillId;
 
     @Column(name = "description")
     private String description;
@@ -25,7 +23,15 @@ public class JobWorkSkill {
     private float skillExperience;
 
     //FK
-    @Column(name = "skill_id")
-    private int skillId;
+    @ManyToOne
+    @JoinColumn(name = "skill_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Skill skill;
 
+    @ManyToOne
+    @JoinColumn(name = "job_recruitment_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private JobRequirements jobRequirements;
 }

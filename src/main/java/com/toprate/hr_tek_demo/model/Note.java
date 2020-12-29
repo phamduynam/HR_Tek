@@ -1,13 +1,8 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -17,20 +12,29 @@ import java.util.Date;
 @NoArgsConstructor
 @Table(name = "note")
 public class Note implements Serializable {
-    //FK
     @Id
-    @Column(name = "user_id")
-    private String userId;
-    //FK
-    @Id
-    @Column(name = "takecare_transaction_id")
-    private int takecareTransactionId;
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "note_id")
+    private int noteId;
 
     @Column(name = "time_create")
     private Date timeCreate;
 
     @Column(name = "description")
     private String description;
+
+    //FK
+    @ManyToOne
+    @JoinColumn(name = "user_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Users user;
+
+
+    @ManyToOne
+    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private TakeCareTransaction takeCareTransaction;
 
 }

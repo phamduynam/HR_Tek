@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Add Contact</title>
+</head>
+<body>
+
+<section layout:fragment="content" id="page_content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Thêm Mới Contact</h3>
+                </div>
+                <div class="card-body">
+                    <form  action="#" th:action="@{contact/save}" th:object="${contact}" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ContactName">Họ Tên</label>
+                                    <input th:field="*{contactCandidateName}" type="text" class="form-control" id="ContactName" placeholder="Enter Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DayOfBirth">Ngày Sinh</label>
+                                    <input type="date" class="form-control" id="DayOfBirth" placeholder="dd/mm/yyyy">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Giới Tính</label>
+                                    <select  class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
+                                        <option selected="" disabled="">Select one</option>
+                                        <option>Nam</option>
+                                        <option>Nữ</option>
+                                        <option>Khác</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Địa Chỉ</label>
+                                    <input type="text" class="form-control" id="address" placeholder="Enter Address">
+                                </div>
+                                <div class="form-group" data-select-id="4">
+                                    <label>Số năm kinh nghiệm</label>
+                                    <select  class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                        <option selected="" disabled="">Select one</option>
+                                        <option>3 tháng</option>
+                                        <option>6 tháng</option>
+                                        <option>1 năm</option>
+                                        <option>2 năm</option>
+                                        <option>5 năm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" data-select-id="4">
+                                    <label>Level</label>
+                                    <select  class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                        <option selected="" disabled="">Select one</option>
+                                        <option>Junior</option>
+                                        <option>Middle</option>
+                                        <option>Sennior</option>
+                                        <option>Master</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" data-select-id="3">
+                                    <label>Vị trí ứng tuyển</label>
+                                    <select id="choices-multiple-remove-button_1" placeholder="Select upto 5 tags" multiple>
+                                        <option>BA</option>
+                                        <option>HR</option>
+                                        <option>FontEnd</option>
+                                        <option>BackEnd</option>
+                                        <option>Android</option>
+                                        <option>IOS</option>
+                                        <option>DataAnalys</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone1">Phone 1</label>
+                                    <input type="text" class="form-control" id="phone1" placeholder="Enter Phone 1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone2">Phone 2</label>
+                                    <input type="text" class="form-control" id="phone2" placeholder="Enter Phone 2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ContactEmail1">Email 1</label>
+                                    <input type="email" class="form-control" id="ContactEmail1" placeholder="Enter Email 1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ContactEmail2">Email 2</label>
+                                    <input type="email" class="form-control" id="ContactEmail2" placeholder="Enter Email 2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDescription">Ghi Chú</label>
+                                    <textarea id="inputDescription" class="form-control" rows="4"></textarea>
+                                </div>
+                                <input type="submit" value="Create new Contacts" class="btn btn-success float-right">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

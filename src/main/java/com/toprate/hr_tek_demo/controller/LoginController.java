@@ -1,9 +1,10 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.model.User;
+import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.secvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
@@ -33,31 +34,21 @@ public class LoginController {
     @GetMapping("/home")
     public ModelAndView getHome(OAuth2AuthenticationToken authentication,ModelAndView mav) {
     // Xem token nhận được là gì ?// đặt debbug vào để xem nhé
-    //        OAuth2AuthorizedClient client = authorizedClientService
-    //                .loadAuthorizedClient(
-    //                        authentication.getAuthorizedClientRegistrationId(),
-    //                        authentication.getName());
+            OAuth2AuthorizedClient client = authorizedClientService
+                    .loadAuthorizedClient(
+                            authentication.getAuthorizedClientRegistrationId(),
+                            authentication.getName());
         // Lấy email ra từ token google gửi về
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
         OidcUserAuthority authority = (OidcUserAuthority) authorities.get(0);
         String gmail = authority.getAttributes().get("email").toString();
 
-        User user = userService.getUserByGmail(gmail);
+        Users user = userService.getUserByGmail(gmail);
 
-        if(user != null){
-            // Ở đây có thể check quyền sau đó add vào mav các view phù hợp
-            if(user.getRole_name().equals("ADMIN")){
-                mav.setViewName("admin");
-                mav.addObject("user",user);
-            }else if(user.getRole_name().equals("MANAGER")){
+        if(user != null) {
 
-            }else{
-                mav.setViewName("index");
-                mav.addObject("user",user);
-            }
-        }else{
-            // Không có user nào giống thì trả về lỗi
-            mav.addObject("404");
+            mav.setViewName("admin");
+            mav.addObject("user", user);
         }
         return mav;
     }

@@ -1,8 +1,6 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,9 +12,10 @@ import javax.persistence.*;
 public class CV {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cv_id")
     private int cvId;
+
 
     @Column(name = "link_cv")
     private String linkCv;
@@ -25,7 +24,10 @@ public class CV {
     private String cvPdf;
 
     //FK
-    @Column(name = "contact_candidate_id")
-    private String contactCandidateId;
+    @ManyToOne
+    @JoinColumn(name = "contact_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Contact contact;
 
 }

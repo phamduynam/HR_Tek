@@ -1,10 +1,9 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,6 +13,7 @@ import javax.persistence.*;
 public class TakeCareTransaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "takecare_transaction_id")
     private int takecareTransacntion;
 
@@ -22,11 +22,38 @@ public class TakeCareTransaction {
 
     @Column(name = "description")
     private String description;
-    //FK
-    @Column(name = "candidate_id")
-    private String candidateId;
+
+
+    @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<BlackListAction> blackListActionList;
+
+    @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<Note> noteList;
+
+    @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<Status> statusList;
+
+    @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<TodoTask> todoTaskList;
+
+    @ManyToOne
+    @JoinColumn(name = "candidate_id") // thông qua khóa ngoại candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Contact contact;
 
     //FK
-    @Column(name = "job_id")
-    private String jobId;
+    @ManyToOne
+    @JoinColumn(name = "job_id") // thông qua khóa ngoại job_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private JobRequirements  jobRequirements;
 }

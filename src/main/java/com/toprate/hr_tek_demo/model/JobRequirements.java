@@ -1,11 +1,10 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -44,15 +43,45 @@ public class JobRequirements {
     @Column(name = "description")
     private String description;
 
-    //FK
-    @Column(name = "partner_id")
-    private int partnerId;
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<AssignHrJob> assignHrJobList;
 
-    // FK
-    @Column(name = "location_city_id")
-    private int locationCityId;
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<JobWorkSkill> jobWorkSkills;
+
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<JobPosition> jobPositionList;
+
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
+    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    private List<TakeCareTransaction> takeCareTransactionList;
+
 
     //FK
-    @Column(name = "user_id")
-    private String userId;
+    @ManyToOne
+    @JoinColumn(name = "partner_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Partner partner;
+
+    //FK
+    @ManyToOne
+    @JoinColumn(name = "location_city_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Location location;
+
+    //FK
+    @ManyToOne
+    @JoinColumn(name = "user_id") // thông qua khóa ngoại job_recruitment_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Users user;
 }
