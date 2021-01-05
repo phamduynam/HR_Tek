@@ -1,18 +1,24 @@
 package com.toprate.hr_tek_demo.model;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "contact")
 public class Contact {
     @Id
+    @GeneratedValue(generator = "my_generator")
+    @GenericGenerator(name = "my_generator", strategy = "com.toprate.hr_tek_demo.generators.GeneratorContactId")
     @Column(name = "candidate_id")
     private String candidateId;
 
@@ -20,6 +26,7 @@ public class Contact {
     private String candidateName;
 
     @Column(name = "birth_day")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthDay;
 
     @Column(name = "address")
@@ -41,23 +48,30 @@ public class Contact {
     private String workLocation;
 
     @Column(name = "email_1")
-    private String email_1;
+    private String email1;
 
     @Column(name = "email_2")
-    private String email_2;
+    private String email2;
 
     @Column(name = "phone_1")
-    private String phone_1;
+    private String phone1;
 
     @Column(name = "phone_2")
-    private String phone_2;
+    private String phone2;
 
     @Column(name = "levels")
     private String levels;
 
-    @Column(name = "is_enable")
-    private boolean is_enable;
+    @Column(name = "is_enable" ,columnDefinition = "boolean default true")
+    private boolean isEnable;
 
+    @Column
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
+
+    @Column
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
     // MapopedBy trỏ tới tên biến Address ở trong Person.
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
@@ -91,26 +105,73 @@ public class Contact {
     @ToString.Exclude
     private Users user;
 
-
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "candidateId='" + candidateId + '\'' +
-                ", candidateName='" + candidateName + '\'' +
-                ", birthDay=" + birthDay +
-                ", address='" + address + '\'' +
-                ", linkCv='" + linkCv + '\'' +
-                ", yearExperience=" + yearExperience +
-                ", sex='" + sex + '\'' +
-                ", isBlackList=" + isBlackList +
-                ", workLocation='" + workLocation + '\'' +
-                ", email_1='" + email_1 + '\'' +
-                ", email_2='" + email_2 + '\'' +
-                ", phone_1='" + phone_1 + '\'' +
-                ", phone_2='" + phone_2 + '\'' +
-                ", levels='" + levels + '\'' +
-                '}';
+    public Contact(String candidateId, String candidateName, Date birthDay, String address, String linkCv, Float yearExperience, String sex, Boolean isBlackList, String workLocation, String email1, String email2, String phone1, String phone2, String levels, boolean isEnable, List<AssignHr> assignHrList, List<ContactWorkSkill> contactWorkSkillList, List<ContactPosition> contactPositionList, List<TakeCareTransaction> takeCareTransactionList, List<CV> cvList, Users user) {
+        this.candidateId = candidateId;
+        this.candidateName = candidateName;
+        this.birthDay = birthDay;
+        this.address = address;
+        this.linkCv = linkCv;
+        this.yearExperience = yearExperience;
+        this.sex = sex;
+        this.isBlackList = isBlackList;
+        this.workLocation = workLocation;
+        this.email1 = email1;
+        this.email2 = email2;
+        this.phone1 = phone1;
+        this.phone2 = phone2;
+        this.levels = levels;
+        this.isEnable = isEnable;
+        this.assignHrList = assignHrList;
+        this.contactWorkSkillList = contactWorkSkillList;
+        this.contactPositionList = contactPositionList;
+        this.takeCareTransactionList = takeCareTransactionList;
+        this.cvList = cvList;
+        this.user = user;
     }
+
+    public String getEmail1() {
+        return email1;
+    }
+
+    public void setEmail1(String email1) {
+        this.email1 = email1;
+    }
+
+    public String getEmail2() {
+        return email2;
+    }
+
+    public void setEmail2(String email2) {
+        this.email2 = email2;
+    }
+
+    public String getPhone1() {
+        return phone1;
+    }
+
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public boolean isEnable() {
+        return isEnable;
+    }
+
+    public void setEnable(boolean enable) {
+        isEnable = enable;
+    }
+
+    public Contact() {
+    }
+
 
     public String getLevels() {
         return levels;
@@ -192,37 +253,6 @@ public class Contact {
         this.workLocation = workLocation;
     }
 
-    public String getEmail_1() {
-        return email_1;
-    }
-
-    public void setEmail_1(String email_1) {
-        this.email_1 = email_1;
-    }
-
-    public String getEmail_2() {
-        return email_2;
-    }
-
-    public void setEmail_2(String email_2) {
-        this.email_2 = email_2;
-    }
-
-    public String getPhone_1() {
-        return phone_1;
-    }
-
-    public void setPhone_1(String phone_1) {
-        this.phone_1 = phone_1;
-    }
-
-    public String getPhone_2() {
-        return phone_2;
-    }
-
-    public void setPhone_2(String phone_2) {
-        this.phone_2 = phone_2;
-    }
 
     public List<AssignHr> getAssignHrList() {
         return assignHrList;
@@ -272,11 +302,5 @@ public class Contact {
         this.user = user;
     }
 
-    public boolean isIs_enable() {
-        return is_enable;
-    }
 
-    public void setIs_enable(boolean is_enable) {
-        this.is_enable = is_enable;
-    }
 }

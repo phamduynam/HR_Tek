@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "position")
 public class Position {
 
@@ -32,4 +31,54 @@ public class Position {
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<JobPosition> jobPositionList;
 
+    public Position() {
+    }
+
+    public Position(int positionId, String positionName, List<ContactPosition> contactPositionList, List<JobPosition> jobPositionList) {
+        this.positionId = positionId;
+        this.positionName = positionName;
+        this.contactPositionList = contactPositionList;
+        this.jobPositionList = jobPositionList;
+    }
+
+    public Position(String positionName) {
+        this.positionName = positionName;
+    }
+
+    public Position(List<ContactPosition> contactPositionList) {
+        this.contactPositionList = contactPositionList;
+    }
+
+
+    public int getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+
+    public List<ContactPosition> getContactPositionList() {
+        return contactPositionList;
+    }
+
+    public void setContactPositionList(List<ContactPosition> contactPositionList) {
+        this.contactPositionList = contactPositionList;
+    }
+
+    public List<JobPosition> getJobPositionList() {
+        return jobPositionList;
+    }
+
+    public void setJobPositionList(List<JobPosition> jobPositionList) {
+        this.jobPositionList = jobPositionList;
+    }
 }

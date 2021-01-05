@@ -7,13 +7,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "contact_position")
 public class ContactPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "contact_position_id")
-    private int contactCandidateId;
+    private int contactPositionId;
 
     @Column(name = "description")
     private String description;
@@ -30,12 +29,20 @@ public class ContactPosition {
     @ToString.Exclude
     private Position position;
 
-    public int getContactCandidateId() {
-        return contactCandidateId;
+    public ContactPosition() {
     }
 
-    public void setContactCandidateId(int contactCandidateId) {
-        this.contactCandidateId = contactCandidateId;
+    public ContactPosition(Contact contact, Position position) {
+        this.contact = contact;
+        this.position = position;
+    }
+
+    public ContactPosition(Contact contact) {
+        this.contact = contact;
+    }
+
+    public ContactPosition(Position position) {
+        this.position = position;
     }
 
     public String getDescription() {
@@ -62,14 +69,12 @@ public class ContactPosition {
         this.position = position;
     }
 
-
-    @Override
-    public String toString() {
-        return "ContactPosition{" +
-                "contactCandidateId=" + contactCandidateId +
-                ", description='" + description + '\'' +
-                ", contact=" + contact +
-                ", position=" + position +
-                '}';
+    public int getContactPositionId() {
+        return contactPositionId;
     }
+
+    public void setContactPositionId(int contactPositionId) {
+        this.contactPositionId = contactPositionId;
+    }
+
 }

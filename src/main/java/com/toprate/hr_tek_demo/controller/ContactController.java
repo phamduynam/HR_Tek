@@ -1,13 +1,21 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.model.Contact;
+import com.toprate.hr_tek_demo.dto.ContactDto;
+import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.ContactService;
+import com.toprate.hr_tek_demo.secvice.PositionService;
+import com.toprate.hr_tek_demo.secvice.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarOutputStream;
 
 @Controller
 @RequestMapping("/contact")
@@ -15,31 +23,63 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
 
-    //    @PostMapping("/import")
-//    public String importAll(@RequestParam("myFile") MultipartFile myFile) {
-//
-//        contactService.saveContactInSheet(myFile);
-//
-//        System.out.println("Finish Add Data");
-//
-//        return "user/contacts";
-//    }
-    @RequestMapping("/add")
-    public String showNewContactPage(Model model) {
+    @Autowired
+    private PositionService positionService;
+
+    @Autowired
+    private SkillService skillService;
+
+    @GetMapping("/add")
+    public ModelAndView showNewContactPage() {
+        ModelAndView mav = new ModelAndView("contact/add");
         Contact contact = new Contact();
-        model.addAttribute("contact", contact);
-        return "contact/add";
+
+        ContactDto contactDto = new ContactDto();
+        mav.addObject("contact",contact);
+        mav.addObject("positions",positionService.getAllPosition());
+        mav.addObject("skills",skillService.getAllSkill());
+        mav.addObject("contactDto",contactDto);
+        return mav;
     }
 
     @PostMapping("/save")
-    public String saveContact(@ModelAttribute("contact") Contact contact) {
+    public String saveContact(@ModelAttribute("contact") Contact contact,@ModelAttribute("contactDto") ContactDto contactDto) {
+
+        // Khởi tạo danh sách contactWorkSkill
+        Skill[] listSkill = contactDto.getSkillList();
+        List<ContactWorkSkill> contactListSkill = new ArrayList<>();
+        System.out.println("Danh sach skill truoc thi them: " + contactListSkill);
+        for( int i = 0 ; i < listSkill.length; i ++){
+            contactListSkill.add(new ContactWorkSkill(listSkill[i], contact));
+        }
+        System.out.println("Danh sach skill sau khi them: "+ contactListSkill);
+        Position[] listPosition = contactDto.getPositionList();
+        List<ContactPosition> contactPositionList = new ArrayList<>();
+        System.out.println("List position Before : " + contactPositionList);
+        for(int i = 0 ; i < listPosition.length; i ++){
+            contactPositionList.add(new ContactPosition(contact,listPosition[i]));
+        }
+        System.out.println("List position After : " + contactPositionList);
+        contact.setContactPositionList(contactPositionList);
+        contact.setContactWorkSkillList(contactListSkill);
+        contact.setEnable(true);
         contactService.saveContact(contact);
-        return "/contact/contacts";
+        return "redirect:/view-contacts";
     }
 
-    @PostMapping("/edit")
-    public String editContact(@ModelAttribute("contact") Contact contact) {
+    @PostMapping("/edit/{id}")
+    public String editContact(@PathVariable String id) {
+        Contact contact = contactService.getContactById(id);
         contactService.saveContact(contact);
-        return "/contact/edit";
+        return "redirect:/view-contacts";
+    }
+
+
+    @GetMapping("/delete/{id}")
+    public String deleteContact(@PathVariable String id) {
+        Contact contact = contactService.getContactById(id);
+        contact.setEnable(false);
+        contactService.saveContact(contact);
+        return "redirect:/view-contacts";
     }
 }

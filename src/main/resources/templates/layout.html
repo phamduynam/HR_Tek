@@ -6,7 +6,9 @@
 <head>
     <link rel="stylesheet" href="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006288/BBBootstrap/choices.min.css?version=7.0.0">
 
-
+<!--Bảng Skill-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">HR-TEK</title>
     <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
@@ -103,6 +105,8 @@
     <div class="pcoded-overlay-box"></div>
     <div class="pcoded-container navbar-wrapper">
         <!-- Menu header start -->
+        <div th:replace="~{fragments/modal :: modal}"></div>
+        <div th:replace="~{fragments/modal :: addModal}"></div>
         <header class="main-header">
             <div th:replace="~{fragments/header :: header}"></div>
         </header>
@@ -203,8 +207,11 @@
 
 
 <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
+
 <script>
     $(document).ready(function(){
+        // Sự kiện cho multi select
+        // Có thể đổi thành class cho dùng chung cũng đc
         var multipleCancelButton = new Choices('#choices-multiple-remove-button_1', {
             removeItemButton: true,
             maxItemCount:5,
@@ -219,6 +226,89 @@
         });
     });
 </script>
+
+
+<script>
+    // Thêm modal delete
+    $(document).ready(function() {
+        $('.table #deleteButton').on('click',function(event){
+            event.preventDefault();
+            // laays link
+            var href = $(this).attr('href');
+            console.log(href)
+            $('#deleteModal #delRef').attr('href',href);
+
+            $('#deleteModal').modal();
+        });
+    } );
+</script>
+
+<script>
+    // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+</script>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+        var actions =
+            '<a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>\n' +
+            '<a class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>\n' +
+            '<a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>'
+        ;
+        // Append table with add row form on add new button click
+        $(".add-new").click(function(){
+            $(this).attr("disabled", "disabled");
+            var index = $("table tbody tr:last-child").index();
+            var row = '<tr>' +
+                '<td><input type="text" class="form-control" name="name" id="name"></td>' +
+                '<td><input type="text" class="form-control" name="department" id="department"></td>' +
+                '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+                '<td>' + actions + '</td>' +
+                '</tr>';
+            $("table").append(row);
+            $("table tbody tr").eq(index + 1).find(".edit").toggle();
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        // Add row on add button click
+        $(document).on("click", ".add", function(){
+            var empty = false;
+            var input = $(this).parents("tr").find('input[type="text"]');
+            input.each(function(){
+                if(!$(this).val()){
+                    $(this).addClass("error");
+                    empty = true;
+                } else{
+                    $(this).removeClass("error");
+                }
+            });
+            $(this).parents("tr").find(".error").first().focus();
+            if(!empty){
+                input.each(function(){
+                    $(this).parent("td").html($(this).val());
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").removeAttr("disabled");
+            }
+        });
+        // Edit row on edit button click
+        $(document).on("click", ".edit", function(){
+            $(this).parents("tr").find("td:not(:last-child)").each(function(){
+                $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+            });
+            $(this).parents("tr").find(".add, .edit").toggle();
+            $(".add-new").attr("disabled", "disabled");
+        });
+        // Delete row on delete button click
+        $(document).on("click", ".delete", function(){
+            $(this).parents("tr").remove();
+            $(".add-new").removeAttr("disabled");
+        });
+    });
+</script>
+
 
 </body>
 </html>

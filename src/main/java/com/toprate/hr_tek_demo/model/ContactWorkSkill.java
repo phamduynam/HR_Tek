@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "contact_work_skill")
 public class ContactWorkSkill {
     // FK
@@ -36,6 +35,23 @@ public class ContactWorkSkill {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;
+
+    public ContactWorkSkill() {
+    }
+
+    public ContactWorkSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public ContactWorkSkill(Skill skill, Contact contact) {
+        this.contact = contact;
+        this.skill = skill;
+
+    }
+
+    public ContactWorkSkill(Contact contact) {
+        this.contact = contact;
+    }
 
     @Override
     public String toString() {

@@ -8,7 +8,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "skill")
 public class Skill {
     @Id
@@ -31,6 +30,17 @@ public class Skill {
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<JobWorkSkill> jobWorkSkillList;
+
+    public Skill() {
+    }
+
+    public Skill(String skillName) {
+        this.skillName = skillName;
+    }
+
+    public Skill(List<ContactWorkSkill> contactWorkSkillList) {
+        this.contactWorkSkillList = contactWorkSkillList;
+    }
 
     public int getSkillId() {
         return skillId;

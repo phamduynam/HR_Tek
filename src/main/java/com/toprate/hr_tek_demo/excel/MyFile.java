@@ -12,8 +12,6 @@ public class MyFile implements Serializable {
 
     private String description;
 
-
-
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
