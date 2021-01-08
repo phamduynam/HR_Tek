@@ -103,4 +103,5 @@ public class ContactWorkSkill {
     public void setContact(Contact contact) {
         this.contact = contact;
     }
+
 }

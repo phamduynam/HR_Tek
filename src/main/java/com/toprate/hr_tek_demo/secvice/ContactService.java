@@ -27,6 +27,7 @@ public class ContactService {
     public Contact getContactByGmail_2(String gmail){
         return contactRepository.findByEmail2(gmail).get();
     }
+
     public Contact getContactPhone_1(String phone){
         return contactRepository.findByPhone1(phone).get();
     }

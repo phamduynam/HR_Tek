@@ -1,21 +1,23 @@
 package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.ContactDto;
+import com.toprate.hr_tek_demo.dto.ContactWorkSkillDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.ContactService;
+import com.toprate.hr_tek_demo.secvice.ContactWorkSkillService;
 import com.toprate.hr_tek_demo.secvice.PositionService;
 import com.toprate.hr_tek_demo.secvice.SkillService;
+import org.apache.jasper.compiler.JspUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarOutputStream;
 
 @Controller
 @RequestMapping("/contact")
@@ -27,43 +29,45 @@ public class ContactController {
     private PositionService positionService;
 
     @Autowired
+    private ContactWorkSkillService contactWorkSkillService;
+
+    @Autowired
     private SkillService skillService;
 
     @GetMapping("/add")
-    public ModelAndView showNewContactPage() {
-        ModelAndView mav = new ModelAndView("contact/add");
-        Contact contact = new Contact();
-
+    public String showNewContactPage(Model model) {
         ContactDto contactDto = new ContactDto();
-        mav.addObject("contact",contact);
-        mav.addObject("positions",positionService.getAllPosition());
-        mav.addObject("skills",skillService.getAllSkill());
-        mav.addObject("contactDto",contactDto);
-        return mav;
+        model.addAttribute("contactDto",contactDto);
+        model.addAttribute("positions",positionService.getAllPosition());
+        model.addAttribute("skills",skillService.getAllSkill());
+        return "contact/add";
     }
 
-    @PostMapping("/save")
-    public String saveContact(@ModelAttribute("contact") Contact contact,@ModelAttribute("contactDto") ContactDto contactDto) {
+    @PostMapping("/insert")
+    public String saveContact(@Valid @ModelAttribute("contactDto")  ContactDto contactDto,
+                              @ModelAttribute("contactWorkSkillDto") ContactWorkSkillDto contactWorkSkillDto,
+                              @Valid BindingResult bindingResult,Model model   ) {
 
-        // Khởi tạo danh sách contactWorkSkill
-        Skill[] listSkill = contactDto.getSkillList();
-        List<ContactWorkSkill> contactListSkill = new ArrayList<>();
-        System.out.println("Danh sach skill truoc thi them: " + contactListSkill);
-        for( int i = 0 ; i < listSkill.length; i ++){
-            contactListSkill.add(new ContactWorkSkill(listSkill[i], contact));
+        if(bindingResult.hasErrors()){
+            return "contact/add";
         }
-        System.out.println("Danh sach skill sau khi them: "+ contactListSkill);
+        // ĐỌc sanh sách ContactWorkSkill
+        List<ContactWorkSkill> skillList = contactWorkSkillDto.getContactWorkSkillList();
+        // List chứa các ContactWorkSkill hợp lệ
+        List<ContactWorkSkill> skillListFilter = new ArrayList<>();
+        for(ContactWorkSkill contactWorkSkill : skillList){
+            // Nếu danh sách đó khác null thì sẽ thêm vào list của contact
+            if(contactWorkSkill.getSkill() != null){
+                skillListFilter.add(contactWorkSkill);
+            }
+        }
+
+        // Khởi tạo danh sách contactPosition
         Position[] listPosition = contactDto.getPositionList();
         List<ContactPosition> contactPositionList = new ArrayList<>();
-        System.out.println("List position Before : " + contactPositionList);
-        for(int i = 0 ; i < listPosition.length; i ++){
-            contactPositionList.add(new ContactPosition(contact,listPosition[i]));
-        }
-        System.out.println("List position After : " + contactPositionList);
-        contact.setContactPositionList(contactPositionList);
-        contact.setContactWorkSkillList(contactListSkill);
-        contact.setEnable(true);
-        contactService.saveContact(contact);
+
+
+
         return "redirect:/view-contacts";
     }
 

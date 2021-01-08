@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="form-group" data-select-id="3">
                                         <label>Vị trí ứng tuyển</label>
-                                        <select id="choices-multiple-remove-button_1" placeholder="Select upto 5 tags" multiple>
+                                        <select class="multi-select" placeholder="Select upto 5 tags" multiple>
                                             <option th:each="position : ${positions}"
                                                     th:value="${position}"
                                                     th:text="${position.positionName}"></option>
@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="form-group" data-select-id="6">
                                         <label>Skill</label>
-                                        <select name="listSkill" id="choices-multiple-remove-button_2" placeholder="Select upto 5 tags" multiple>
+                                        <select class="multi-select" placeholder="Select upto 5 tags" multiple>
                                             <option th:each="skill : ${skills}"
                                             th:value = "${skill}"
                                             th:text="${skill.skillName}"></option>
@@ -185,7 +185,27 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+    <script>
+        // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
 
+    <script>
+        // Thêm modal delete
+        $(document).ready(function() {
+            $('.table #deleteButton').on('click',function(event){
+                event.preventDefault();
+                // laays link
+                var href = $(this).attr('href');
+                console.log(href)
+                $('#deleteModal #delRef').attr('href',href);
+
+                $('#deleteModal').modal();
+            });
+        } );
+    </script>
 </section>
 
 </body>

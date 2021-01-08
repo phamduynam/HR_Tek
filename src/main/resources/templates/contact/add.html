@@ -19,35 +19,38 @@
                     <h3 class="card-title">Thêm Mới Contact</h3>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/contact/save}" method="post">
+                    <form th:action="@{/contact/insert}" method="post" th:object="${contactDto}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="ContactName">Họ Tên</label>
-                                    <input th:field="${contact.candidateName}" type="text" class="form-control" id="ContactName" placeholder="Enter Name">
+                                    <input th:field="*{candidateName}" type="text" class="form-control" id="ContactName" placeholder="Enter Name">
+                                    <span th:if="${#fields.hasErrors('candidateName')}" th:errors="*{candidateName}">Incorrect date</span>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="DayOfBirth">Ngày Sinh</label>
-                                    <input th:field="${contact.birthDay}" type="date" class="form-control" id="DayOfBirth" placeholder="dd/mm/yyyy">
+                                    <input th:field="*{birthDay}" type="date" class="form-control" id="DayOfBirth" placeholder="dd/mm/yyyy">
+                                    <span th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}"></span>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Giới Tính</label>
-                                    <select th:field="${contact.sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
+                                    <select th:field="*{sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
                                         <option th:value="none"></option>
                                         <option th:value="Nam" th:text="Nam"></option>
                                         <option th:value="Nữ" th:text="Nữ"></option>
                                         <option th:value="Khác" th:text="Khác"></option>
                                     </select>
+                                    <span th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"></span>
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Địa Chỉ</label>
-                                    <input  type="text" class="form-control" id="address" placeholder="Enter Address">
+                                    <input th:field="*{address}" type="text" class="form-control" id="address" placeholder="Enter Address">
                                 </div>
                                 <div class="form-group">
                                     <label>Số năm kinh nghiệm</label>
-                                    <select th:field="${contact.yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
+                                    <select th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
                                         <option th:value="0"></option>
                                         <option th:value="0.3" th:text="'3 Tháng'"></option>
                                         <option th:value="0.5" th:text="'6 Tháng'"></option>
@@ -58,7 +61,7 @@
                                 </div>
                                 <div class="form-group" data-select-id="4">
                                     <label>Level</label>
-                                    <select th:field="${contact.levels}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                    <select th:field="*{level}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                         <option th:value="none"></option>
                                         <option th:value="Junior" th:text="'Junior'"></option>
                                         <option th:value="Middle" th:text="'Middle'"></option>
@@ -66,31 +69,28 @@
                                         <option th:value="Master" th:text="'Master'"></option>
                                     </select>
                                 </div>
-
-                                <input type="submit" value="Create new Contact" class="btn btn-success float-left">
-
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone1">Phone 1</label>
-                                    <input th:field="${contact.phone1}" type="text" class="form-control" id="phone1" placeholder="Enter Phone 1">
+                                    <input th:field="*{phone1}" type="text" class="form-control" id="phone1" placeholder="Enter Phone 1">
                                 </div>
                                 <div class="form-group">
                                     <label for="phone2">Phone 2</label>
-                                    <input th:field="${contact.phone2}" type="text" class="form-control" id="phone2" placeholder="Enter Phone 2">
+                                    <input th:field="*{phone2}" type="text" class="form-control" id="phone2" placeholder="Enter Phone 2">
                                 </div>
                                 <div class="form-group">
                                     <label for="ContactEmail1">Email 1</label>
-                                    <input th:field="${contact.email1}" type="email" class="form-control" id="ContactEmail1" placeholder="Enter Email 1">
+                                    <input th:field="*{email1}" type="email" class="form-control" id="ContactEmail1" placeholder="Enter Email 1">
                                 </div>
                                 <div class="form-group">
                                     <label for="ContactEmail2">Email 2</label>
-                                    <input th:field="${contact.email2}" type="email" class="form-control" id="ContactEmail2" placeholder="Enter Email 2">
+                                    <input th:field="*{email2}" type="email" class="form-control" id="ContactEmail2" placeholder="Enter Email 2">
                                 </div>
-                                <div  class="form-group" >
+                                <div  class="form-group">
                                     <label>Vị trí ứng tuyển</label>
-                                    <select th:field="${contactDto.positionList}" id="choices-multiple-remove-button_1" placeholder="Select upto 5 tags" multiple>
+                                    <select  th:field="*{positionList}" class="multi-select" placeholder="Select upto 5 tags" multiple>
                                         <option th:each="position : ${positions}"
                                                 th:value="${{position.positionId}}"
                                                 th:text="${position.positionName}"></option>
@@ -104,7 +104,7 @@
                                 <div class="row">
                                     <div class="col-sm-8"><h2>Danh Sách Skill</h2></div>
                                     <div class="col-sm-4">
-                                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                                        <button type="button" class="float-right btn btn-info add-new" ><i class="fa fa-plus"></i> Add Skill</button>
                                     </div>
                                 </div>
                             </div>
@@ -118,14 +118,156 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <tr class="sample-element">
+                                    <td>
+                                        <select th:field="*{skillList}"
+                                                class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true">
+                                            <option value = ""></option>
+                                            <option th:each="skill : ${skills}"
+                                                    th:value = "${{skill.skillId}}"
+                                                    th:text="${skill.skillName}"></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select  th:field="*{skillYearExp}"
+                                                 class="form-control select2 select2-hidden-accessible" aria-hidden="true">
+                                            <option th:value ="0"></option>
+                                            <option th:value = "0.3" >3 Tháng</option>
+                                            <option th:value = "0.5" >6 Tháng</option>
+                                            <option th:value = "1" >1 Năm</option>
+                                            <option th:value = "2" >2 Năm</option>
+                                            <option th:value = "5" >5 Năm</option>
+                                        </select>
+                                    </td>
+                                    <td >
+                                        <textarea th:field="*{skillDes}"
+                                                class="form-control"></textarea>
+                                    </td>
+                                    <td>
+                                        <a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>
+                                        <a disabled class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>
+                                        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+                                    </td>
+                                </tr>
+
+                                <tr class="sample-element">
+                                    <td>
+                                        <select th:field="*{skillList}"
+                                                class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true">
+                                            <option value = ""></option>
+                                            <option th:each="skill : ${skills}"
+                                                    th:value = "${{skill.skillId}}"
+                                                    th:text="${skill.skillName}"></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select  th:field="*{skillYearExp}"
+                                                 class="form-control select2 select2-hidden-accessible" aria-hidden="true">
+                                            <option th:value ="0"></option>
+                                            <option th:value = "0.3" >3 Tháng</option>
+                                            <option th:value = "0.5" >6 Tháng</option>
+                                            <option th:value = "1" >1 Năm</option>
+                                            <option th:value = "2" >2 Năm</option>
+                                            <option th:value = "5" >5 Năm</option>
+                                        </select>
+                                    </td>
+                                    <td >
+                                        <textarea th:field="*{skillDes}"
+                                                  class="form-control"></textarea>
+                                    </td>
+                                    <td>
+                                        <a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>
+                                        <a disabled class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>
+                                        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
+                            <input type="submit" value="Create new Contact" class="btn btn-success float-left">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
+
     </div>
+<!--    <script th:inline="javascript">-->
+
+<!--        // Ẩn nút edit tất cả các hàng-->
+<!--        $("table tbody tr").find(".edit").toggle();-->
+
+
+<!--        $(document).ready(function(){-->
+<!--            // Gợi ý tên cho các nút toogle-->
+<!--            $('[data-toggle="tooltip"]').tooltip();-->
+<!--            // Sự kiện khi ấn nút Add New Skill-->
+<!--            $(".add-new").click(function(){-->
+<!--                // Ẩn nút add đó đi-->
+<!--                $(this).attr("disabled", "disabled");-->
+<!--                // Hiển thị tr đang ẩn-->
+<!--                // Hàng đầu tiên bị ẩn đi-->
+<!--                var row = $("table tbody").find("tr.sample-element")[0]-->
+<!--                console.log($(row))-->
+<!--                // Hiển thị hàm đó lên-->
+<!--                $(row).removeAttr("style")-->
+<!--                $(row).removeClass("sample-element")-->
+<!--                console.log($(row))-->
+<!--            });-->
+
+<!--            // Add row on add button click-->
+<!--            $(document).on("click", ".add", function(){-->
+<!--                var empty = true;-->
+<!--                var description = $(this).parents("tr").find('textarea');-->
+
+<!--                $(this).parents("tr").find('select').each(function () {-->
+<!--                    if($(this).find('option:selected').text() === ""){-->
+<!--                        $(this).addClass("error");-->
+<!--                        empty = false;-->
+<!--                    }else{-->
+<!--                        $(this).removeClass("error");-->
+<!--                    }-->
+<!--                });-->
+<!--                // Nếu có lỗi thì không thực hiện các hành động sau đó-->
+<!--                $(this).parents("tr").find(".error").first().focus();-->
+
+<!--                // Không cho sửa các trường-->
+<!--                if(empty){-->
+<!--                    $(this).parents("tr").find('select').each(function () {-->
+<!--                        $(this).attr("disabled", "disabled");-->
+<!--                    });-->
+
+<!--                    description.each(function () {-->
+<!--                        $(this).attr("disabled", "disabled");-->
+<!--                    });-->
+<!--                    $(this).parents("tr").find(".add, .edit").toggle();-->
+
+<!--                    $(".add-new").removeAttr("disabled");-->
+<!--                }-->
+<!--            });-->
+
+
+<!--            // Edit row on edit button click-->
+<!--            $(document).on("click", ".edit", function(){-->
+<!--                $(this).parents("tr").find("td select").each(function(){-->
+<!--                    $(this).removeAttr("disabled");-->
+<!--                });-->
+<!--                $(this).parents("tr").find("td textarea").each(function(){-->
+<!--                    $(this).removeAttr("disabled");-->
+<!--                });-->
+<!--                $(this).parents("tr").find(".add, .edit").toggle();-->
+<!--                // Tắt nút add-->
+<!--                $(".add-new").attr("disabled", "disabled");-->
+<!--            });-->
+
+<!--            // Delete row on delete button click-->
+<!--            $(document).on("click", ".delete", function(){-->
+<!--                $(this).parents("tr").remove();-->
+<!--                $(".add-new").removeAttr("disabled");-->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
 </section>
 
 </body>

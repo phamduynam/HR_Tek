@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.*;
 import java.util.Date;
 
+
 @Data
 public class ContactDto {
 
@@ -33,25 +34,31 @@ public class ContactDto {
     private Boolean isBlackList;
 
     private String workLocation;
+
     @NotNull(message = "Email can not be null !")
     @Email
     private String email1;
+
     @Email
     private String email2;
 
-    @NotNull(message ="Phone not null!")
-    @Size(max = 10, min = 10, message = "Mobile number should be of 10 digits")
-    @Pattern(regexp = "[7-9][0-9]{9}", message = "Mobile number is invalid!!")
+//    @NotNull(message ="Phone not null!")
+//    @Size(max = 10, min = 10, message = "Mobile number should be of 10 digits")
+//    @Pattern(regexp = "[7-9][0-9]{9}", message = "Mobile number is invalid!!")
     private String phone1;
 
-    @Size(max = 10, min = 10, message = "Mobile number should be of 10 digits")
-    @Pattern(regexp = "[7-9][0-9]{9}", message = "Mobile number is invalid!!")
+//    @Size(max = 10, min = 10, message = "Mobile number should be of 10 digits")
+//    @Pattern(regexp = "[7-9][0-9]{9}", message = "Mobile number is invalid!!")
     private String phone2;
 
     @NotNull(message ="Please chose level")
-    private String levels;
+    private String level;
 
     private Skill[] skillList;
+
+    private Float[] skillYearExp;
+
+    private String[] skillDes;
 
     private Position[] positionList;
 
@@ -63,6 +70,22 @@ public class ContactDto {
         this.skillList = skillList;
     }
 
+    public Float[] getSkillYearExp() {
+        return skillYearExp;
+    }
+
+    public void setSkillYearExp(Float[] skillYearExp) {
+        this.skillYearExp = skillYearExp;
+    }
+
+    public String[] getSkillDes() {
+        return skillDes;
+    }
+
+    public void setSkillDes(String[] skillDes) {
+        this.skillDes = skillDes;
+    }
+
     public Position[] getPositionList() {
         return positionList;
     }
@@ -70,4 +93,5 @@ public class ContactDto {
     public void setPositionList(Position[] positionList) {
         this.positionList = positionList;
     }
+
 }
