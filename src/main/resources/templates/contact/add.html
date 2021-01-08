@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Contact</title>
+</head>
+<body>
+
+<section layout:fragment="content" id="page_content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Thêm Mới Contact</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/contact/save}" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ContactName">Họ Tên</label>
+                                    <input th:field="${contact.candidateName}" type="text" class="form-control" id="ContactName" placeholder="Enter Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DayOfBirth">Ngày Sinh</label>
+                                    <input th:field="${contact.birthDay}" type="date" class="form-control" id="DayOfBirth" placeholder="dd/mm/yyyy">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Giới Tính</label>
+                                    <select th:field="${contact.sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
+                                        <option th:value="none"></option>
+                                        <option th:value="Nam" th:text="Nam"></option>
+                                        <option th:value="Nữ" th:text="Nữ"></option>
+                                        <option th:value="Khác" th:text="Khác"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Địa Chỉ</label>
+                                    <input  type="text" class="form-control" id="address" placeholder="Enter Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số năm kinh nghiệm</label>
+                                    <select th:field="${contact.yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
+                                        <option th:value="0"></option>
+                                        <option th:value="0.3" th:text="'3 Tháng'"></option>
+                                        <option th:value="0.5" th:text="'6 Tháng'"></option>
+                                        <option th:value="1" th:text="'1 Năm'">1 Năm</option>
+                                        <option th:value="2" th:text="'2 Năm'">2 Năm</option>
+                                        <option th:value="5" th:text="'5 Năm'">5 Năm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" data-select-id="4">
+                                    <label>Level</label>
+                                    <select th:field="${contact.levels}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                        <option th:value="none"></option>
+                                        <option th:value="Junior" th:text="'Junior'"></option>
+                                        <option th:value="Middle" th:text="'Middle'"></option>
+                                        <option th:value="Senior" th:text="'Senior'"></option>
+                                        <option th:value="Master" th:text="'Master'"></option>
+                                    </select>
+                                </div>
+
+                                <input type="submit" value="Create new Contact" class="btn btn-success float-left">
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone1">Phone 1</label>
+                                    <input th:field="${contact.phone1}" type="text" class="form-control" id="phone1" placeholder="Enter Phone 1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone2">Phone 2</label>
+                                    <input th:field="${contact.phone2}" type="text" class="form-control" id="phone2" placeholder="Enter Phone 2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ContactEmail1">Email 1</label>
+                                    <input th:field="${contact.email1}" type="email" class="form-control" id="ContactEmail1" placeholder="Enter Email 1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="ContactEmail2">Email 2</label>
+                                    <input th:field="${contact.email2}" type="email" class="form-control" id="ContactEmail2" placeholder="Enter Email 2">
+                                </div>
+                                <div  class="form-group" >
+                                    <label>Vị trí ứng tuyển</label>
+                                    <select th:field="${contactDto.positionList}" id="choices-multiple-remove-button_1" placeholder="Select upto 5 tags" multiple>
+                                        <option th:each="position : ${positions}"
+                                                th:value="${{position.positionId}}"
+                                                th:text="${position.positionName}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-8"><h2>Danh Sách Skill</h2></div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Skill</th>
+                                    <th>Experience</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
