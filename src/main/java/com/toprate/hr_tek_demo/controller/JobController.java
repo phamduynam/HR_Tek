@@ -1,8 +1,7 @@
 package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.model.JobRequirements;
-import com.toprate.hr_tek_demo.model.Users;
-import com.toprate.hr_tek_demo.secvice.impl.JobServiceImpl;
+import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,16 +10,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class JobController {
 
-
+    @Autowired
     private JobServiceImpl jobService;
 
-    public JobServiceImpl getJobService() {
-        return jobService;
-    }
     @Autowired
-    public void setJobService(JobServiceImpl jobService) {
-        this.jobService = jobService;
-    }
+    private LocationServiceImpl locationService;
+
+    @Autowired
+    private PartnerServiceImpl partnerService;
+
+    @Autowired
+    private UserServiceImpl userServiceImpl;
 
     // danh sach job dang tuyen
     @GetMapping("/list-job")
@@ -41,6 +41,9 @@ public class JobController {
     public String showNewJobPage(Model model) {
         JobRequirements job = new JobRequirements();
         model.addAttribute("job", job);
+        model.addAttribute("locations", locationService.findAllLocation());
+        model.addAttribute("partners", partnerService.findAllPartner());
+        model.addAttribute("users",userServiceImpl.getAllUser());
 
         return "job/add-job";
     }

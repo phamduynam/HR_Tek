@@ -71,7 +71,7 @@ public class UserController {
         Users user = userServiceImpl.findUserById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userServiceImpl.deleteUser(user);
-        return "redirect:user/index";
+        return "redirect:/index";
     }
 
 

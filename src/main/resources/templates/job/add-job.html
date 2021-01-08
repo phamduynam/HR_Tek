@@ -33,8 +33,11 @@
                             <input type="text" required="true" class="form-control" th:field="*{jobTitle}" id="title" />
                         </div>
                         <div class="form-group">
-                            <label for="position">Vị trí tuyển dụng</label>
-                            <input type="text" required="true" class="form-control" th:field="*{position1}" id="position" />
+                            <h6>Vị trí tuyển dụng</h6>
+                            <select th:field="*{jobPositionList.position.positionId}" class="form-control">
+                                <option th:value="1" th:text="1"></option>
+                                <option th:value="0" th:text="0"></option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="quantity">Số lượng</label>
@@ -64,12 +67,22 @@
                             <input type="tel" required="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
                         </div>
                         <div class="form-group">
-                            <label for="partner">Đối tác</label>
-                            <input type="text" required="true" class="form-control" th:field="*{partner1}" id="partner" />
+                            <h6>Đối tác</h6>
+                            <select th:field="*{partner.partnerName}" class="form-control">
+                                <option th:each="partner : ${partners}" th:value="${partner.partnerName}" th:text="${partner.partnerName}"></option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="address">Địa điểm làm việc</label>
-                            <input type="tel" required="true" class="form-control" th:field="*{address}" id="address" />
+                            <h6>Địa điểm làm việc</h6>
+                            <select th:field="*{location.address}" class="form-control">
+                                <option th:each="location : ${locations}" th:value="${location.address}" th:text="${location.address}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <h6>HR phụ trách</h6>
+                            <select th:field="*{user.name}" class="form-control">
+                                <option th:each="user : ${users}" th:value="${user.name}" th:text="${user.name}"></option>
+                            </select>
                         </div>
                     </div>
                     <div>

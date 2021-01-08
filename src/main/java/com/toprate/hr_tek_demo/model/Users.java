@@ -36,6 +36,9 @@ public class Users implements Serializable {
     @Column(name = "enable")
     private int enable;
 
+    @Column(name = "status")
+    private String status;
+
 
     @OneToMany(mappedBy = "user_manager", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode

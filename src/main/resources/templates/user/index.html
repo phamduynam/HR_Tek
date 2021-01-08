@@ -57,7 +57,7 @@
                                 <td>
                                     <p th:each="role : ${roles}" th:if="(${role.roleName} == ${user.role.roleName})" th:text="${role.roleName}"></p>
                                 </td>
-                                <td th:text="${user.enable}"></td>
+                                <td th:text="${user.status}"></td>
                                 <td>
                                     <div class="btn-group btn-group-sm" style="float: none;">
                                         <a th:href="@{/edit-user/{id}(id=${user.userId})}">
