@@ -53,6 +53,10 @@ public class ContactDto {
 
     private Skill[] skillList;
 
+    private Float[] skillYearExp;
+
+    private String[] skillDes;
+
     private Position[] positionList;
 
     public Skill[] getSkillList() {
@@ -61,6 +65,22 @@ public class ContactDto {
 
     public void setSkillList(Skill[] skillList) {
         this.skillList = skillList;
+    }
+
+    public Float[] getSkillYearExp() {
+        return skillYearExp;
+    }
+
+    public void setSkillYearExp(Float[] skillYearExp) {
+        this.skillYearExp = skillYearExp;
+    }
+
+    public String[] getSkillDes() {
+        return skillDes;
+    }
+
+    public void setSkillDes(String[] skillDes) {
+        this.skillDes = skillDes;
     }
 
     public Position[] getPositionList() {

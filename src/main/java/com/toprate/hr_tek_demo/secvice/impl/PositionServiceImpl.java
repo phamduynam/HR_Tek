@@ -14,7 +14,7 @@ public class PositionServiceImpl implements PositonService {
     @Autowired
     private PositonRepository positonRepository;
     @Override
-    public List<Position> findAllPosition() {
+    public List<Position> getAllPosition() {
         return positonRepository.findAll();
     }
 }

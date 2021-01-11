@@ -215,4 +215,12 @@ public class JobRequirements {
         this.address = address;
         this.partner1 = partner1;
     }
+
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
+    }
 }
