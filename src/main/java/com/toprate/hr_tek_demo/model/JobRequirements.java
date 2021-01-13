@@ -64,10 +64,10 @@ public class JobRequirements {
     private String partner1;
 
     @Transient
-    private int positionId;
+    private List<Integer> positionId;
 
     @Transient
-    private int skillId;
+    private List<Integer> skillId;
 
     @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode

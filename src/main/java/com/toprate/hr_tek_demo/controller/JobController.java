@@ -1,6 +1,5 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class JobController {
@@ -44,7 +43,7 @@ public class JobController {
     // danh sach job dang tuyen
     @GetMapping("/list-job")
     public String showJobList(Model model) {
-        model.addAttribute("jobs", jobDtoService.findAllJob());
+        model.addAttribute("jobs", jobService.findAllJob());
         return "job/list-job";
     }
 
@@ -65,21 +64,23 @@ public class JobController {
         model.addAttribute("users",userServiceImpl.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-
         return "job/add-job";
     }
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
-    public String saveJob(@ModelAttribute("job") JobDto jobDto) {
+    public String saveJob(@ModelAttribute("job") JobRequirements job) {
 
-        jobDto.setEnable(1);
-        jobDtoService.saveJob(jobDto);
+        jobService.saveJob(job);
 
-        String jobId = jobDto.getJobRecruitmentId();
-        int positionId = jobDto.getPositionId();
-        int skillId = jobDto.getSkillId();
+        String jobId = job.getJobRecruitmentId();
+        List<Integer> positionsId = job.getPositionId();
+        List<Integer> skillsId = job.getSkillId();
 
-        jobPositionService.save(jobId, positionId);
-        jobWorkSkillService.save(jobId, skillId);
+        for(int positionId : positionsId) {
+            jobPositionService.save(jobId, positionId);
+        }
+        for(int skillId : skillsId) {
+            jobWorkSkillService.save(jobId, skillId);
+        }
         return "redirect:/list-job";
     }
 
@@ -105,15 +106,18 @@ public class JobController {
             return "job/edit-job";
         }
         job.setJobRecruitmentId(id);
-        job.setEnable(1);
         jobService.saveJob(job);
 
         String jobId = job.getJobRecruitmentId();
-        int positionId = job.getPositionId();
-        int skillId = job.getSkillId();
+        List<Integer> positionsId = job.getPositionId();
+        List<Integer> skillsId = job.getSkillId();
 
-        jobPositionService.save(jobId, positionId);
-        jobWorkSkillService.save(jobId, skillId);
+        for(int positionId : positionsId) {
+            jobPositionService.save(jobId, positionId);
+        }
+        for(int skillId : skillsId) {
+            jobWorkSkillService.save(jobId, skillId);
+        }
         return "redirect:/index";
     }
 
@@ -124,6 +128,13 @@ public class JobController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         jobDtoService.deleteJob(job);
         return "redirect:/list-job";
+    }
+
+    // hien thi trang chu
+    @GetMapping("/home")
+    public String homePage(Model model) {
+        model.addAttribute("jobs", jobService.findAllJob());
+        return "job/home";
     }
 
 }

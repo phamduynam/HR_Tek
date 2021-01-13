@@ -31,8 +31,9 @@
                         </div>
                         <div  class="form-group" >
                             <label>Vị trí tuyển dụng</label>
-                            <select th:field="*{positionId}" id="choices-multiple-remove-button_1" placeholder="Select upto 5 tags" multiple>
-                                <option th:each="position : ${positions}"
+                            <select th:each="jobPosition : ${job.jobPositionList}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="position : ${jobPosition.position}"
+                                        th:selected="true"
                                         th:value="${{position.positionId}}"
                                         th:text="${position.positionName}">
                                 </option>
@@ -40,8 +41,9 @@
                         </div>
                         <div  class="form-group" >
                             <label>Kỹ năng</label>
-                            <select th:field="*{skillId}" id="choices-multiple-remove-button_1" placeholder="Select upto 5 tags" multiple>
-                                <option th:each="skill : ${skills}"
+                            <select th:each="jobSkill : ${job.jobWorkSkills}" id="choices-multiple-remove-button_1"  multiple>
+                                <option th:each="skill : ${jobSkill.skill}"
+                                        th:selected="true"
                                         th:value="${{skill.skillId}}"
                                         th:text="${skill.skillName}">
                                 </option>
@@ -62,9 +64,12 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="formOfWork">Hình thức làm việc</label>
-                            <input type="text" required="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
+                        <div  class="form-group" >
+                            <h6>Hình thức làm việc</h6>
+                            <select th:field="*{formOfWork}" class="form-control">
+                                <option th:value="onsite" th:text="onsite"></option>
+                                <option th:value="insite" th:text="insite"></option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="startSalary">Lương khởi điểm</label>

@@ -1,6 +1,5 @@
 package com.toprate.hr_tek_demo.dto;
 
-import com.toprate.hr_tek_demo.model.Partner;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @SqlResultSetMapping(
         name = "findAllJob",
@@ -25,7 +25,6 @@ import java.util.Date;
                 }
         )
 )
-
 @SqlResultSetMapping(
         name = "findJobDetail",
         classes = @ConstructorResult(
@@ -46,8 +45,17 @@ import java.util.Date;
                 }
         )
 )
-
-
+@SqlResultSetMapping(
+        name = "listJobDemo",
+        classes = @ConstructorResult(
+                targetClass = JobDto.class,
+                columns = {
+                        @ColumnResult(name="jobRecruitmentId", type=String.class),
+                        @ColumnResult(name="jobTitle", type=String.class),
+                        @ColumnResult(name="hrName", type=String.class),
+                }
+        )
+)
 @NamedNativeQueries({
         @NamedNativeQuery(name = "findAllJob",
                 query = "SELECT " +
@@ -90,6 +98,17 @@ import java.util.Date;
                         "JOIN (job_position as jp join position_user as p on jp.position_id=p.position_id) on j.job_recruitment_id=jp.job_recruitment_id " +
                         "WHERE j.job_recruitment_id = :id " ,
                 resultSetMapping="findJobDetail"
+        ),
+        @NamedNativeQuery(name = "listJobDemo",
+                query = "SELECT " +
+                        "    j.job_recruitment_id as jobRecruitmentId, " +
+                        "    j.job_title as jobTitle, " +
+                        "    u.name as hrName " +
+                        "FROM " +
+                        "    job_recruitment as j " +
+                        "JOIN user u on j.user_id=u.user_id " +
+                        "WHERE j.enable=1 " ,
+                resultSetMapping="listJobDemo"
         )
 })
 
@@ -135,6 +154,7 @@ public class JobDto {
 
     private int skillId;
 
+    private String hrName;
 
     // constructor mac dinh
     public JobDto() {}
@@ -166,5 +186,12 @@ public class JobDto {
         this.skill = skill;
         this.address = address;
         this.partner1 = partner1;
+    }
+
+    // construct hien thi job len man hinh chinh
+    public JobDto(String jobRecruitmentId, String jobTitle, String hrName) {
+        this.jobRecruitmentId = jobRecruitmentId;
+        this.jobTitle = jobTitle;
+        this.hrName = hrName;
     }
 }

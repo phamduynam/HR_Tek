@@ -4,8 +4,11 @@
 <head>
     <title>Edit User</title>
 </head>
+
 <body>
+
 <section layout:fragment="header">
+
     <h1>Customer registration</h1>
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -13,6 +16,49 @@
     </ol>
 </section>
 <div layout:fragment="content">
+    <script th:inline="javascript">
+        function checkEmail() {
+            let email = document.getElementById('email').value;
+            if(email.validity.typeMismatch){
+                email.setCustomValidity("'" + email.value + "' is not a valid email. Enter email as abc@toprate.io");
+            }
+            else if (email.validity.valueMissing) {
+                email.setCustomValidity("this field is required")
+                alert("trungdv");
+            }
+            else {
+                email.setCustomValidity("");
+            }
+        }
+
+        function checkPhone() {
+            let phone = document.getElementById('phone').value;
+            if(phone.validity.typeMismatch){
+                phone.setCustomValidity("'" + phone.value + "' is not a valid phone. Phone should contain min 10 digits");
+            }
+            else if (phone.validity.valueMissing) {
+                phone.setCustomValidity("this field is required")
+            }
+            else {
+                phone.setCustomValidity("");
+            }
+        }
+
+        function checkUsername() {
+            let username = document.getElementById('username').value;
+            if(username.validity.typeMismatch){
+                username.setCustomValidity("Username should contain 8-20 characters, not beginning with a '.' or ' ', not end with . or ' ' ");
+            }
+            else if (username.validity.valueMissing) {
+                username.setCustomValidity("this field is required")
+            }
+            else {
+                username.setCustomValidity("");
+            }
+        }
+    </script>
+
+
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">Chỉnh sửa người dùng</h3>
@@ -23,8 +69,9 @@
         <form data-toggle="validator" role="form" th:object="${user}" th:action="@{/update/{id}(id=${user.userId})}" method="post">
             <div class="box-body">
                 <div class="form-group">
-                    <label for="Firstname">Tên hiển thị</label>
-                    <input type="text" pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$" required="true" class="form-control" th:field="*{name}" id="firstname" />
+                    <label for="username">Tên hiển thị</label>
+                    <input id="username" type="text" pattern="^(?=.{8,20}$)(?![ .])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$"
+                          oninput="checkUsername()" required="true" class="form-control" th:field="*{name}"/>
                 </div>
                 <div class="form-group">
                     <label for="birthDay">Ngày sinh</label>
@@ -32,11 +79,13 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" pattern="[a-z0-9]+@toprate.io" required="true" class="form-control" th:field="*{gmail}" id="email" />
+                    <input type="email" pattern="[a-z0-9]+@toprate.io"
+                           oninput="checkEmail()" required="true" class="form-control" th:field="*{gmail}" id="email" />
                 </div>
                 <div class="form-group">
                     <label for="phone">SĐT</label>
-                    <input type="tel" pattern="[0-9]{10}" required="true" class="form-control" th:field="*{phone}" id="phone" />
+                    <input type="tel" pattern="[0-9]{10}" oninput="checkPhone()"
+                            maxlength="10" required="true" class="form-control" th:field="*{phone}" id="phone" />
                 </div>
                 <div class="form-group">
                     <h6>Vai trò</h6>
@@ -68,5 +117,7 @@
         </form>
     </div>
 </div>
+
+
 </body>
 </html>

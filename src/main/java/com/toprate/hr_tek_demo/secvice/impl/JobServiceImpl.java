@@ -6,6 +6,8 @@ import com.toprate.hr_tek_demo.secvice.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JobServiceImpl implements JobService {
     @Autowired
@@ -17,6 +19,12 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void saveJob(JobRequirements jobRequirements) {
+        jobRequirements.setEnable(1);
         jobRepository.save(jobRequirements);
+    }
+
+    @Override
+    public List<JobRequirements> findAllJob() {
+        return jobRepository.findAllJob();
     }
 }
