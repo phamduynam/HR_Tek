@@ -105,6 +105,26 @@ public class Contact {
     @ToString.Exclude
     private Users user;
 
+    public void addContactWorkSkill(ContactWorkSkill contactWorkSkill){
+        this.contactWorkSkillList.add(contactWorkSkill);
+    }
+
+    public void addContactPosition(ContactPosition contactPosition){
+        this.contactPositionList.add(contactPosition);
+    }
+
+    public void addCv(CV cv){
+        this.cvList.add(cv);
+    }
+
+    public void addAssignHr(AssignHr assignHr){
+        this.assignHrList.add(assignHr);
+    }
+
+    public void addTakeCareTransaction(TakeCareTransaction takeCareTransaction){
+        this.takeCareTransactionList.add(takeCareTransaction);
+    }
+
     public Contact(String candidateId, String candidateName, Date birthDay, String address, String linkCv, Float yearExperience, String sex, Boolean isBlackList, String workLocation, String email1, String email2, String phone1, String phone2, String levels, boolean isEnable, List<AssignHr> assignHrList, List<ContactWorkSkill> contactWorkSkillList, List<ContactPosition> contactPositionList, List<TakeCareTransaction> takeCareTransactionList, List<CV> cvList, Users user) {
         this.candidateId = candidateId;
         this.candidateName = candidateName;

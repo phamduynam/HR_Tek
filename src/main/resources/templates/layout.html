@@ -103,6 +103,8 @@
 
     <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
 
+    <!-- Bootstrap validate js -->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">-->
 
 </head>
 
@@ -213,13 +215,7 @@
     $(document).ready(function(){
         // Sự kiện cho multi select
         // Có thể đổi thành class cho dùng chung cũng đc
-        var multipleCancelButton = new Choices('#choices-multiple-remove-button_1', {
-            removeItemButton: true,
-            maxItemCount:5,
-            searchResultLimit:5,
-            // renderChoiceLimit:5
-        });
-        var multipleCancelButton = new Choices('#choices-multiple-remove-button_2', {
+        var multipleCancelButton = new Choices('.choices-multiple-remove-button', {
             removeItemButton: true,
             maxItemCount:5,
             searchResultLimit:5,
@@ -227,31 +223,6 @@
         });
     });
 </script>
-
-
-<script>
-    // Thêm modal delete
-    $(document).ready(function() {
-        $('.table #deleteButton').on('click',function(event){
-            event.preventDefault();
-            // laays link
-            var href = $(this).attr('href');
-            console.log(href)
-            $('#deleteModal #delRef').attr('href',href);
-
-            $('#deleteModal').modal();
-        });
-    } );
-</script>
-
-<script>
-    // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
-    $(document).ready(function() {
-        $('#example').DataTable();
-    } );
-</script>
-
-
 
 </body>
 </html>

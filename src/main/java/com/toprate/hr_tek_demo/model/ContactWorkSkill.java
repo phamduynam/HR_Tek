@@ -53,6 +53,12 @@ public class ContactWorkSkill {
         this.contact = contact;
     }
 
+    public ContactWorkSkill(Skill skill, Float aFloat, String skillDe) {
+        this.skill = skill;
+        this.skillYearExperience = aFloat;
+        this.description = skillDe;
+    }
+
     @Override
     public String toString() {
         return "ContactWorkSkill{" +
