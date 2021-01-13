@@ -110,7 +110,7 @@
                                 <div class="row">
                                     <div class="col-sm-8"><h5>Danh Sách Skill</h5></div>
                                     <div class="col-sm-4">
-                                        <button disabled type="button" class="btn btn-info add-new float-right "><i class="fa fa-plus"></i> Add Skill</button>
+                                        <button type="button" class="btn btn-info add-new float-right "><i class="fa fa-plus"></i> Add Skill</button>
                                     </div>
                                 </div>
                             </div>
@@ -124,8 +124,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="sample-element" th:each = "contactWK,stat : ${contactDto.contactWorkSkillList}">
-                                    <td>
+                                <tr style="display: none" class="sample-element" th:each = "contactWK,stat : ${contactDto.contactWorkSkillList}">
+                                    <td >
                                         <select th:field="*{contactWorkSkillList[__${stat.index}__].skill}"
                                                 class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true">
                                             <option value = ""></option>
@@ -166,13 +166,6 @@
         </div>
     </div>
 
-    <script>
-        bootstrapValidate(
-            '#docs-demo',
-            'email:Enter a valid E-Mail Address!'
-        );
-    </script>
-
 
     <script>
         $(document).ready(function(){
@@ -181,7 +174,9 @@
 
             // Append table with add row form on add new button click
             $(".add-new").click(function(){
-                var index = $("table tbody").find("tr style").index();
+                var index = $("table tbody").find("tr.sample-element").css('display','none')[0];
+                $(index).removeAttr("style")
+                $(index).removeAttr("class")
                 console.log(index);
                 $('[data-toggle="tooltip"]').tooltip();
             });

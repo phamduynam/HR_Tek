@@ -89,8 +89,6 @@ public class ContactDto {
 //    private Position[] positionList;
 //
 //    public void addContactWorkSkill(Skill skill,Float exp, String des){
-//
-//
 //    }
 
 //    public void addContactPosition(Position ps){
