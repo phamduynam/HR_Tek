@@ -8,7 +8,7 @@
 <section layout:fragment="header">
     <h1>Customer registration</h1>
     <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
         <li class="active">Registration Client</li>
     </ol>
 </section>
@@ -17,31 +17,42 @@
         <div class="box-header with-border">
             <h3 class="box-title">Thêm mới Job</h3>
             <div class="box-tools pull-right">
-                <a href="/customers" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+                <a href="#" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
             </div>
         </div>
         <form data-toggle="validator" role="form" th:object="${job}" th:action="@{/save-job}" method="post">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="id">ID</label>
-                            <input type="text" required="true" class="form-control" th:field="*{jobRecruitmentId}" id="id" />
-                        </div>
+<!--                        <div class="form-group">-->
+<!--                            <label for="id">ID</label>-->
+<!--                            <input type="text" required="true" class="form-control" th:field="*{jobRecruitmentId}" id="id" />-->
+<!--                        </div>-->
                         <div class="form-group">
                             <label for="title">Tiêu đề tuyển dụng</label>
                             <input type="text" required="true" class="form-control" th:field="*{jobTitle}" id="title" />
                         </div>
-                        <div class="form-group">
-                            <h6>Vị trí tuyển dụng</h6>
-                            <select th:field="*{jobPositionList.position.positionId}" class="form-control">
-                                <option th:value="1" th:text="1"></option>
-                                <option th:value="0" th:text="0"></option>
+                        <div class="form-group" >
+                            <label>Vị trí tuyển dụng</label>
+                            <select th:field="*{positionId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="position : ${positions}"
+                                        th:value="${{position.positionId}}"
+                                        th:text="${position.positionName}">
+                                </option>
+                            </select>
+                        </div>
+                        <div  class="form-group" >
+                            <label>Kỹ năng</label>
+                            <select th:field="*{skillId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="skill : ${skills}"
+                                        th:value="${{skill.skillId}}"
+                                        th:text="${skill.skillName}">
+                                </option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="quantity">Số lượng</label>
-                            <input type="email" required="true" class="form-control" th:field="*{quantity}" id="quantity" />
+                            <input type="number" required="true" class="form-control" th:field="*{quantity}" id="quantity" />
                         </div>
                         <div class="form-group">
                             <label for="start">Thời gian bắt đầu</label>
@@ -54,38 +65,45 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="formOfWork">Hình thức làm việc</label>
-                            <input type="tel" required="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
+                        <div  class="form-group" >
+                            <h6>Hình thức làm việc</h6>
+                            <select th:field="*{formOfWork}" class="form-control">
+                                <option th:value="onsite" th:text="onsite"></option>
+                                <option th:value="insite" th:text="insite"></option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="startSalary">Lương khởi điểm</label>
-                            <input type="email" required="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
+                            <input type="text" required="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
                         </div>
                         <div class="form-group">
                             <label for="endSalary">Lương cuối cùng</label>
-                            <input type="tel" required="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
+                            <input type="text" required="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
                         </div>
                         <div class="form-group">
                             <h6>Đối tác</h6>
-                            <select th:field="*{partner.partnerName}" class="form-control">
-                                <option th:each="partner : ${partners}" th:value="${partner.partnerName}" th:text="${partner.partnerName}"></option>
+                            <select th:field="*{partner.partnerId}" class="form-control">
+                                <option th:each="partner : ${partners}" th:value="${partner.partnerId}" th:text="${partner.partnerName}"></option>
                             </select>
                         </div>
                         <div class="form-group">
                             <h6>Địa điểm làm việc</h6>
-                            <select th:field="*{location.address}" class="form-control">
-                                <option th:each="location : ${locations}" th:value="${location.address}" th:text="${location.address}"></option>
+                            <select th:field="*{location.cityId}" class="form-control">
+                                <option th:each="location : ${locations}" th:value="${location.cityId}" th:text="${location.address}"></option>
                             </select>
                         </div>
                         <div class="form-group">
                             <h6>HR phụ trách</h6>
-                            <select th:field="*{user.name}" class="form-control">
-                                <option th:each="user : ${users}" th:value="${user.name}" th:text="${user.name}"></option>
+                            <select th:field="*{user.userId}" class="form-control">
+                                <option th:each="user : ${users}" th:value="${user.userId}" th:text="${user.name}"></option>
                             </select>
                         </div>
                     </div>
                     <div>
+
+                        <div style="margin-left: 15px" class="box-footer">
+                            <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
                     </div>
         </form>
     </div>

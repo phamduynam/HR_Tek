@@ -43,6 +43,7 @@
                                 <th>Tên hiển thị</th>
                                 <th>Ngày sinh</th>
                                 <th>Email</th>
+                                <th>SĐT</th>
                                 <th>Vai Trò</th>
                                 <th>Trạng thái</th>
                                 <th>Tác vụ</th>
@@ -54,6 +55,7 @@
                                 <td th:text="${user.name}"></td>
                                 <td  th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
                                 <td th:text="${user.gmail}"></td>
+                                <td th:text="${user.phone}"></td>
                                 <td>
                                     <p th:each="role : ${roles}" th:if="(${role.roleName} == ${user.role.roleName})" th:text="${role.roleName}"></p>
                                 </td>
@@ -83,6 +85,7 @@
                                 <th>Tên hiển thị</th>
                                 <th>Ngày sinh</th>
                                 <th>Email</th>
+                                <th>SĐT</th>
                                 <th>Vai Trò</th>
                                 <th>Trạng thái</th>
                                 <th>Tác vụ</th>
