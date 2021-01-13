@@ -21,7 +21,7 @@ public class LoginController {
     }
 
 
-    @GetMapping("/home")
+    @GetMapping("/home-page")
     public ModelAndView getHome(OAuth2AuthenticationToken authentication,ModelAndView mav) {
     // Xem token nhận được là gì ?// đặt debbug vào để xem nhé
 //            OAuth2AuthorizedClient client = authorizedClientService

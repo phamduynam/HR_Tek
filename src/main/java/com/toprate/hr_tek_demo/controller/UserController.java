@@ -59,9 +59,10 @@ public class UserController {
             user.setUserId(id);
             return "user/update-user";
         }
+        user.setUserId(id);
 
         userServiceImpl.saveUser(user);
-        model.addAttribute("users", userServiceImpl.getAllUser());
+//        model.addAttribute("users", userServiceImpl.getAllUser());
         return "redirect:/index";
     }
 

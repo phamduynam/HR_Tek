@@ -52,8 +52,20 @@
                             <tr th:each="job : ${jobs}">
                                 <td th:text="${job.jobRecruitmentId}"></td>
                                 <td th:text="${job.jobTitle}"></td>
-                                <td th:text="${job.position1}"></td>
-                                <td th:text="${job.skill}"></td>
+                                <td>
+                                    <p th:each="jobPosition : ${job.jobPositionList}">
+                                    <span th:each="position : ${jobPosition.position}">
+                                        <span th:text="${position.positionName}"></span>
+                                    </span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p th:each="jobSkill : ${job.jobWorkSkills}">
+                                    <span th:each="skill : ${jobSkill.skill}">
+                                        <span th:text="${skill.skillName}"></span>
+                                    </span>
+                                    </p>
+                                </td>
                                 <td th:text="${job.quantity}"></td>
                                 <td th:text="${job.formOfWork}"></td>
                                 <td  th:text="${#dates.format(job.dateStart, 'dd/MM/yyyy')}"></td>

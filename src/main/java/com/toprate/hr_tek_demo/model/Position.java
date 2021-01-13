@@ -34,6 +34,10 @@ public class Position {
     public Position() {
     }
 
+    public Position(int positionId) {
+        this.positionId = positionId;
+    }
+
     public Position(int positionId, String positionName, List<ContactPosition> contactPositionList, List<JobPosition> jobPositionList) {
         this.positionId = positionId;
         this.positionName = positionName;

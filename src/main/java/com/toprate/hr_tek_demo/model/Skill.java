@@ -34,6 +34,10 @@ public class Skill {
     public Skill() {
     }
 
+    public Skill(int skillId) {
+        this.skillId = skillId;
+    }
+
     public Skill(String skillName) {
         this.skillName = skillName;
     }
