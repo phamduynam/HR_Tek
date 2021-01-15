@@ -1,10 +1,276 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Contact</title>
 </head>
 <body>
+
+<section layout:fragment="content" id="page_content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Chỉnh Sửa Contact</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/contact/save}" method="post" th:object="${contactDto}">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ContactName">Họ Tên</label>
+                                    <input th:field="*{candidateName}" type="text" class="form-control" id="ContactName" placeholder="Enter Name">
+                                    <p th:if="${#fields.hasErrors('candidateName')}" th:errors="*{candidateName}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DayOfBirth">Ngày Sinh</label>
+                                    <input th:field="*{birthDay}" type="date" class="form-control" id="DayOfBirth" placeholder="dd/mm/yyyy">
+                                    <p th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Giới Tính</label>
+                                    <select required  th:field="*{sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
+                                        <option value ="">Please select...</option>
+                                        <option th:value="Nam" th:text="Nam"></option>
+                                        <option th:value="Nữ" th:text="Nữ"></option>
+                                        <option th:value="Khác" th:text="Khác"></option>
+                                    </select>
+                                    <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Địa Chỉ</label>
+                                    <input  type="text" class="form-control" id="address" placeholder="Enter Address">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số năm kinh nghiệm</label>
+                                    <select required  th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
+                                        <option value ="">Please select...</option>
+                                        <option th:value="0.3" th:text="'3 Tháng'"></option>
+                                        <option th:value="0.5" th:text="'6 Tháng'"></option>
+                                        <option th:value="1" th:text="'1 Năm'">1 Năm</option>
+                                        <option th:value="2" th:text="'2 Năm'">2 Năm</option>
+                                        <option th:value="5" th:text="'5 Năm'">5 Năm</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" data-select-id="4">
+                                    <label>Level</label>
+                                    <select required  th:field="*{levels}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                        <option value ="">Please select...</option>
+                                        <option th:value="Junior" th:text="'Junior'"></option>
+                                        <option th:value="Middle" th:text="'Middle'"></option>
+                                        <option th:value="Senior" th:text="'Senior'"></option>
+                                        <option th:value="Master" th:text="'Master'"></option>
+                                    </select>
+                                    <p th:if="${#fields.hasErrors('levels')}" th:errors="*{levels}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone1">Phone 1</label>
+                                    <input th:field="*{phone1}" type="text" class="form-control" id="phone1" placeholder="Enter Phone 1">
+                                    <p th:if="${#fields.hasErrors('phone1')}" th:errors="*{phone1}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone2">Phone 2</label>
+                                    <input th:field="*{phone2}" type="text" class="form-control" id="phone2" placeholder="Enter Phone 2">
+                                    <p th:if="${#fields.hasErrors('phone2')}" th:errors="*{phone2}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ContactEmail1">Email 1</label>
+                                    <input th:field="*{email1}" type="email" class="form-control" id="ContactEmail1" placeholder="Enter Email 1">
+                                    <p th:if="${#fields.hasErrors('email1')}" th:errors="*{email1}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ContactEmail2">Email 2</label>
+                                    <input th:field="*{email2}" type="email" class="form-control" id="ContactEmail2" placeholder="Enter Email 2">
+                                    <p th:if="${#fields.hasErrors('email2')}" th:errors="*{email2}" class="alert alert-danger alert-dismissible fade show"></p>
+                                </div>
+                                <div  class="form-group" >
+                                    <label>Vị trí ứng tuyển</label>
+                                    <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                        <option th:each="position : ${positions}"
+                                                th:value="${{position.positionId}}"
+                                                th:text="${position.positionName}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-8"><h2>Danh Sách Skill</h2></div>
+                                    <div class="col-sm-4">
+                                        <button disabled type="button" class="btn btn-info add-new float-right "><i class="fa fa-plus"></i> Add New</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Skill</th>
+                                    <th>Experience</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="sample-element">
+                                    <td>
+                                        <select th:field="*{skillList}"
+                                                class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true">
+                                            <option value = ""></option>
+                                            <option th:each="skill : ${skills}"
+                                                    th:value = "${{skill.skillId}}"
+                                                    th:text="${skill.skillName}"></option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select  th:field="*{skillYearExp}"
+                                                 class="form-control select2 select2-hidden-accessible" aria-hidden="true">
+                                            <option value ="0"></option>
+                                            <option th:value = "0.3" >3 Tháng</option>
+                                            <option th:value = "0.5" >6 Tháng</option>
+                                            <option th:value = "1" >1 Năm</option>
+                                            <option th:value = "2" >2 Năm</option>
+                                            <option th:value = "5" >5 Năm</option>
+                                        </select>
+                                    </td>
+                                    <td >
+                                        <textarea th:field="*{skillDes}"
+                                                  class="form-control"></textarea>
+                                    </td>
+                                    <td>
+                                        <a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>
+                                        <a disabled class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>
+                                        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <input type="submit" value="Create new Contact" class="btn btn-success float-left">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            // Gợi ý nút action
+            $('[data-toggle="tooltip"]').tooltip();
+            // Lật nút edit
+            $("table tbody tr").eq(0).find(".edit").toggle();
+            $(".add-new").attr("disabled", "disabled");
+
+            var actions =
+                '<a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>\n' +
+                '<a class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>\n' +
+                '<a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>'
+            ;
+
+            var skillSelect = '<select class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true" id="skillList" name="skillList">\n' +
+                '                     <option value="" selected="selected"></option>\n' +
+                '                     <option value="1">Java</option>\n' +
+                '                     <option value="2">PHP</option>\n' +
+                '                     <option value="3">JavaScript</option>\n' +
+                '                     <option value="4">MySQL</option>\n' +
+                '                     <option value="5">NodeJS</option>\n' +
+                '                     <option value="6">Android</option>\n' +
+                '                     <option value="7">IOS</option>\n' +
+                '                     <option value="8">SQL Server</option>\n' +
+                '                     <option value="9">Spring</option>\n' +
+                '                </select>'
+
+            var expSelect = '<select class="form-control select2 select2-hidden-accessible" aria-hidden="true" id="skillYearExp" name="skillYearExp">\n' +
+                '               <option value="0"></option>\n' +
+                '               <option value="0.3">3 Tháng</option>\n' +
+                '               <option value="0.5">6 Tháng</option>\n' +
+                '               <option value="1">1 Năm</option>\n' +
+                '               <option value="2">2 Năm</option>\n' +
+                '               <option value="5">5 Năm</option>\n' +
+                '            </select>'
+            var des = '<textarea class="form-control" id="skillDes" name="skillDes"></textarea>'
+            // Append table with add row form on add new button click
+            $(".add-new").click(function(){
+                $(this).attr("disabled", "disabled");
+                var index = $("table tbody tr:last-child").index();
+                var row = '<tr>' +
+                    '<td>' + skillSelect + '</td>' +
+                    '<td>' + expSelect + '</td>' +
+                    '<td>' + des + '</td>' +
+                    '<td>' + actions + '</td>' +
+                    '</tr>';
+                $("table").append(row);
+                $("table tbody tr").eq(index + 1).find(".edit").toggle();
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+            // Add row on add button click
+            $(document).on("click", ".add", function(){
+                var empty = false;
+                var select = $(this).parents("tr").find('select');
+                var desText= $(this).parents("tr").find('textarea');
+                select.each(function(){
+                    console.log($(this).val())
+                    if($(this).val() === "" || $(this).val() === "0"){
+                        $(this).addClass("error");
+                        empty = true;
+                    } else{
+                        $(this).removeClass("error");
+                    }
+                });
+
+
+
+                $(this).parents("tr").find(".error").first().focus();
+                if(!empty){
+                    select.each(function(){
+                        console.log($(this))
+                        $(this)[0].disabled = true
+                    });
+                    desText.each(function(){
+                        console.log($(this))
+                        $(this)[0].disabled = true
+                    });
+                    $(this).parents("tr").find(".add, .edit").toggle();
+                    $(".add-new").removeAttr("disabled");
+                }
+            });
+            // Edit row on edit button click
+            $(document).on("click", ".edit", function(){
+
+                var select = $(this).parents("tr").find('select');
+                var desText= $(this).parents("tr").find('textarea');
+                select.each(function(){
+                    console.log($(this))
+                    $(this)[0].disabled = false
+                });
+                desText.each(function(){
+                    console.log($(this))
+                    $(this)[0].disabled = false
+                });
+                $(this).parents("tr").find(".add, .edit").toggle();
+                $(".add-new").attr("disabled", "disabled");
+            });
+            // Delete row on delete button click
+            $(document).on("click", ".delete", function(){
+                $(this).parents("tr").remove();
+                $(".add-new").removeAttr("disabled");
+            });
+        });
+    </script>
+</section>
 
 </body>
 </html>

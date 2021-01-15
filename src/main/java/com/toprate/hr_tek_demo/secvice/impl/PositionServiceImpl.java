@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class PositionServiceImpl implements PositonService {
-
     @Autowired
     private PositonRepository positonRepository;
     @Override
