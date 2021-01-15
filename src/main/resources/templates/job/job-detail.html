@@ -20,57 +20,63 @@
                 <a href="/customers" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
             </div>
         </div>
-        <form data-toggle="validator" role="form" th:object="${job}" th:action="@{/job-detail/{id}}" method="post">
+        <form data-toggle="validator" role="form" th:object="${jobDetail}" th:action="@{/job-detail/{id}(id=${jobDetail.jobRecruitmentId})}" method="post">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="title">Tiêu đề tuyển dụng</label>
-                            <input type="text" required="true" class="form-control" th:field="*{jobTitle}" id="title" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{jobTitle}" id="title" />
                         </div>
                         <div class="form-group">
-                            <label for="position">Vị trí tuyển dụng</label>
-                            <input type="text" required="true" class="form-control" th:field="*{position1}" id="position" />
+                            <label>Vị trí tuyển dụng</label>
+                            <span th:each="jobPosition : ${jobDetail.jobPositionList}">
+                                <td>
+                                    <tr th:each="position: ${jobPosition.position}">
+                                    <p th:text="${position.positionName}"></p>
+                                    </tr>
+                                <td>
+                            </span>
                         </div>
                         <div class="form-group">
                             <label for="quantity">Số lượng</label>
-                            <input type="email" required="true" class="form-control" th:field="*{quantity}" id="quantity" />
+                            <input type="email" readonly="true" class="form-control" th:field="*{quantity}" id="quantity" />
                         </div>
                         <div class="form-group">
                             <label for="start">Thời gian bắt đầu</label>
-                            <input type="date" required="true" class="form-control" th:field="*{dateStart}" id="start" />
+                            <input type="date" readonly="true" class="form-control" th:field="*{dateStart}" id="start" />
                         </div>
                         <div class="form-group">
                             <label for="dateEnd">Thời gian kết thúc</label>
-                            <input type="date" required="true" class="form-control" th:field="*{dateEnd}" id="dateEnd" />
+                            <input type="date" readonly="true" class="form-control" th:field="*{dateEnd}" id="dateEnd" />
                         </div>
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="formOfWork">Hình thức làm việc</label>
-                            <input type="tel" required="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
+                            <input type="tel" readonly="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
                         </div>
                         <div class="form-group">
                             <label for="startSalary">Lương khởi điểm</label>
-                            <input type="email" required="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
+                            <input type="email" readonly="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
                         </div>
                         <div class="form-group">
                             <label for="endSalary">Lương cuối cùng</label>
-                            <input type="tel" required="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
+                            <input type="tel" readonly="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
                         </div>
                         <div class="form-group">
                             <label for="partner">Đối tác</label>
-                            <input type="text" required="true" class="form-control" th:field="*{partner1}" id="partner" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{partner.partnerName}" id="partner" />
                         </div>
                         <div class="form-group">
                             <label for="address">Địa điểm làm việc</label>
-                            <input type="tel" required="true" class="form-control" th:field="*{address}" id="address" />
+                            <input type="tel" readonly="true" class="form-control" th:field="*{location.address}" id="address" />
                         </div>
-<!--                        <div class="form-group">-->
-<!--                            <label for="address">HR phụ trách</label>-->
-<!--                            <input type="tel" required="true" class="form-control" th:field="*{}" id="address" />-->
-<!--                        </div>-->
+                        <div class="form-group">
+                            <label for="address">HR phụ trách</label>
+                            <input type="tel" readonly="true" class="form-control" th:field="*{user.name}" id="address" />
+                        </div>
                     </div>
                 <div>
             </div>

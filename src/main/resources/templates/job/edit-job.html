@@ -31,19 +31,20 @@
                         </div>
                         <div  class="form-group" >
                             <label>Vị trí tuyển dụng</label>
-                            <select th:each="jobPosition : ${job.jobPositionList}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
-                                <option th:each="position : ${jobPosition.position}"
-                                        th:selected="true"
-                                        th:value="${{position.positionId}}"
-                                        th:text="${position.positionName}">
+                            <select th:selected="true" th:field="*{positionId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="jobPosition : ${job.jobPositionList}">
+                                     th:each="position: ${jobPosition.position}">
+
+                                        th:text="${position.positionName}"
+
                                 </option>
+                            </span>
                             </select>
                         </div>
                         <div  class="form-group" >
                             <label>Kỹ năng</label>
-                            <select th:each="jobSkill : ${job.jobWorkSkills}" id="choices-multiple-remove-button_1"  multiple>
-                                <option th:each="skill : ${jobSkill.skill}"
-                                        th:selected="true"
+                            <select th:field="*{skillId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="skill : ${skills}"
                                         th:value="${{skill.skillId}}"
                                         th:text="${skill.skillName}">
                                 </option>

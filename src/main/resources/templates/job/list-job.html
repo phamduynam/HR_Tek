@@ -53,18 +53,18 @@
                                 <td th:text="${job.jobRecruitmentId}"></td>
                                 <td th:text="${job.jobTitle}"></td>
                                 <td>
-                                    <p th:each="jobPosition : ${job.jobPositionList}">
-                                    <span th:each="position : ${jobPosition.position}">
+                                    <span th:each="jobPosition : ${job.jobPositionList}">
+                                    <span style="margin-left: 3px" th:each="position : ${jobPosition.position}">
                                         <span th:text="${position.positionName}"></span>
                                     </span>
-                                    </p>
+                                    </span>
                                 </td>
                                 <td>
-                                    <p th:each="jobSkill : ${job.jobWorkSkills}">
-                                    <span th:each="skill : ${jobSkill.skill}">
+                                    <span th:each="jobSkill : ${job.jobWorkSkills}">
+                                    <span style="margin-left: 3px" th:each="skill : ${jobSkill.skill}">
                                         <span th:text="${skill.skillName}"></span>
                                     </span>
-                                    </p>
+                                    </span>
                                 </td>
                                 <td th:text="${job.quantity}"></td>
                                 <td th:text="${job.formOfWork}"></td>

@@ -7,14 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JobServiceImpl implements JobService {
     @Autowired
     private JobRepository jobRepository;
     @Override
-    public JobRequirements findJobById(String id) {
-        return null;
+    public Optional<JobRequirements> findJobById(String id) {
+        return jobRepository.findById(id);
     }
 
     @Override

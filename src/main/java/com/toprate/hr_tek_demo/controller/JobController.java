@@ -50,7 +50,9 @@ public class JobController {
     // thong tin chi tiet 1 job
     @GetMapping("/job-detail/{id}")
     public String showJobDetail(@PathVariable("id") String id, Model model) {
-        model.addAttribute("job", jobDtoService.getJobDetailById(id));
+        JobRequirements job = jobService.findJobById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
+        model.addAttribute("jobDetail", job);
         return "job/job-detail";
     }
 
@@ -112,13 +114,17 @@ public class JobController {
         List<Integer> positionsId = job.getPositionId();
         List<Integer> skillsId = job.getSkillId();
 
-        for(int positionId : positionsId) {
-            jobPositionService.save(jobId, positionId);
+        if(positionsId != null) {
+            for(int positionId : positionsId) {
+                jobPositionService.save(jobId, positionId);
+            }
         }
-        for(int skillId : skillsId) {
-            jobWorkSkillService.save(jobId, skillId);
+        if(skillsId != null) {
+            for (int skillId : skillsId) {
+                jobWorkSkillService.save(jobId, skillId);
+            }
         }
-        return "redirect:/index";
+        return "redirect:/list-job";
     }
 
     // xoa job
