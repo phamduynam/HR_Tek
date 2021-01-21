@@ -14,7 +14,7 @@ public interface ContactService {
 
     public List<Contact> getAllContactTrue();
 
-    public Contact convertDtoToContact(ContactDto contactDto);
+    public void updateContact(Contact contact);
 
-    public ContactDto convertContactToDto(Contact contact);
+
 }

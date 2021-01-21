@@ -34,6 +34,7 @@
                                     <div class="form-group" data-select-id="1">
                                         <label>Trạng thái</label>
                                         <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                            <option></option>
                                             <option>Chưa phản hồi</option>
                                             <option>Đã phản hồi</option>
                                             <option>Phỏng vấn</option>
@@ -122,7 +123,9 @@
                             <th>Vị Trí</th>
                             <th>Level</th>
                             <th>Skill</th>
-                            <th>Kinh Nghiệm</th>
+                            <th>Exp</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                             <th>Blacklist</th>
                             <th>Action</th>
                         </tr>
@@ -150,6 +153,8 @@
                                 </p>
                             </td>
                             <td th:text="${contact.yearExperience}"></td>
+                            <td th:text="${contact.email1}"></td>
+                            <td class="phone hidetext"  th:text="${contact.phone1}"></td>
                             <td></td>
                             <td class="text-right py-0 align-middle">
                                 <div class="btn-group btn-group-sm btn-group-justified">
@@ -170,7 +175,9 @@
                             <th>Vị Trí </th>
                             <th>Level</th>
                             <th>Skill</th>
-                            <th>Kinh Nghiệm</th>
+                            <th>Exp</th>
+                            <th>Email</th>
+                            <th>Phone</th>
                             <th>Blacklist</th>
                             <th>Action</th>
                         </tr>
@@ -184,6 +191,16 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+    <script>
+        $(document).on("click", ".phone", function(){
+            if($(this).hasClass("hidetext")){
+                $(this).removeClass("hidetext")
+            }else{
+                $(this).addClass("hidetext")
+            }
+        });
+    </script>
+
     <script>
         // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
         $(document).ready(function() {

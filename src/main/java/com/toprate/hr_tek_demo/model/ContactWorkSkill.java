@@ -4,6 +4,7 @@ package com.toprate.hr_tek_demo.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -46,7 +47,6 @@ public class ContactWorkSkill {
     public ContactWorkSkill(Skill skill, Contact contact) {
         this.contact = contact;
         this.skill = skill;
-
     }
 
     public ContactWorkSkill(Contact contact) {
@@ -108,5 +108,19 @@ public class ContactWorkSkill {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContactWorkSkill that = (ContactWorkSkill) o;
+        return Objects.equals(skill, that.skill) &&
+                Objects.equals(contact, that.contact);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(skill, contact);
     }
 }

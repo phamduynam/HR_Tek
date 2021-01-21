@@ -1,6 +1,10 @@
 package com.toprate.hr_tek_demo.model;
 
-import lombok.*;
+import com.toprate.hr_tek_demo.dto.ContactDto;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,29 +77,30 @@ public class Contact {
     @Column
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL,orphanRemoval=true) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
     // MapopedBy trỏ tới tên biến Address ở trong Person.
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<AssignHr> assignHrList;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval=true)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<ContactWorkSkill> contactWorkSkillList;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL , orphanRemoval=true)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<ContactPosition> contactPositionList;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval=true)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<TakeCareTransaction> takeCareTransactionList;
 
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL , orphanRemoval=true)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<CV> cvList;
@@ -105,11 +111,41 @@ public class Contact {
     @ToString.Exclude
     private Users user;
 
+    public ContactDto convertToDto() {
+        ContactDto contactDto = new ContactDto();
+        contactDto.setCandidateId(this.getCandidateId());
+        contactDto.setCandidateName(this.getCandidateName());
+        contactDto.setAddress(this.getAddress());
+        contactDto.setBirthDay(this.getBirthDay());
+        contactDto.setSex(this.getSex());
+        contactDto.setYearExperience(this.getYearExperience());
+        contactDto.setWorkLocation(this.getWorkLocation());
+        contactDto.setPhone1(this.getPhone1());
+        contactDto.setPhone2(this.getPhone2());
+        contactDto.setEmail1(this.getEmail1());
+        contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
+        contactDto.setEnable(this.isEnable());
+        contactDto.setLevels(this.getLevels());
+
+        ArrayList<Position> listPosition = new ArrayList<>();
+        if(this.getContactPositionList() != null){
+            for (ContactPosition contactPosition : contactPositionList) {
+                listPosition.add(contactPosition.getPosition());
+            }
+        }
+
+        contactDto.setPositionList(listPosition);
+
+        return contactDto;
+    }
+
     public void addContactWorkSkill(ContactWorkSkill contactWorkSkill){
+        contactWorkSkill.setContact(this);
         this.contactWorkSkillList.add(contactWorkSkill);
     }
 
     public void addContactPosition(ContactPosition contactPosition){
+        contactPosition.setContact(this);
         this.contactPositionList.add(contactPosition);
     }
 
@@ -117,12 +153,30 @@ public class Contact {
         this.cvList.add(cv);
     }
 
-    public void addAssignHr(AssignHr assignHr){
+    public void addAssignHr(AssignHr assignHr) {
         this.assignHrList.add(assignHr);
     }
 
-    public void addTakeCareTransaction(TakeCareTransaction takeCareTransaction){
+    public void addTakeCareTransaction(TakeCareTransaction takeCareTransaction) {
         this.takeCareTransactionList.add(takeCareTransaction);
+    }
+
+    public void removeContactWorkSkill(ContactWorkSkill contactWorkSkill) {
+        contactWorkSkill.setContact(null);
+        this.contactWorkSkillList.remove(contactWorkSkill);
+    }
+
+    public void removeContactPosition(ContactPosition contactPosition) {
+        contactPosition.setContact(null);
+        this.contactPositionList.remove(contactPosition);
+    }
+
+    public void removeTakeCareTransaction(TakeCareTransaction takeCareTransaction) {
+        this.takeCareTransactionList.remove(takeCareTransaction);
+    }
+
+    public void removeAssignHr(AssignHr assignHr) {
+        this.assignHrList.remove(assignHr);
     }
 
     public Contact(String candidateId, String candidateName, Date birthDay, String address, String linkCv, Float yearExperience, String sex, Boolean isBlackList, String workLocation, String email1, String email2, String phone1, String phone2, String levels, boolean isEnable, List<AssignHr> assignHrList, List<ContactWorkSkill> contactWorkSkillList, List<ContactPosition> contactPositionList, List<TakeCareTransaction> takeCareTransactionList, List<CV> cvList, Users user) {
@@ -190,8 +244,8 @@ public class Contact {
     }
 
     public Contact() {
+        this.setEnable(true);
     }
-
 
     public String getLevels() {
         return levels;
@@ -273,7 +327,6 @@ public class Contact {
         this.workLocation = workLocation;
     }
 
-
     public List<AssignHr> getAssignHrList() {
         return assignHrList;
     }
@@ -321,6 +374,7 @@ public class Contact {
     public void setUser(Users user) {
         this.user = user;
     }
+
 
 
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+;
 import java.util.List;
 
 @Controller
@@ -40,6 +40,10 @@ public class JobController {
 
     @Autowired
     private SkillServiceImpl skillService;
+    private String id;
+    private JobRequirements job;
+    private BindingResult result;
+    private Model model;
 
     // danh sach job dang tuyen
     @GetMapping("/list-job")
@@ -68,6 +72,7 @@ public class JobController {
         model.addAttribute("skills",skillService.getAllSkill());
         return "job/add-job";
     }
+
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
     public String saveJob(@ModelAttribute("job") JobRequirements job) {
 
@@ -107,7 +112,7 @@ public class JobController {
     }
 
     @PostMapping("update-job/{id}")
-    public String updateUser(@PathVariable("id") String id, @Valid JobRequirements job, BindingResult result,
+    public String updateUser(@PathVariable("id") String id, JobRequirements job, BindingResult result,
                              Model model) {
         if (result.hasErrors()) {
             job.setJobRecruitmentId(id);
@@ -151,6 +156,30 @@ public class JobController {
 
         return "redirect:/list-job";
     }
+
+    @PostMapping("update-job/{id}")
+    public String updateUser(@PathVariable("id") String id, JobRequirements job, Model model) {
+
+        if (result.hasErrors()) {
+            job.setJobRecruitmentId(id);
+            return "job/edit-job";
+        }
+        job.setJobRecruitmentId(id);
+        jobService.saveJob(job);
+
+        String jobId = job.getJobRecruitmentId();
+        List<Integer> positionsId = job.getPositionId();
+        List<Integer> skillsId = job.getSkillId();
+
+        for(int positionId : positionsId) {
+            jobPositionService.save(jobId, positionId);
+        }
+        for(int skillId : skillsId) {
+            jobWorkSkillService.save(jobId, skillId);
+        }
+        return "redirect:/index";
+    }
+
 
     // xoa job
     @GetMapping("/delete-job/{id}")

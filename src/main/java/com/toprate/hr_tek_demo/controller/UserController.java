@@ -8,10 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+
 import java.util.List;
+
 
 @Controller
 public class UserController {
@@ -54,16 +54,8 @@ public class UserController {
     }
 
     @PostMapping("update/{id}")
-    public String updateUser(@PathVariable("id") String id, @Valid Users user, BindingResult result,
-                                Model model) {
-        if (result.hasErrors()) {
-            user.setUserId(id);
-            return "user/update-user";
-        }
-        user.setUserId(id);
+    public String updateUser(@PathVariable("id") String id) {
 
-        userServiceImpl.saveUser(user);
-//        model.addAttribute("users", userServiceImpl.getAllUser());
         return "redirect:/index";
     }
 

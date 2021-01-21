@@ -85,4 +85,14 @@ public class Position {
     public void setJobPositionList(List<JobPosition> jobPositionList) {
         this.jobPositionList = jobPositionList;
     }
+
+    public void addContactPosition(ContactPosition contactPosition){
+        this.contactPositionList.add(contactPosition);
+        contactPosition.setPosition(this);
+    }
+
+    public void removeContactPosition(ContactPosition contactPosition){
+        this.contactPositionList.remove(contactPosition);
+        contactPosition.setPosition(null);
+    }
 }

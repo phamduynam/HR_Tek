@@ -1,6 +1,7 @@
 package com.toprate.hr_tek_demo.model;
 
 import lombok.*;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,14 +20,14 @@ public class Skill {
     private String skillName;
 
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<ContactWorkSkill> contactWorkSkillList;
 
 
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<JobWorkSkill> jobWorkSkillList;
@@ -76,5 +77,14 @@ public class Skill {
 
     public void setJobWorkSkillList(List<JobWorkSkill> jobWorkSkillList) {
         this.jobWorkSkillList = jobWorkSkillList;
+    }
+
+    public void removeContactWorkSkill(ContactWorkSkill contactWorkSkill){
+        contactWorkSkill.setContact(null);
+        this.contactWorkSkillList.remove(contactWorkSkill);
+    }
+    public void addContactWorkSkill(ContactWorkSkill contactWorkSkill){
+        contactWorkSkill.setSkill(this);
+        this.contactWorkSkillList.add(contactWorkSkill);
     }
 }

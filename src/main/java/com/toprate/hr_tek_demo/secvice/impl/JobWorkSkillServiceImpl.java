@@ -17,8 +17,8 @@ public class JobWorkSkillServiceImpl implements JobWorkSkillService {
     @Override
     public void save(String jobId, int skillId) {
         JobWorkSkill jobWorkSkill = new JobWorkSkill();
-        jobWorkSkill.setJobRequirements(new JobRequirements(jobId));
-        jobWorkSkill.setSkill(new Skill(skillId));
+//        jobWorkSkill.setJobRequirements(new JobRequirements(jobId));
+//        jobWorkSkill.setSkill(new Skill(skillId));
         jobWorkSkillRepository.save(jobWorkSkill);
     }
 
