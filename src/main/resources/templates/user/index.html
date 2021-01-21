@@ -7,6 +7,10 @@
         table tr > td {
             text-align: center;
         }
+
+        .card-block .dt-responsive .dataTables_wrapper .row:nth-child(3) {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +33,7 @@
                 <div class="btn-group btn-group-sm" style="float: none;">
                     <a href="/adduser">
                         <button type="button" class="tabledit-add-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
-                            <span class="icofont icofont-ui-add"></span>
+                            <span class="icofont icofont-ui-add"> Add new User</span>
                         </button>
                     </a>
                 </div>
@@ -92,12 +96,44 @@
                             </tr>
                             </tfoot>
                         </table>
+
+                        <div th:if = "${totalPages > 1}">
+                            <div class = "row col-sm-10">
+                                <div class = "col-sm-2">
+                                    Total Rows: [[${totalItems}]]
+                                </div>
+                                <div class = "col-sm-1">
+					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						                <a  th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						                <span style="color: #ff0000" th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					                </span>
+                                </div>
+                                <div class = "col-sm-1">
+                                    <a th:if="${currentPage >= 2}" th:href="@{'/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+<!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
+                                </div>
+                                <div class = "col-sm-1">
+                                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                                    <span th:unless="${currentPage < totalPages}">Next</span>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                                    <span th:unless="${currentPage < totalPages}">Last</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
+
                 </div>
             </div>
             <!-- Multi Select table end -->
         </div>
     </div>
+
+
 </div>
 
 </body>

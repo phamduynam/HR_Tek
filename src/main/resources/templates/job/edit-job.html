@@ -29,25 +29,42 @@
                             <label for="title">Tiêu đề tuyển dụng</label>
                             <input type="text" required="true" class="form-control" th:field="*{jobTitle}" id="title" />
                         </div>
-                        <div  class="form-group" >
+                        <div class="form-group" >
                             <label>Vị trí tuyển dụng</label>
-                            <select th:selected="true" th:field="*{positionId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
-                                <option th:each="jobPosition : ${job.jobPositionList}">
-                                     th:each="position: ${jobPosition.position}">
-
-                                        th:text="${position.positionName}"
-
+                            <select th:field="*{jobPositionList}" class="choices-multiple-remove-button" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="jobPosition : ${job.jobPositionList}"
+                                        th:value="${{jobPosition}}"
+                                        th:text="${jobPosition.position.positionName}">
                                 </option>
-                            </span>
                             </select>
                         </div>
-                        <div  class="form-group" >
+                        <div class="form-group" >
                             <label>Kỹ năng</label>
-                            <select th:field="*{skillId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
-                                <option th:each="skill : ${skills}"
-                                        th:value="${{skill.skillId}}"
-                                        th:text="${skill.skillName}">
+                            <select th:field="*{jobWorkSkills}" class="choices-multiple-remove-button" placeholder="Select upto 2 tags" multiple>
+                                <option th:each="jobSkill : ${job.jobWorkSkills}"
+                                        th:value="${{jobSkill}}"
+                                        th:text="${jobSkill.skill.skillName}">
                                 </option>
+                            </select>
+                        </div>
+                        <div class="form-group" >
+                            <h6>Level</h6>
+                            <select th:field="*{level}" class="form-control">
+                                <option th:value="Intern" th:text="Intern"></option>
+                                <option th:value="Fresher" th:text="Fresher"></option>
+                                <option th:value="Junior" th:text="Junior"></option>
+                                <option th:value="Senior" th:text="Senior"></option>
+                            </select>
+                        </div>
+                        <div class="form-group" >
+                            <h6>SN Kinh nghiệm</h6>
+                            <select th:field="*{yearExperience}" class="form-control">
+                                <option th:value="0.5" >6 tháng</option>
+                                <option th:value="1" >1 năm</option>
+                                <option th:value="1.5" >1,5 năm</option>
+                                <option th:value="2" >2 năm</option>
+                                <option th:value="3" >3 năm</option>
+                                <option th:value="4.5" >4,5 năm</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -65,7 +82,7 @@
                     </div>
 
                     <div class="col-md-6">
-                        <div  class="form-group" >
+                        <div class="form-group" >
                             <h6>Hình thức làm việc</h6>
                             <select th:field="*{formOfWork}" class="form-control">
                                 <option th:value="onsite" th:text="onsite"></option>

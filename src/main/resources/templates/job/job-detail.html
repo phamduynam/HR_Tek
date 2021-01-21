@@ -29,14 +29,32 @@
                             <input type="text" readonly="true" class="form-control" th:field="*{jobTitle}" id="title" />
                         </div>
                         <div class="form-group">
-                            <label>Vị trí tuyển dụng</label>
+                            <h6>Vị trí tuyển dụng</h6>
                             <span th:each="jobPosition : ${jobDetail.jobPositionList}">
                                 <td>
-                                    <tr th:each="position: ${jobPosition.position}">
-                                    <p th:text="${position.positionName}"></p>
-                                    </tr>
+                                    <span th:each="position: ${jobPosition.position}">
+                                    <span th:text="${position.positionName}"></span>
+                                    </span>
                                 <td>
                             </span>
+                        </div>
+                        <div class="form-group">
+                            <h6>Kỹ năng</h6>
+                            <span th:each="jobSkill : ${jobDetail.jobWorkSkills}">
+                                <td>
+                                    <span th:each="skill: ${jobSkill.skill}">
+                                    <span th:text="${skill.skillName}"></span>
+                                    </span>
+                                <td>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Level</label>
+                            <input type="email" readonly="true" class="form-control" th:field="*{level}" id="level" />
+                        </div>
+                        <div class="form-group">
+                            <label for="yearEx">SN Kinh nghiệm</label>
+                            <input type="email" readonly="true" class="form-control" th:field="*{yearExperience}" id="yearEx" />
                         </div>
                         <div class="form-group">
                             <label for="quantity">Số lượng</label>
@@ -46,13 +64,14 @@
                             <label for="start">Thời gian bắt đầu</label>
                             <input type="date" readonly="true" class="form-control" th:field="*{dateStart}" id="start" />
                         </div>
+
+                    </div>
+
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="dateEnd">Thời gian kết thúc</label>
                             <input type="date" readonly="true" class="form-control" th:field="*{dateEnd}" id="dateEnd" />
                         </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="formOfWork">Hình thức làm việc</label>
                             <input type="tel" readonly="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />

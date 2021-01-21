@@ -3,6 +3,7 @@ package com.toprate.hr_tek_demo.controller;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,8 +44,7 @@ public class JobController {
     // danh sach job dang tuyen
     @GetMapping("/list-job")
     public String showJobList(Model model) {
-        model.addAttribute("jobs", jobService.findAllJob());
-        return "job/list-job";
+        return findJobPaginated(1, "jobRecruitmentId", "asc", model);
     }
 
     // thong tin chi tiet 1 job
@@ -72,6 +72,12 @@ public class JobController {
     public String saveJob(@ModelAttribute("job") JobRequirements job) {
 
         jobService.saveJob(job);
+
+        List<JobPosition> lst = job.getJobPositionList();
+
+        for (JobPosition jobPosition : lst) {
+            List<Integer> id = job.getPositionId();
+        }
 
         String jobId = job.getJobRecruitmentId();
         List<Integer> positionsId = job.getPositionId();
@@ -107,23 +113,42 @@ public class JobController {
             job.setJobRecruitmentId(id);
             return "job/edit-job";
         }
+
+        // lay ra danh danh job_position tu db theo jobId
+        List<JobPosition> list = jobPositionService.findAllByJobId(id);
+        for(JobPosition jobPosition : list) {
+            jobPositionService.delete(jobPosition);
+        }
+
+        // lay ra danh sach job_work_skill tu db theo jobId
+        List<JobWorkSkill> listJobWorkSkill = jobWorkSkillService.findAllByJobId(id);
+        for(JobWorkSkill jobWorkSkill : listJobWorkSkill) {
+            jobWorkSkillService.delete(jobWorkSkill);
+        }
+
+        // cap nhat job
         job.setJobRecruitmentId(id);
         jobService.saveJob(job);
 
-        String jobId = job.getJobRecruitmentId();
-        List<Integer> positionsId = job.getPositionId();
-        List<Integer> skillsId = job.getSkillId();
+        // luu cac position moi va skill moi vao db
+        List<JobPosition> lstPosition = job.getJobPositionList();
+        List<JobWorkSkill> lstWorkSkill = job.getJobWorkSkills();
 
-        if(positionsId != null) {
-            for(int positionId : positionsId) {
-                jobPositionService.save(jobId, positionId);
-            }
+        for (JobPosition jobPosition : lstPosition) {
+            int jobWorkPositionId = jobPosition.getJobPositionId();
+            String jobId = job.getJobRecruitmentId();
+            Position position = jobPosition.getPosition();
+            Integer positionId = position.getPositionId();
+            jobPositionService.save(jobId, positionId);
         }
-        if(skillsId != null) {
-            for (int skillId : skillsId) {
-                jobWorkSkillService.save(jobId, skillId);
-            }
+
+        for (JobWorkSkill jobWorkSkill : lstWorkSkill) {
+            String jobId = job.getJobRecruitmentId();
+            Skill skill = jobWorkSkill.getSkill();
+            Integer skillId = skill.getSkillId();
+            jobWorkSkillService.save(jobId, skillId);
         }
+
         return "redirect:/list-job";
     }
 
@@ -141,6 +166,29 @@ public class JobController {
     public String homePage(Model model) {
         model.addAttribute("jobs", jobService.findAllJob());
         return "job/home";
+    }
+
+    // phan trang
+    @GetMapping("/JobPage/{pageNo}")
+    public String findJobPaginated(@PathVariable (value = "pageNo") int pageNo,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDir") String sortDir,
+                                Model model) {
+        int pageSize = 5;
+
+        Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<JobRequirements> jobs = page.getContent();
+
+        model.addAttribute("currentJobPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("jobs", jobs);
+        return "job/list-job";
     }
 
 }

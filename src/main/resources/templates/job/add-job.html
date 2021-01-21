@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group" >
                             <label>Vị trí tuyển dụng</label>
-                            <select th:field="*{positionId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                            <select th:field="*{positionId}" class="choices-multiple-remove-button" placeholder="Select upto 2 tags" multiple>
                                 <option th:each="position : ${positions}"
                                         th:value="${{position.positionId}}"
                                         th:text="${position.positionName}">
@@ -43,11 +43,33 @@
                         </div>
                         <div  class="form-group" >
                             <label>Kỹ năng</label>
-                            <select th:field="*{skillId}" id="choices-multiple-remove-button_1" placeholder="Select upto 2 tags" multiple>
+                            <select th:field="*{skillId}" class="choices-multiple-remove-button" placeholder="Select upto 2 tags" multiple>
                                 <option th:each="skill : ${skills}"
                                         th:value="${{skill.skillId}}"
                                         th:text="${skill.skillName}">
                                 </option>
+                            </select>
+                        </div>
+
+                        <div  class="form-group" >
+                            <h6>Level</h6>
+                            <select th:field="*{level}" class="form-control">
+                                <option th:value="Intern" th:text="Intern"></option>
+                                <option th:value="Fresher" th:text="Fresher"></option>
+                                <option th:value="Junior" th:text="Junior"></option>
+                                <option th:value="Senior" th:text="Senior"></option>
+                            </select>
+                        </div>
+
+                        <div  class="form-group" >
+                            <h6>SN Kinh nghiệm</h6>
+                            <select th:field="*{yearExperience}" class="form-control">
+                                <option th:value="0.5" >6 tháng</option>
+                                <option th:value="1" >1 năm</option>
+                                <option th:value="1.5" >1,5 năm</option>
+                                <option th:value="2" >2 năm</option>
+                                <option th:value="3" >3 năm</option>
+                                <option th:value="4.5" >4,5 năm</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -58,13 +80,14 @@
                             <label for="start">Thời gian bắt đầu</label>
                             <input type="date" required="true" class="form-control" th:field="*{dateStart}" id="start" />
                         </div>
+
+                    </div>
+
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="dateEnd">Thời gian kết thúc</label>
                             <input type="date" required="true" class="form-control" th:field="*{dateEnd}" id="dateEnd" />
                         </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <div  class="form-group" >
                             <h6>Hình thức làm việc</h6>
                             <select th:field="*{formOfWork}" class="form-control">

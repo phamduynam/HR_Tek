@@ -1,9 +1,14 @@
 package com.toprate.hr_tek_demo.secvice.impl;
 
 import com.toprate.hr_tek_demo.model.JobRequirements;
+import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.repository.JobRepository;
 import com.toprate.hr_tek_demo.secvice.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,5 +32,14 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<JobRequirements> findAllJob() {
         return jobRepository.findAllJob();
+    }
+
+    @Override
+    public Page<JobRequirements> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return jobRepository.findAll(pageable);
     }
 }

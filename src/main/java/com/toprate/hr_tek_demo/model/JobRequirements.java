@@ -51,6 +51,12 @@ public class JobRequirements {
     @Column(name = "enable")
     private int enable;
 
+    @Column(name = "levels")
+    private String level;
+
+    @Column(name = "year_experience")
+    private Float yearExperience;
+
     @Transient
     private String position1;
 

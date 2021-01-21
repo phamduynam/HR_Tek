@@ -15,4 +15,5 @@ public interface UserRepository  extends JpaRepository<Users, String> {
 
     @Query(value = "SELECT * FROM user u WHERE u.enable = 1", nativeQuery = true)
     public List<Users> findAllUser();
+
 }

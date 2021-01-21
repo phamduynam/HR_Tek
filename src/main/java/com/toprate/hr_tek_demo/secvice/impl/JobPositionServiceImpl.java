@@ -8,6 +8,10 @@ import com.toprate.hr_tek_demo.secvice.JobPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class JobPositionServiceImpl implements JobPositionService {
     @Autowired
@@ -18,6 +22,20 @@ public class JobPositionServiceImpl implements JobPositionService {
         JobPosition jobPosition = new JobPosition();
         jobPosition.setJobRequirements(new JobRequirements(jobId));
         jobPosition.setPosition(new Position(positionId));
+
         jobPositionRepository.save(jobPosition);
+
     }
+
+    @Override
+    public List<JobPosition> findAllByJobId(String id) {
+        return jobPositionRepository.findAllByJobId(id);
+    }
+
+    @Override
+    public void delete(JobPosition jobPosition) {
+        jobPositionRepository.delete(jobPosition);
+    }
+
+
 }

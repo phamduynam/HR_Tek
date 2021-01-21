@@ -8,6 +8,8 @@ import com.toprate.hr_tek_demo.secvice.JobWorkSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JobWorkSkillServiceImpl implements JobWorkSkillService {
     @Autowired
@@ -18,5 +20,15 @@ public class JobWorkSkillServiceImpl implements JobWorkSkillService {
         jobWorkSkill.setJobRequirements(new JobRequirements(jobId));
         jobWorkSkill.setSkill(new Skill(skillId));
         jobWorkSkillRepository.save(jobWorkSkill);
+    }
+
+    @Override
+    public List<JobWorkSkill> findAllByJobId(String id) {
+        return jobWorkSkillRepository.findAllByJobId(id);
+    }
+
+    @Override
+    public void delete(JobWorkSkill jobWorkSkill) {
+        jobWorkSkillRepository.delete(jobWorkSkill);
     }
 }
