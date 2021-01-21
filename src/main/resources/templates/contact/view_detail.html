@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>View Detail Contact</title>
+</head>
+<body>
+
+<section layout:fragment="content" id="page_content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Thông tin chi tiết</h3>
+                </div>
+                <div class="card-body">
+
+                    <form id = "submit-form"  th:action="@{/contact/save}" method="post" th:object="${contactDto}">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>ID</label>
+                                    <input readonly name="name" th:field="*{candidateId}" type="text" class="form-control"  placeholder="Id" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>Họ Tên</label>
+                                    <input readonly name="name" th:field="*{candidateName}" type="text" class="form-control"  placeholder="Enter Name" autocomplete="off">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ngày Sinh</label>
+                                    <input readonly name="birth_day" th:field="*{birthDay}"  type="date" class="form-control"  placeholder="dd/mm/yyyy">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Giới Tính</label>
+                                    <select readonly name="sex" th:field="*{sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
+                                        <option value ="">Please select...</option>
+                                        <option th:value="Nam" th:text="Nam" disabled></option>
+                                        <option th:value="Nữ" th:text="Nữ" disabled></option>
+                                        <option th:value="Khác" th:text="Khác" disabled></option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >Địa Chỉ</label>
+                                    <input readonly name = "address"  th:field="*{address}" type="text" class="form-control"  placeholder="Enter Address" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label>Số năm kinh nghiệm</label>
+                                    <select readonly name="exp" th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
+                                        <option value ="">Please select...</option>
+                                        <option th:value="0.3" th:text="'3 Tháng'" disabled></option>
+                                        <option th:value="0.5" th:text="'6 Tháng'" disabled></option>
+                                        <option th:value="1" th:text="'1 Năm'" disabled>1 Năm</option>
+                                        <option th:value="2" th:text="'2 Năm'" disabled>2 Năm</option>
+                                        <option th:value="5" th:text="'5 Năm'" disabled>5 Năm</option>
+                                    </select>
+                                </div>
+                                <div readonly class="form-group" data-select-id="4">
+                                    <label>Level</label>
+                                    <select readonly name="level" th:field="*{levels}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                        <option value ="">Please select...</option>
+                                        <option th:value="Junior" th:text="'Junior'" disabled></option>
+                                        <option th:value="Middle" th:text="'Middle'" disabled></option>
+                                        <option th:value="Senior" th:text="'Senior'" disabled></option>
+                                        <option th:value="Master" th:text="'Master'" disabled></option>
+                                    </select>
+                                </div>
+                                <div  class="form-group" >
+                                    <label>Vị trí ứng tuyển</label>
+                                    <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                        <option th:each="position : ${positions}"
+                                                th:value="${{position.positionId}}"
+                                                th:text="${position.positionName}" disabled></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="phone1">Phone 1</label>
+                                    <input readonly name="phone_1" id="phone1" th:field="*{phone1}" type="text" class="form-control"  placeholder="Enter Main Phone" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone2">Phone 2</label>
+                                    <input readonly name="phone_2" id="phone2" th:field="*{phone2}" type="text" class="form-control" placeholder="Enter Extra Phone" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email1">Email 1</label>
+                                    <input readonly name="email_1" id="email1" th:field="*{email1}" type="email" class="form-control"  placeholder="Enter Main Email" autocomplete="off">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email2">Email 2</label>
+                                    <input readonly name="email_2" id="email2" th:field="*{email2}" type="email" class="form-control"  placeholder="Enter Extra Email" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="table-wrapper">
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

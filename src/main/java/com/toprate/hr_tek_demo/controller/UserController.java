@@ -6,9 +6,7 @@ import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
 
 @Controller
 public class UserController {
@@ -53,16 +51,8 @@ public class UserController {
     }
 
     @PostMapping("update/{id}")
-    public String updateUser(@PathVariable("id") String id, @Valid Users user, BindingResult result,
-                                Model model) {
-        if (result.hasErrors()) {
-            user.setUserId(id);
-            return "user/update-user";
-        }
-        user.setUserId(id);
+    public String updateUser(@PathVariable("id") String id) {
 
-        userServiceImpl.saveUser(user);
-//        model.addAttribute("users", userServiceImpl.getAllUser());
         return "redirect:/index";
     }
 

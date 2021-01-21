@@ -3,6 +3,7 @@ package com.toprate.hr_tek_demo.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -77,4 +78,17 @@ public class ContactPosition {
         this.contactPositionId = contactPositionId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContactPosition that = (ContactPosition) o;
+        return Objects.equals(contact, that.contact) &&
+                Objects.equals(position, that.position);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(contact, position);
+    }
 }
