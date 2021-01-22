@@ -123,6 +123,7 @@ public class Contact {
         contactDto.setPhone1(this.getPhone1());
         contactDto.setPhone2(this.getPhone2());
         contactDto.setEmail1(this.getEmail1());
+        contactDto.setEmail2(this.getEmail2());
         contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
         contactDto.setEnable(this.isEnable());
         contactDto.setLevels(this.getLevels());
@@ -374,7 +375,5 @@ public class Contact {
     public void setUser(Users user) {
         this.user = user;
     }
-
-
 
 }

@@ -6,6 +6,7 @@ import com.toprate.hr_tek_demo.secvice.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,62 +38,65 @@ public class ContactServiceImpl implements ContactService {
         String id = contact.getCandidateId();
         // Lấy thằng đã có trong DB
         Contact haveContact = contactRepository.findById(id).get();
-        // Cập nhật Id cho các contactWorkSkill đã có để nó biết đường update
-        List<ContactWorkSkill> beforeContactWorkSkillList = haveContact.getContactWorkSkillList();
-        List<ContactWorkSkill> contactWorkSkillList = contact.getContactWorkSkillList();
-        List<ContactWorkSkill> savedContactWorkSkill = new ArrayList<>();
+        // cập nhật lại những gì mới và lưu vào haveContact
+        haveContact.setCandidateName(contact.getCandidateName());
+        haveContact.setBirthDay(contact.getBirthDay());
+        haveContact.setSex(contact.getSex());
+        haveContact.setYearExperience(contact.getYearExperience());
+        haveContact.setLevels(contact.getLevels());
+        haveContact.setAddress(contact.getAddress());
+        haveContact.setPhone1(contact.getPhone1());
+        haveContact.setPhone2(contact.getPhone2());
+        haveContact.setEmail1(contact.getEmail1());
+        haveContact.setEmail2(contact.getEmail2());
 
-        for (ContactWorkSkill contactWorkSkill : beforeContactWorkSkillList) {
-            for (ContactWorkSkill contactWorkSkillTemp : contactWorkSkillList) {
-                if (contactWorkSkill.getSkill() == contactWorkSkillTemp.getSkill()) {
-                    // cập nhật lần đầu tiên tìm thấy id
-                    contactWorkSkillTemp.setContactWorkSkillId(contactWorkSkill.getContactWorkSkillId());
-                    // thêm vào list đã có
-                    savedContactWorkSkill.add(contactWorkSkill);
+        // Cập nhật ContactWorkSkill
+
+        List<ContactWorkSkill> haveContactWorkSkill = new ArrayList<>(haveContact.getContactWorkSkillList());
+        List<ContactWorkSkill> contactWorkSkills = new ArrayList<>(contact.getContactWorkSkillList());
+
+        List<ContactPosition> haveContactPosition = new ArrayList<>(haveContact.getContactPositionList());
+        List<ContactPosition> contactPositionList =  new ArrayList<>(contact.getContactPositionList());
+
+        for(ContactWorkSkill contactWorkSkill : haveContact.getContactWorkSkillList()){
+            for(ContactWorkSkill contactWorkSkill1 : contact.getContactWorkSkillList()){
+                if(contactWorkSkill.getSkill().equals(contactWorkSkill1.getSkill())){
+                    contactWorkSkill1.setContactWorkSkillId(contactWorkSkill.getContactWorkSkillId());
                     break;
                 }
             }
         }
-        // Cập nhật list skill
-        contact.setContactWorkSkillList(contactWorkSkillList);
-        // Cập nhật Id cho các contactPosition đã có để nó biết đường update
-        List<ContactPosition> beforeContactPositionList = haveContact.getContactPositionList();
-        List<ContactPosition> contactPositionList = contact.getContactPositionList();
-        List<ContactPosition> savedContactPosition = new ArrayList<>();
-        // Gặp phần tử đầu tiên trùng skill thì cập nhật id rồi break
-        for (ContactPosition contactPosition : beforeContactPositionList) {
-            for (ContactPosition contactPositionTemp : contactPositionList) {
-                if (contactPosition.getPosition() == contactPositionTemp.getPosition()) {
-                    // Cập nhật Id cho contactPosition
-                    contactPositionTemp.setContactPositionId(contactPosition.getContactPositionId());
-                    // Thêm vào list position đã có
-                    savedContactPosition.add(contactPosition);
+
+        for (ContactPosition contactPosition : haveContact.getContactPositionList()){
+            for (ContactPosition contactPosition1 : contact.getContactPositionList()){
+                if(contactPosition.getPosition().equals(contactPosition1.getPosition())){
+                    contactPosition1.setContactPositionId(contactPosition.getContactPositionId());
                     break;
                 }
             }
         }
-        // cập nhật list position
-        contact.setContactPositionList(contactPositionList);
-        // Danh sách các skill và position cần xóa
-       beforeContactWorkSkillList.removeAll(savedContactWorkSkill);
-       beforeContactPositionList.removeAll(savedContactPosition);
 
-        // Xóa ContactWorkSkill thừa
-        for(Iterator<ContactWorkSkill> iterator = beforeContactWorkSkillList.iterator(); iterator.hasNext();){
-            ContactWorkSkill contactWorkSkill = iterator.next();
+        // Xóa list cũ
+        for(ContactWorkSkill contactWorkSkill : haveContactWorkSkill){
             haveContact.removeContactWorkSkill(contactWorkSkill);
             contactWorkSkill.getSkill().removeContactWorkSkill(contactWorkSkill);
         }
 
-        // Xóa ContactPosition thừa
-        for(Iterator<ContactPosition> iterator = beforeContactPositionList.iterator(); iterator.hasNext();){
-            ContactPosition contactPosition = iterator.next();
+        for(ContactPosition contactPosition : haveContactPosition){
             haveContact.removeContactPosition(contactPosition);
             contactPosition.getPosition().removeContactPosition(contactPosition);
         }
-        contactRepository.saveAndFlush(haveContact);
-        saveContact(contact);
 
+        // Thêm List mới lại từ đầu
+        for(ContactWorkSkill contactWorkSkill : contactWorkSkills){
+            haveContact.addContactWorkSkill(contactWorkSkill);
+        }
+
+        for(ContactPosition contactPosition : contactPositionList){
+            haveContact.addContactPosition(contactPosition);
+        }
+
+        contactRepository.saveAndFlush(haveContact);
     }
 
     // Hàm này đẻ tối ưu, chưa có logic
@@ -117,9 +121,5 @@ public class ContactServiceImpl implements ContactService {
         for (ContactPosition contactPosition : contactPositionList) {
             contactPosition.setContact(contactSave);
         }
-        // Lưu list Position
-        contactPositionService.saveList(contactPositionList);
-        // Lưu list skill
-        contactWorkSkillService.saveList(contactWorkSkillList);
     }
 }
