@@ -154,6 +154,26 @@ public class JobRequirements {
         this.user = user;
     }
 
+    public void deleteJobWorkSkill(JobWorkSkill jobWorkSkill) {
+        jobWorkSkill.setJobRequirements(null);
+        this.getJobPositionList().remove(jobWorkSkill);
+    }
+
+    public void deleteJobPosition(JobPosition jobPosition) {
+        jobPosition.setJobRequirements(null);
+        this.getJobPositionList().remove(jobPosition);
+    }
+
+    public void addJobWorkSkill(JobWorkSkill jobWorkSkill) {
+        jobWorkSkill.setJobRequirements(this);
+        this.jobWorkSkills.add(jobWorkSkill);
+    }
+
+    public void addJobPosition(JobPosition jobPosition) {
+        jobPosition.setJobRequirements(this);
+        this.jobPositionList.add(jobPosition);
+    }
+
     public JobRequirements(String jobRecruitmentId) {
         this.jobRecruitmentId = jobRecruitmentId;
     }

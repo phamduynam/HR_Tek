@@ -103,13 +103,8 @@ public class JobController {
         return "job/edit-job";
     }
 
-    @PostMapping("update-job/{id}")
-    public String updateUser(@PathVariable("id") String id, JobDto job, BindingResult result,
-                             Model model) {
-        if (result.hasErrors()) {
-            job.setJobRecruitmentId(id);
-            return "job/edit-job";
-        }
+    @PostMapping("update-job")
+    public String updateJob(@ModelAttribute("job") JobDto job) {
 
         JobRequirements jobRequirement = job.convertToModel();
         jobService.updateJob(jobRequirement);
@@ -140,7 +135,7 @@ public class JobController {
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
-        int pageSize = 5;
+        int pageSize = 10;
 
         Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<JobRequirements> jobs = page.getContent();

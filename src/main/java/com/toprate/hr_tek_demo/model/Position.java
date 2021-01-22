@@ -95,4 +95,9 @@ public class Position {
         this.contactPositionList.remove(contactPosition);
         contactPosition.setPosition(null);
     }
+
+    public void deleteJobPosition(JobPosition jobPosition) {
+        this.jobPositionList.remove(jobPosition);
+        jobPosition.setPosition(null);
+    }
 }

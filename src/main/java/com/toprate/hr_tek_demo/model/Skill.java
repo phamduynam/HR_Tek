@@ -83,6 +83,11 @@ public class Skill {
         contactWorkSkill.setContact(null);
         this.contactWorkSkillList.remove(contactWorkSkill);
     }
+
+    public void deleteJobWorkSkill(JobWorkSkill jobWorkSkill) {
+        jobWorkSkill.setJobRequirements(null);
+        this.contactWorkSkillList.remove(jobWorkSkill);
+    }
     public void addContactWorkSkill(ContactWorkSkill contactWorkSkill){
         contactWorkSkill.setSkill(this);
         this.contactWorkSkillList.add(contactWorkSkill);
