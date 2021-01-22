@@ -37,5 +37,10 @@ public class JobPositionServiceImpl implements JobPositionService {
         jobPositionRepository.delete(jobPosition);
     }
 
+    @Override
+    public void saveAll(List<JobPosition> jobPositionList) {
+        jobPositionRepository.saveAll(jobPositionList);
+    }
+
 
 }

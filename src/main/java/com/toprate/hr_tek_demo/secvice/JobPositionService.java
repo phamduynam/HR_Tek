@@ -12,4 +12,7 @@ public interface JobPositionService {
     public List<JobPosition> findAllByJobId(String id);
 
     public void delete(JobPosition jobPosition);
+
+    public void saveAll(List<JobPosition> jobPositionList);
+
 }

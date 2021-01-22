@@ -55,6 +55,7 @@ public class ContactServiceImpl implements ContactService {
         }
         // Cập nhật list skill
         contact.setContactWorkSkillList(contactWorkSkillList);
+
         // Cập nhật Id cho các contactPosition đã có để nó biết đường update
         List<ContactPosition> beforeContactPositionList = haveContact.getContactPositionList();
         List<ContactPosition> contactPositionList = contact.getContactPositionList();

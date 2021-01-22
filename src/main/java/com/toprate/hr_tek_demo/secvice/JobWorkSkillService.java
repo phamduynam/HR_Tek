@@ -10,4 +10,6 @@ public interface JobWorkSkillService {
     public List<JobWorkSkill> findAllByJobId(String id);
 
     public void delete(JobWorkSkill jobWorkSkill);
+
+    public void saveAll(List<JobWorkSkill> jobWorkSkillList);
 }

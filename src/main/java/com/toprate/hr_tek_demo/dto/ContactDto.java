@@ -7,7 +7,6 @@ import com.toprate.hr_tek_demo.model.Position;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Temporal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

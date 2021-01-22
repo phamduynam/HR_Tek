@@ -31,4 +31,9 @@ public class JobWorkSkillServiceImpl implements JobWorkSkillService {
     public void delete(JobWorkSkill jobWorkSkill) {
         jobWorkSkillRepository.delete(jobWorkSkill);
     }
+
+    @Override
+    public void saveAll(List<JobWorkSkill> jobWorkSkillList) {
+        jobWorkSkillRepository.saveAll(jobWorkSkillList);
+    }
 }

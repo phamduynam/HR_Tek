@@ -86,14 +86,14 @@
                                     <label for="email2">Email 2</label>
                                     <input name="email_2" id="email2" th:field="*{email2}" type="email" class="form-control"  placeholder="Enter Extra Email" autocomplete="off">
                                 </div>
-                                    <div  class="form-group" >
-                                        <label>Vị trí ứng tuyển</label>
-                                        <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
-                                            <option th:each="position : ${positions}"
-                                                    th:value="${{position.positionId}}"
-                                                    th:text="${position.positionName}"></option>
-                                        </select>
-                                    </div>
+                                <div  class="form-group" >
+                                    <label>Vị trí ứng tuyển</label>
+                                    <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                        <option th:each="position : ${positions}"
+                                                th:value="${{position.positionId}}"
+                                                th:text="${position.positionName}"></option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="table-wrapper">
@@ -115,9 +115,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="sample-element" th:each = "contactWK,stat : ${contactDto.contactWorkSkillList}">
-
-                                </tr>
+                                    <tr class="sample-element" th:each = "contactWK,stat : ${contactDto.contactWorkSkillList}"></tr>
                                 </tbody>
                             </table>
                             <input type="submit" value="Create new Contact" class="btn btn-success float-left">
@@ -146,7 +144,8 @@
                         </div>
                         <div class="des">
                                     <textarea id="contactWorkSkillList*.description" name="contactWorkSkillList[*].description"
-                                              class="form-control"></textarea>
+                                              class="form-control">
+                                    </textarea>
                         </div>
                         <div class="action">
                             <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
@@ -178,7 +177,7 @@
                 return res.html()
             }
             // Append table with add row form on add new button click
-            var index = 0;
+            var index = 1;
             $(".add-new").click(function(){
 
                 // Nếu có skill thì gán index là số thứ tự hàng cuối cùng

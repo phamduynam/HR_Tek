@@ -14,5 +14,9 @@ public interface JobService {
 
     public List<JobRequirements> findAllJob();
 
+    public void updateJob(JobRequirements jobRequirement);
+
+    public void deleteJob(JobRequirements job);
+
     Page<JobRequirements> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 }
