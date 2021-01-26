@@ -14,5 +14,7 @@ public interface UserService {
     public void deleteUser(Users user);
     public Optional<Users> findUserById(String id);
 
+    public List<Users> searchUserByKeyword(String role, String status);
+
     Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 }

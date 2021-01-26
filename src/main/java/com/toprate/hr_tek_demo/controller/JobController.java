@@ -1,6 +1,5 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.dto.ContactDto;
 import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.impl.*;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 ;
 import java.util.ArrayList;
@@ -149,9 +147,13 @@ public class JobController {
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("jobs", jobs);
+        model.addAttribute("partners", partnerService.findAllPartner());
         model.addAttribute("skills", skillService.getAllSkill());
         model.addAttribute("positions", positionService.getAllPosition());
         return "job/list-job";
     }
+
+    // search full text
+
 
 }

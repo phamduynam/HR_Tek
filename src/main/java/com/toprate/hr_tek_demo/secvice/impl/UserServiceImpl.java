@@ -40,6 +40,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Users> searchUserByKeyword(String role, String status) {
+        if(role != null && status != null) {
+            userRepository.searchUser(role, status);
+        }
+        return userRepository.findAllUser();
+    }
+
+    @Override
     public Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();

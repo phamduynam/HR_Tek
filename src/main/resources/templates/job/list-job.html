@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.w3.org/1999/xhtml"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout.html}"
->
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <head>
     <meta charset="UTF-8">
     <title>Danh sách các Job đang tuyển</title>
@@ -75,17 +72,18 @@
                                         <select  class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                             <option></option>
                                             <option th:value = "0.5">6 tháng</option>
-                                            <option>1 năm</option>
-                                            <option>2 năm</option>
-                                            <option>5 năm</option>
+                                            <option th:value = "1">1 năm</option>
+                                            <option th:value = "2">2 năm</option>
+                                            <option th:value = "5">5 năm</option>
                                         </select>
                                     </div>
                                     <div class="form-group" data-select-id="5">
                                         <label>Đối tác</label>
                                         <select  class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-<!--                                            <option th:each="partner : ${job.partner}"-->
-<!--                                                    th:text="${partner.partnerName}">-->
-<!--                                            </option>-->
+                                            <option th:each="partner : ${partners}"
+                                                    th:value = "${partner}"
+                                                    th:text="${partner.partnerName}">
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="form-group" data-select-id="6">
@@ -163,11 +161,11 @@
                             <td class="text-right py-0 align-middle">
                                 <div class="btn-group btn-group-sm btn-group-justified">
                                     <a th:href="@{/job-detail/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
-                                        <i class="icofont icofont-eye"></i></a>
+                                        <i style="color: #0d6aad" class="icofont icofont-eye"></i></a>
                                     <a th:href="@{/edit-job/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
-                                        <i class="icofont icofont-ui-edit"></i></a>
+                                        <i style="color: #0d6aad" class="icofont icofont-ui-edit"></i></a>
                                     <a id="deleteButton" th:href="@{/delete-job/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm" >
-                                        <i class="icofont icofont-ui-delete"></i></a>
+                                        <i style="color: #0d6aad" class="icofont icofont-ui-delete"></i></a>
                                 </div>
                             </td>
                         </tr>
