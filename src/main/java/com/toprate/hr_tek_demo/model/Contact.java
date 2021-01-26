@@ -77,36 +77,35 @@ public class Contact {
     @Column
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
-    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL,orphanRemoval=true) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL,orphanRemoval=true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<AssignHr> assignHrList;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval=true)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ContactWorkSkill> contactWorkSkillList;
 
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL , orphanRemoval=true)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ContactPosition> contactPositionList;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval=true)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<TakeCareTransaction> takeCareTransactionList;
 
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL , orphanRemoval=true)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<CV> cvList;
 
     @ManyToOne
-    @JoinColumn(name = "user_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Users user;
@@ -127,6 +126,7 @@ public class Contact {
         contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
         contactDto.setEnable(this.isEnable());
         contactDto.setLevels(this.getLevels());
+        contactDto.setBlackList(this.getBlackList());
 
         ArrayList<Position> listPosition = new ArrayList<>();
         if(this.getContactPositionList() != null){

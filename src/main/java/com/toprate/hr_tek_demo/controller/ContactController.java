@@ -1,12 +1,14 @@
 package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.ContactDto;
+import com.toprate.hr_tek_demo.dto.SearchDto;
 import com.toprate.hr_tek_demo.excel.MyFile;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.ContactWorkSkill;
 import com.toprate.hr_tek_demo.secvice.impl.ContactServiceImpl;
 import com.toprate.hr_tek_demo.secvice.impl.PositionServiceImpl;
 import com.toprate.hr_tek_demo.secvice.impl.SkillServiceImpl;
+import com.toprate.hr_tek_demo.secvice.impl.StatusServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,8 @@ public class ContactController {
     @Autowired
     private SkillServiceImpl skillService;
 
+    @Autowired
+    private StatusServiceImpl statusService;
 
     @GetMapping("/view-contacts")
     public String getContactView(Model model){
@@ -35,7 +39,20 @@ public class ContactController {
         model.addAttribute("contacts", contactService.getAllContactTrue());
         model.addAttribute("positions",positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        System.out.println();
+        model.addAttribute("statusList",statusService.getAllStatus());
+        model.addAttribute("searchDto",new SearchDto());
+        return "/contact/contacts";
+    }
+
+    @GetMapping("/search")
+    public String searchContact(@ModelAttribute("searchDto") SearchDto searchDto,Model model){
+        MyFile myFile = new MyFile();
+        model.addAttribute("myFile",myFile);
+        model.addAttribute("contacts", contactService.search(searchDto));
+        model.addAttribute("positions",positionService.getAllPosition());
+        model.addAttribute("skills",skillService.getAllSkill());
+        model.addAttribute("statusList",statusService.getAllStatus());
+        model.addAttribute("searchDto",searchDto);
         return "/contact/contacts";
     }
 
@@ -53,8 +70,7 @@ public class ContactController {
         mav.addObject("contactDto",contactDto);
         return mav;
     }
-//    @GetMapping("/add-new-skill")
-
+        
     @PostMapping("/save")
     public String saveContact(@ModelAttribute("contactDto") ContactDto contactDto) {
         Contact contact = contactDto.convertToModel();

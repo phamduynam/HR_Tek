@@ -1,6 +1,7 @@
 package com.toprate.hr_tek_demo.secvice;
 
 import com.toprate.hr_tek_demo.dto.ContactDto;
+import com.toprate.hr_tek_demo.dto.SearchDto;
 import com.toprate.hr_tek_demo.model.Contact;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,6 @@ public interface ContactService {
 
     public void updateContact(Contact contact);
 
+    public List<Contact> search(SearchDto searchDto);
 
 }
