@@ -1,11 +1,19 @@
 package com.toprate.hr_tek_demo.secvice.impl;
 
+import com.toprate.hr_tek_demo.dto.SearchDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.repository.ContactRepository;
 import com.toprate.hr_tek_demo.secvice.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -99,27 +107,49 @@ public class ContactServiceImpl implements ContactService {
         contactRepository.saveAndFlush(haveContact);
     }
 
-    // Hàm này đẻ tối ưu, chưa có logic
-    public void deleteExcess(Contact contact,Contact newContact){
-        // Muốn xóa một skill trong contact phải remove lần lượt các skill đó khỏi list
-        // Không được xóa bằng cách setList =  newList vì nó sẽ bị lỗi.
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public List<Contact> search(SearchDto searchDto) {
+
+        // Logic search
+        String search = "SELECT c.* FROM Contact c " +
+                "JOIN TakeCareTransaction t ON c.candidateId = t.candidateId" +
+                "JOIN Status st ON st.status_id = t.status_id " +
+                "JOIN ContactWorkSkill cwk ON cwk.candidateId = c.candidateId" +
+                "JOIN Skill sk ON cwk.skillId = sk.skillId" +
+                "JOIN ContactPosition cp ON cp.candidateId = c.candidateId" +
+                "JOIN Position p ON cp.position " +
+                "WHERE c.isEnable = true ";
+
+
+        String testQuery = "SELECT c.* FROM Contact c WHERE c.is_black_list = '0'";
+
+        Query query = entityManager.createNativeQuery(testQuery,Contact.class);
+
+        List<Contact> seachContact = (List<Contact>) query.getResultList();
+        return seachContact;
     }
 
     @Override
     public void saveContact(Contact contact) {
         // Lưu contact
-        Contact contactSave = contactRepository.saveAndFlush(contact);
-
         // Lưu contact trong ContactWorkSkil
         // lấy danh sách các skill của contact gửi lên
-        List<ContactWorkSkill> contactWorkSkillList = contactSave.getContactWorkSkillList();
+        List<ContactWorkSkill> contactWorkSkillList = contact.getContactWorkSkillList();
         for (ContactWorkSkill contactWorkSkill : contactWorkSkillList) {
-            contactWorkSkill.setContact(contactSave);
+            contactWorkSkill.setContact(contact);
         }
         // Lưu contact trong ContactPosition
-        List<ContactPosition> contactPositionList = contactSave.getContactPositionList();
+        List<ContactPosition> contactPositionList = contact.getContactPositionList();
         for (ContactPosition contactPosition : contactPositionList) {
-            contactPosition.setContact(contactSave);
+            contactPosition.setContact(contact);
         }
+        Contact contactSave = contactRepository.saveAndFlush(contact);
     }
+
+
+
 }

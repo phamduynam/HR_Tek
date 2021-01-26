@@ -17,7 +17,6 @@ public interface ContactRepository extends JpaRepository<Contact,String> {
     @Query("SELECT c FROM Contact c WHERE c.isEnable = true")
     Collection<Contact> findByIs_enableTrue();
 
-
     Optional<Contact> findByEmail1(String gmail1);
 
     Optional<Contact> findByEmail2(String gmail2);
@@ -25,4 +24,6 @@ public interface ContactRepository extends JpaRepository<Contact,String> {
     Optional<Contact> findByPhone1(String phone1);
 
     Optional<Contact> findByPhone2(String phone2);
+
+
 }

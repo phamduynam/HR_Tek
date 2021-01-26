@@ -82,6 +82,7 @@ public class ContactDto {
         contact.setSex(this.getSex());
         contact.setLinkCv(this.getLinkCv());
         contact.setEnable(this.isEnable());
+        contact.setBlackList(this.getBlackList());
 
         // Add skill not null
         List<ContactWorkSkill> contactWorkSkillList = new ArrayList<>();
@@ -110,6 +111,7 @@ public class ContactDto {
 
     public ContactDto() {
         this.setEnable(true);
+        this.setBlackList(false);
     }
 
     public String getCandidateId() {
