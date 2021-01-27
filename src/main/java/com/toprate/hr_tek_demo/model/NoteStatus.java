@@ -19,6 +19,14 @@ public class NoteStatus {
     @Column(name = "note_description")
     private String noteDescription;
 
+
+    @OneToOne
+    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại contact_candidate_id
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private TakeCareTransaction takeCareTransaction;
+
+
     @ManyToOne
     @JoinColumn(name = "status_id") // thông qua khóa ngoại contact_candidate_id
     @EqualsAndHashCode.Exclude

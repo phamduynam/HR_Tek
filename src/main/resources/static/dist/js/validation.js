@@ -20,6 +20,22 @@ $(function () {
             // allow any non-whitespace characters as the host part
             return this.optional( element ) || /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@(?:\S{1,63})$/.test( value );
         },"Không nên chứa kí tự đặc biệt");
+
+        // upload file check null
+        $("#formSubmitFile").validate({
+            rules: {
+                multipartFile: {
+                    required: true
+                }
+            },
+            messages: {
+                multipartFile: {
+                    required: "Bạn chưa chọn file !"
+                }
+            }
+        });
+
+
         // Validate chỉ bắt theo tên của trường th:field
         $("#submit-form").validate({
         rules: {

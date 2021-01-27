@@ -123,10 +123,10 @@ public class Contact {
         contactDto.setPhone2(this.getPhone2());
         contactDto.setEmail1(this.getEmail1());
         contactDto.setEmail2(this.getEmail2());
-        contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
         contactDto.setEnable(this.isEnable());
         contactDto.setLevels(this.getLevels());
         contactDto.setBlackList(this.getBlackList());
+        contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
 
         ArrayList<Position> listPosition = new ArrayList<>();
         if(this.getContactPositionList() != null){
