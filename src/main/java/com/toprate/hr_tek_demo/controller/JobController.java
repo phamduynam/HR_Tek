@@ -62,7 +62,7 @@ public class JobController {
         model.addAttribute("contacts", contacts);
         model.addAttribute("jobDetail", jobDetail);
         model.addAttribute("positions", positionService.getAllPosition());
-        model.addAttribute("skills",skillService.getAllSkill());
+        model.addAttribute("skills", skillService.getAllSkill());
         return "job/job-detail";
     }
 

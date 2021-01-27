@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,12 +24,16 @@ public class JobRequirements {
     @Column(name = "job_recruitment_id")
     private String jobRecruitmentId;
 
+    @NotNull(message = "Title can not be null!!")
+    @NotEmpty(message = "Title can not be empty!!")
     @Column(name = "job_title")
     private String jobTitle;
 
+    @NotNull
     @Column(name = "quantity")
     private int quantity;
 
+    @NotNull
     @Column(name = "form_of_work")
     private String formOfWork;
 
