@@ -1,9 +1,6 @@
 package com.toprate.hr_tek_demo.dto;
 
-import com.toprate.hr_tek_demo.model.Contact;
-import com.toprate.hr_tek_demo.model.ContactPosition;
-import com.toprate.hr_tek_demo.model.ContactWorkSkill;
-import com.toprate.hr_tek_demo.model.Position;
+import com.toprate.hr_tek_demo.model.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -50,6 +47,10 @@ public class ContactDto {
 
     private List<Position> positionList;
 
+    private List<TakeCareTransaction> takeCareTransactionList;
+
+    private List<CV> cvList;
+
     public List<Position> getPositionList() {
         return positionList;
     }
@@ -64,6 +65,22 @@ public class ContactDto {
 
     public void setContactWorkSkillList(List<ContactWorkSkill> contactWorkSkillList) {
         this.contactWorkSkillList = contactWorkSkillList;
+    }
+
+    public List<TakeCareTransaction> getTakeCareTransactionList() {
+        return takeCareTransactionList;
+    }
+
+    public void setTakeCareTransactionList(List<TakeCareTransaction> takeCareTransactionList) {
+        this.takeCareTransactionList = takeCareTransactionList;
+    }
+
+    public List<CV> getCvList() {
+        return cvList;
+    }
+
+    public void setCvList(List<CV> cvList) {
+        this.cvList = cvList;
     }
 
     public Contact convertToModel() {

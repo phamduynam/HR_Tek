@@ -40,16 +40,9 @@ public class TakeCareTransaction {
     @ToString.Exclude
     private List<BlackListAction> blackListActionList;
 
-    @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Note> noteList;
+    @OneToOne(mappedBy = "takeCareTransaction" )
+    private NoteStatus noteStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "status_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Status status;
 
     @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude

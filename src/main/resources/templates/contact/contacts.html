@@ -96,25 +96,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body"  >
-                                <div class="row">
-                                    <div class="col-6">
-                                        <a th:href="@{/contact/add}" class="btn btn-success">Add New</a>
-                                    </div>
+                        </form>
+                        <div class="card-body"  >
+                            <div class="row">
+                                <div class="col-6">
+                                    <a th:href="@{/contact/add}" class="btn btn-success">Add Contact</a>
+                                </div>
 
-                                    <div class="col-6">
-                                        <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{contact/import}" enctype="multipart/form-data" >
-                                            <div class="form-group">
-                                                <input th:field="*{multipartFile}" type="file" class="form-control" id="myFile" name="filename">
+                                <div class="col-6">
+                                    <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{contact/import}" enctype="multipart/form-data" >
+                                        <div class="input-group">
+                                            <div class="input-group-btn">
+                                                <button type="submit" class="btn btn-warning ">Upload</button>
                                             </div>
-                                            <div class="mt-3">
-                                                <button id="submitFile" type="submit" class="btn btn-primary">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                            <input type="file" th:field="*{multipartFile}" class="form-control" id="multipartFile" name="multipartFile">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
                     </div>
                 </div>
