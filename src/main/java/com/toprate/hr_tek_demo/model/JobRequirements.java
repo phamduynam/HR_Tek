@@ -1,10 +1,12 @@
 package com.toprate.hr_tek_demo.model;
 
+import com.toprate.hr_tek_demo.dto.JobDto;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,23 +53,11 @@ public class JobRequirements {
     @Column(name = "enable")
     private int enable;
 
-    @Transient
-    private String position1;
+    @Column(name = "levels")
+    private String level;
 
-    @Transient
-    private String skill;
-
-    @Transient
-    private String address;
-
-    @Transient
-    private String partner1;
-
-    @Transient
-    private List<Integer> positionId;
-
-    @Transient
-    private List<Integer> skillId;
+    @Column(name = "year_experience")
+    private Float yearExperience;
 
     @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
     @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
@@ -89,30 +79,99 @@ public class JobRequirements {
     @ToString.Exclude // Khong sử dụng trong toString()
     private List<TakeCareTransaction> takeCareTransactionList;
 
-
     //FK
     @ManyToOne
-    @JoinColumn(name = "partner_id", nullable = false) // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "partner_id") // thông qua khóa ngoại job_recruitment_id
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Partner partner;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "location_city_id", nullable = false) // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "location_city_id") // thông qua khóa ngoại job_recruitment_id
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Location location;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "user_id") // thông qua khóa ngoại job_recruitment_id
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Users user;
 
     public JobRequirements() {
+        this.setEnable(1);
+    }
 
+    public JobDto convertToJobDto() {
+        JobDto jobDto = new JobDto();
+        jobDto.setJobRecruitmentId(this.jobRecruitmentId);
+        jobDto.setJobTitle(this.jobTitle);
+        jobDto.setQuantity(this.quantity);
+        jobDto.setFormOfWork(this.formOfWork);
+        jobDto.setDateStart(this.dateStart);
+        jobDto.setDateEnd(this.dateEnd);
+        jobDto.setStartSalary(this.startSalary);
+        jobDto.setDescription(this.description);
+        jobDto.setLevel(this.level);
+        jobDto.setYearExperience(this.yearExperience);
+        jobDto.setJobWorkSkills(this.jobWorkSkills);
+        jobDto.setPartner(this.partner);
+        jobDto.setLocation(this.location);
+        jobDto.setUser(this.user);
+
+        ArrayList<Position> listPosition = new ArrayList<>();
+        if(this.getJobPositionList() != null){
+            for (JobPosition jobPosition : this.getJobPositionList()) {
+                listPosition.add(jobPosition.getPosition());
+            }
+        }
+        jobDto.setPositionList(listPosition);
+
+        return jobDto;
+    }
+
+    public JobRequirements(String jobRecruitmentId, String jobTitle, int quantity, String formOfWork, Date dateStart, Date dateEnd, float startSalary, float endSalary, String description, int enable, String level, Float yearExperience, List<AssignHrJob> assignHrJobList, List<JobWorkSkill> jobWorkSkills, List<JobPosition> jobPositionList, List<TakeCareTransaction> takeCareTransactionList, Partner partner, Location location, Users user) {
+        this.jobRecruitmentId = jobRecruitmentId;
+        this.jobTitle = jobTitle;
+        this.quantity = quantity;
+        this.formOfWork = formOfWork;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.startSalary = startSalary;
+        this.endSalary = endSalary;
+        this.description = description;
+        this.enable = enable;
+        this.level = level;
+        this.yearExperience = yearExperience;
+        this.assignHrJobList = assignHrJobList;
+        this.jobWorkSkills = jobWorkSkills;
+        this.jobPositionList = jobPositionList;
+        this.takeCareTransactionList = takeCareTransactionList;
+        this.partner = partner;
+        this.location = location;
+        this.user = user;
+    }
+
+    public void deleteJobWorkSkill(JobWorkSkill jobWorkSkill) {
+        jobWorkSkill.setJobRequirements(null);
+        this.getJobPositionList().remove(jobWorkSkill);
+    }
+
+    public void deleteJobPosition(JobPosition jobPosition) {
+        jobPosition.setJobRequirements(null);
+        this.getJobPositionList().remove(jobPosition);
+    }
+
+    public void addJobWorkSkill(JobWorkSkill jobWorkSkill) {
+        jobWorkSkill.setJobRequirements(this);
+        this.jobWorkSkills.add(jobWorkSkill);
+    }
+
+    public void addJobPosition(JobPosition jobPosition) {
+        jobPosition.setJobRequirements(this);
+        this.jobPositionList.add(jobPosition);
     }
 
     public JobRequirements(String jobRecruitmentId) {

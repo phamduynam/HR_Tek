@@ -68,6 +68,7 @@ public class ContactServiceImpl implements ContactService {
             }
         }
 
+
         for (ContactPosition contactPosition : haveContact.getContactPositionList()){
             for (ContactPosition contactPosition1 : contact.getContactPositionList()){
                 if(contactPosition.getPosition().equals(contactPosition1.getPosition())){
@@ -126,6 +127,7 @@ public class ContactServiceImpl implements ContactService {
         return seachContact;
     }
 
+
     @Override
     public void saveContact(Contact contact) {
         // Lưu contact
@@ -143,6 +145,11 @@ public class ContactServiceImpl implements ContactService {
         Contact contactSave = contactRepository.saveAndFlush(contact);
     }
 
+
+    @Override
+    public List<Contact> findAllContactForJob(String id) {
+        return contactRepository.findAllContactForJob(id);
+    }
 
 
 }
