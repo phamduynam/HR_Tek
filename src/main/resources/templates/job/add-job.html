@@ -17,12 +17,13 @@
                 </div>
                 <div class="card-body">
 
-                    <form id = "submit-form"  th:action="@{/save-job}" method="post" th:object="${newJob}">
+                    <form id = "add-job"  th:action="@{/save-job}" method="post" th:object="${newJob}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tiêu đề tuyển dụng</label>
-                                    <input name="name" th:field="*{jobTitle}" type="text" class="form-control"  placeholder="Enter Job Title" autocomplete="off">
+                                    <input th:field="*{jobTitle}" id="jobTitle" type="text" class="form-control"  placeholder="Enter Job Title" autocomplete="off">
+                                    <p class="alert alert-danger" th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}">
                                 </div>
 
                                 <div class="form-group">

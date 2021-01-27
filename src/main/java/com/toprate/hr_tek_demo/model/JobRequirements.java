@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,19 +38,25 @@ public class JobRequirements {
     @Column(name = "form_of_work")
     private String formOfWork;
 
+    @NotNull(message = "Please enter birth date")
+    @Past(message = "Birth date should be less than current date!!")
     @Column(name = "date_start")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
 
+    @NotNull(message = "Please enter birth date")
+    @Past(message = "Birth date should be less than current date!!")
     @Column(name = "date_end")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateEnd;
 
+    @NotNull
     @Column(name = "start_salary")
     private float startSalary;
 
+    @NotNull
     @Column(name = "end_salary")
     private float endSalary;
 

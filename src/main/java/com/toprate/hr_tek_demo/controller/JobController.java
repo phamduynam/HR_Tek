@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 ;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,12 @@ public class JobController {
     }
 
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
-    public String saveJob(@ModelAttribute("newJob") JobDto newJob) {
+    public String saveJob(@Valid @ModelAttribute("newJob") JobDto newJob, Errors errors) {
+
+        if (null != errors && errors.getErrorCount() > 0) {
+            return "job/add-job";
+        }
+
         JobRequirements jobRequirement = newJob.convertToModel();
         jobService.saveJob(jobRequirement);
         return "redirect:/list-job";
