@@ -19,4 +19,6 @@ public interface ContactService {
 
     public List<Contact> search(SearchDto searchDto);
 
+    public List<Contact> findAllContactForJob(String id);
+
 }

@@ -1,6 +1,8 @@
 package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.JobDto;
+import com.toprate.hr_tek_demo.dto.SearchJobDto;
+import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +41,13 @@ public class JobController {
     @Autowired
     private SkillServiceImpl skillService;
 
+    @Autowired
+    private ContactServiceImpl contactService;
+
     // danh sach job dang tuyen
     @GetMapping("/list-job")
-    public String showJobList(Model model) {
-        return findJobPaginated(1, "jobRecruitmentId", "asc", model);
+    public String showJobList(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
+        return findJobPaginated(1, "jobRecruitmentId", "asc", model, searchJobDto);
     }
 
     // thong tin chi tiet 1 job
@@ -52,6 +57,9 @@ public class JobController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
         JobDto jobDetail = jobRequirement.convertToJobDto();
 
+        List<Contact> contacts = contactService.findAllContactForJob(id);
+
+        model.addAttribute("contacts", contacts);
         model.addAttribute("jobDetail", jobDetail);
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
@@ -132,7 +140,7 @@ public class JobController {
     public String findJobPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
-                                Model model) {
+                                Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
         int pageSize = 10;
 
         Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
@@ -150,10 +158,21 @@ public class JobController {
         model.addAttribute("partners", partnerService.findAllPartner());
         model.addAttribute("skills", skillService.getAllSkill());
         model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("locations", locationService.findAllLocation());
         return "job/list-job";
     }
 
     // search full text
+    // tim kiem
+    @RequestMapping("/search-job")
+    public String viewHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto ) {
+        List<JobRequirements> jobs = jobService.searchJobByKeyword(searchJobDto);
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("partners", partnerService.findAllPartner());
+        model.addAttribute("locations", locationService.findAllLocation());
+        model.addAttribute("positions", positionService.getAllPosition());
 
+        return "job/search-job";
+    }
 
 }

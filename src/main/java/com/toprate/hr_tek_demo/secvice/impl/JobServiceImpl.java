@@ -1,8 +1,7 @@
 package com.toprate.hr_tek_demo.secvice.impl;
 
-import com.toprate.hr_tek_demo.model.JobPosition;
-import com.toprate.hr_tek_demo.model.JobRequirements;
-import com.toprate.hr_tek_demo.model.JobWorkSkill;
+import com.toprate.hr_tek_demo.dto.SearchJobDto;
+import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.repository.JobRepository;
 import com.toprate.hr_tek_demo.secvice.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -132,5 +134,64 @@ public class JobServiceImpl implements JobService {
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return jobRepository.findAll(pageable);
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+    @Override
+    public List<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto) {
+
+        String level = searchJobDto.getLevel();
+        Float yearExperience = searchJobDto.getYearExperience();
+        String location = searchJobDto.getLocation();
+        String partner = searchJobDto.getPartner();
+
+        List<Position> positionList = searchJobDto.getPositionList();
+        List<String> positions = new ArrayList<>();
+        for (Position position : positionList) {
+            String positionName = position.getPositionName();
+            positions.add(positionName);
+        }
+
+        List<JobWorkSkill> jobWorkSkillList = searchJobDto.getJobWorkSkillList();
+        List<String> skills = new ArrayList<>();
+        for(JobWorkSkill jobWorkSkill : jobWorkSkillList) {
+            String skillName = jobWorkSkill.getSkill().getSkillName();
+            skills.add(skillName);
+        }
+
+        String sql = "from job_recruitment j  \n" +
+                "    join location l on l.city_id = j.location_city_id \n" +
+                "    join partner pa on pa.partner_id = j.partner_id \n" +
+                "    join (job_position jp join position p on jp.position_id = p.position_id) on j.job_recruitment_id=jp.job_recruitment_id\n" +
+                "    join (job_work_skill jw join skill s on jw.skill_id=s.skill_id) on j.job_recruitment_id=jw.job_recruitment_id\n" +
+                "    where j.enable = 1";
+        if (yearExperience != null) {
+            sql += " and j.year_experience = " + yearExperience;
+        }
+        if (level != null) {
+            sql += " and j.levels = " + "'" + level + "'";
+        }
+        if (location != null) {
+            sql += " and l.address = " +  "'" + location  + "'";
+        }
+        if(partner != null) {
+            sql += " and pa.partner_name = " + "'" + partner + "'";
+        }
+//        if(positions != null) {
+//            for (String position : positions) {
+//                sql += " and p.position_name = " + "'" + position + "'" + " or ";
+//            }
+//        }
+        if(skills != null) {
+            for (String skill : skills) {
+                sql += " and s.skill_name = " + "'" + skill + "'" + " or ";
+            }
+        }
+
+        Query query = entityManager.createNativeQuery(sql, JobRequirements.class);
+        List<JobRequirements> result = query.getResultList();
+
+        return result;
     }
 }

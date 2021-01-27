@@ -134,6 +134,7 @@ public class ContactServiceImpl implements ContactService {
         return seachContact;
     }
 
+
     @Override
     public void saveContact(Contact contact) {
         // Lưu contact
@@ -151,6 +152,11 @@ public class ContactServiceImpl implements ContactService {
         Contact contactSave = contactRepository.saveAndFlush(contact);
     }
 
+
+    @Override
+    public List<Contact> findAllContactForJob(String id) {
+        return contactRepository.findAllContactForJob(id);
+    }
 
 
 }

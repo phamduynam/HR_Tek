@@ -1,5 +1,6 @@
 package com.toprate.hr_tek_demo.controller;
 
+import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.secvice.impl.RoleServiceImpl;
 import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
@@ -25,10 +26,10 @@ public class UserController {
     private RoleServiceImpl roleService;
 
     // Hiển thị danh sách người dùng của hệ thống
-//    @GetMapping("/index")
-//    public String showUserList(Model model) {
-//        return findPaginated(1, "userId", "asc", model);
-//    }
+    @GetMapping("/index")
+    public String showUserList(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
+        return findPaginated(1, "userId", "asc", model, searchUserDto);
+    }
 
     // Them moi 1 nguoi dung cua he thong
     @RequestMapping("/adduser")
@@ -78,39 +79,37 @@ public class UserController {
     }
 
     // phan trang
-//    @GetMapping("/page/{pageNo}")
-//    public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
-//                                @RequestParam("sortField") String sortField,
-//                                @RequestParam("sortDir") String sortDir,
-//                                Model model) {
-//        int pageSize = 5;
-//
-//        Page<Users> page = userServiceImpl.findPaginated(pageNo, pageSize, sortField, sortDir);
-//        List<Users> users = page.getContent();
-//
-//        model.addAttribute("currentPage", pageNo);
-//        model.addAttribute("totalPages", page.getTotalPages());
-//        model.addAttribute("totalItems", page.getTotalElements());
-//
-//        model.addAttribute("sortField", sortField);
-//        model.addAttribute("sortDir", sortDir);
-//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-//
-//        model.addAttribute("users", users);
-//        model.addAttribute("roles", roleService.getAllRole());
-//        return "user/index";
-//    }
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDir") String sortDir,
+                                Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
+        int pageSize = 5;
+
+        Page<Users> page = userServiceImpl.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<Users> users = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("users", users);
+        model.addAttribute("roles", roleService.getAllRole());
+        return "user/index";
+    }
 
     // tim kiem
     @RequestMapping("/search")
-    public String viewHomePage(Model model, @Param("role") String role, @Param("status") String status) {
-        List<Users> users = userServiceImpl.searchUserByKeyword(role, status);
+    public String viewHomePage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
+        List<Users> users = userServiceImpl.searchUserByKeyword(searchUserDto);
         model.addAttribute("users", users);
-        model.addAttribute("role", role);
-        model.addAttribute("status", status);
         model.addAttribute("roles", roleService.getAllRole());
 
-        return "user/index";
+        return "user/search-user";
     }
 
 }
