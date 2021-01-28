@@ -75,7 +75,6 @@ public class Users implements Serializable {
     }
 
     public Users(Users users) {
-
     }
 
     public Users() {

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SkillService {
     public List<Skill> getAllSkill();
+
+    public Skill getSkillByName(String name);
 }

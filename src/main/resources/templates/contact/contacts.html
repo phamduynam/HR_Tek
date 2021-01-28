@@ -104,7 +104,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{contact/import}" enctype="multipart/form-data" >
+                                    <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{/contact/import}" enctype="multipart/form-data" >
                                         <div class="input-group">
                                             <div class="input-group-btn">
                                                 <button type="submit" class="btn btn-warning ">Upload</button>
@@ -221,7 +221,7 @@
                 var href = $(this).attr('href');
                 console.log(href)
                 $('#deleteModal #delRef').attr('href',href);
-
+                // Hiển thị modal
                 $('#deleteModal').modal();
             });
         } );

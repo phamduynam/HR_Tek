@@ -1,24 +1,30 @@
 package com.toprate.hr_tek_demo.secvice;
 
-import com.toprate.hr_tek_demo.dto.ContactDto;
 import com.toprate.hr_tek_demo.dto.SearchDto;
 import com.toprate.hr_tek_demo.model.Contact;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 public interface ContactService {
-    public Contact getContactById(String id);
+    Contact getContactById(String id);
 
-    public void saveContact(Contact contact);
+    void saveContact(Contact contact);
 
-    public List<Contact> getAllContactTrue();
+    List<Contact> getAllContactTrue();
 
-    public void updateContact(Contact contact);
+    void updateContact(Contact contact);
 
-    public List<Contact> search(SearchDto searchDto);
+    List<Contact> search(SearchDto searchDto);
 
-    public List<Contact> findAllContactForJob(String id);
+    List<Contact> findAllContactForJob(String id);
+
+    Contact getContactByGmail_1(String gmail);
+
+    Contact getContactByGmail_2(String gmail);
+
+    Contact getContactByPhone_1(String phone);
+
+    Contact getContactByPhone_2(String phone);
 
 }

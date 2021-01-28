@@ -16,4 +16,9 @@ public class PositionServiceImpl implements PositonService {
     public List<Position> getAllPosition() {
         return positonRepository.findAll();
     }
+
+    @Override
+    public Position getPositionByName(String name) {
+        return positonRepository.findByPositionName(name);
+    }
 }

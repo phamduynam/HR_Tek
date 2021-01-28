@@ -7,5 +7,7 @@ import java.util.List;
 
 
 public interface PositonService {
-    public List<Position> getAllPosition();
+    List<Position> getAllPosition();
+
+    Position getPositionByName(String name);
 }

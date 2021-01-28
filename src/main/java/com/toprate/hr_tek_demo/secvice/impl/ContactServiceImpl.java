@@ -146,9 +146,29 @@ public class ContactServiceImpl implements ContactService {
     }
 
 
+
     @Override
     public List<Contact> findAllContactForJob(String id) {
         return contactRepository.findAllContactForJob(id);
+    }
+
+    public Contact getContactByGmail_1(String gmail) {
+        return null;
+    }
+
+    @Override
+    public Contact getContactByGmail_2(String gmail) {
+        return null;
+    }
+
+    @Override
+    public Contact getContactByPhone_1(String phone) {
+        return null;
+    }
+
+    @Override
+    public Contact getContactByPhone_2(String phone) {
+        return null;
     }
 
 

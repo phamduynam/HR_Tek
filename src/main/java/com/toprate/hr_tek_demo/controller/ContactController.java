@@ -2,6 +2,7 @@ package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.ContactDto;
 import com.toprate.hr_tek_demo.dto.SearchDto;
+import com.toprate.hr_tek_demo.dto.SearchJobForContactDto;
 import com.toprate.hr_tek_demo.excel.MyFile;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.ContactWorkSkill;
@@ -94,6 +95,29 @@ public class ContactController {
         mav.addObject("contactDto", contactDto);
         return mav;
     }
+
+    @GetMapping("/add-transaction/{id}")
+    public ModelAndView addTransactionContact(@PathVariable String id, ModelAndView mav) {
+        Contact contact = contactService.getContactById(id);
+        ContactDto contactDto = contact.convertToDto();
+        SearchJobForContactDto searchJobForContactDto = new SearchJobForContactDto("",false,false,false);
+        mav.setViewName("contact/add_transaction");
+        mav.addObject("contactDto",contactDto);
+        mav.addObject("searchObject",searchJobForContactDto);
+
+        return mav;
+    }
+    @GetMapping("/add-transaction/search/{id}")
+    public ModelAndView searchJobForContact(@PathVariable String id, ModelAndView mav, SearchJobForContactDto searchJobForContactDto) {
+        Contact contact = contactService.getContactById(id);
+        ContactDto contactDto = contact.convertToDto();
+        mav.setViewName("contact/add_transaction");
+        mav.addObject("contactDto",contactDto);
+        mav.addObject("searchObject",searchJobForContactDto);
+
+        return mav;
+    }
+
 
     @GetMapping("/edit/{id}")
     public ModelAndView editContact(@PathVariable String id, ModelAndView mav) {
