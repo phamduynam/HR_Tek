@@ -146,12 +146,12 @@ public class JobServiceImpl implements JobService {
         String location = searchJobDto.getLocation();
         String partner = searchJobDto.getPartner();
 
-        List<Position> positionList = searchJobDto.getPositionList();
-        List<String> positions = new ArrayList<>();
-        for (Position position : positionList) {
-            String positionName = position.getPositionName();
-            positions.add(positionName);
-        }
+//        List<Position> positionList = searchJobDto.getPositionList();
+//        List<String> positions = new ArrayList<>();
+//        for (Position position : positionList) {
+//            String positionName = position.getPositionName();
+//            positions.add(positionName);
+//        }
 
         List<JobWorkSkill> jobWorkSkillList = searchJobDto.getJobWorkSkillList();
         List<String> skills = new ArrayList<>();
@@ -160,7 +160,7 @@ public class JobServiceImpl implements JobService {
             skills.add(skillName);
         }
 
-        String sql = "from job_recruitment j  \n" +
+        String sql = "select * from job_recruitment j \n" +
                 "    join location l on l.city_id = j.location_city_id \n" +
                 "    join partner pa on pa.partner_id = j.partner_id \n" +
                 "    join (job_position jp join position p on jp.position_id = p.position_id) on j.job_recruitment_id=jp.job_recruitment_id\n" +

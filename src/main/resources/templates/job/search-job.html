@@ -23,74 +23,67 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="card-body">
-                            <div class="col-4 mx-auto">
-                                <div class="input-group">
-                                    <input id="filterSearch" type="text" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <form th:action="@{/search-job}" th:object="${searchJobDto}">
-                                <div class="col-md-6">
-                                    <div class="form-group" data-select-id="1">
-                                        <label>Địa điểm</label>
-                                        <select th:field="*{location}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                            <option th:each="location : ${locations}"
-                                                    th:value = "${location.address}"
-                                                    th:text="${location.address}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" data-select-id="2">
-                                        <label>Level</label>
-                                        <select th:field="*{level}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                            <option value="Intern">Intern</option>
-                                            <option value="Fresher">Fresher</option>
-                                            <option value="Junior">Junior</option>
-                                            <option value="Middel">Middle</option>
-                                            <option value="Sennior">Sennior</option>
-                                        </select>
-                                    </div>
-<!--                                    <div class="form-group" data-select-id="3">-->
-<!--                                        <label>Vị trí ứng tuyển</label>-->
-<!--                                        <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>-->
-<!--                                            <option th:each="position : ${positions}"-->
-<!--                                                    th:value="${position}"-->
-<!--                                                    th:text="${position.positionName}">-->
-<!--                                            </option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
-                                </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group" data-select-id="4">
-                                        <label>Số năm kinh nghiệm</label>
-                                        <select th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                            <option th:value = "0.5">6 tháng</option>
-                                            <option th:value = "1">1 năm</option>
-                                            <option th:value = "2">2 năm</option>
-                                            <option th:value = "5">5 năm</option>
-                                        </select>
+                            <form th:action="@{/search-job}" th:object="${searchJobDto}">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" data-select-id="1">
+                                            <label>Địa điểm</label>
+                                            <select th:field="*{location}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option th:each="location : ${locations}"
+                                                        th:value = "${location.address}"
+                                                        th:text="${location.address}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" data-select-id="2">
+                                            <label>Level</label>
+                                            <select th:field="*{level}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option value="Intern">Intern</option>
+                                                <option value="Fresher">Fresher</option>
+                                                <option value="Junior">Junior</option>
+                                                <option value="Middel">Middle</option>
+                                                <option value="Sennior">Sennior</option>
+                                            </select>
+                                        </div>
+                                        <!--                                    <div class="form-group" data-select-id="3">-->
+                                        <!--                                        <label>Vị trí ứng tuyển</label>-->
+                                        <!--                                        <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>-->
+                                        <!--                                            <option th:each="position : ${positions}"-->
+                                        <!--                                                    th:value="${position}"-->
+                                        <!--                                                    th:text="${position.positionName}">-->
+                                        <!--                                            </option>-->
+                                        <!--                                        </select>-->
+                                        <!--                                    </div>-->
                                     </div>
-                                    <div class="form-group" data-select-id="5">
-                                        <label>Đối tác</label>
-                                        <select th:field="*{partner}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                            <option th:each="partner : ${partners}"
-                                                    th:value = "${partner.partnerName}"
-                                                    th:text="${partner.partnerName}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group" data-select-id="6">
-                                        <label>Skill</label>
-                                        <select name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
-                                            <option th:each="skill : ${skills}"
-                                                    th:value = "${skill}"
-                                                    th:text="${skill.skillName}"></option>
-                                        </select>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group" data-select-id="4">
+                                            <label>Số năm kinh nghiệm</label>
+                                            <select th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option th:value = "0.5">6 tháng</option>
+                                                <option th:value = "1">1 năm</option>
+                                                <option th:value = "2">2 năm</option>
+                                                <option th:value = "5">5 năm</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" data-select-id="5">
+                                            <label>Đối tác</label>
+                                            <select th:field="*{partner}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option th:each="partner : ${partners}"
+                                                        th:value = "${partner.partnerName}"
+                                                        th:text="${partner.partnerName}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!--                                    <div class="form-group" data-select-id="6">-->
+                                        <!--                                        <label>Skill</label>-->
+                                        <!--                                        <select name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>-->
+                                        <!--                                            <option th:each="skill : ${skills}"-->
+                                        <!--                                                    th:value = "${skill}"-->
+                                        <!--                                                    th:text="${skill.skillName}"></option>-->
+                                        <!--                                        </select>-->
+                                        <!--                                    </div>-->
                                     </div>
                                 </div>
 

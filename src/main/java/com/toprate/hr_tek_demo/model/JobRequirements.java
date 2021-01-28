@@ -25,8 +25,6 @@ public class JobRequirements {
     @Column(name = "job_recruitment_id")
     private String jobRecruitmentId;
 
-    @NotNull(message = "Title can not be null!!")
-    @NotEmpty(message = "Title can not be empty!!")
     @Column(name = "job_title")
     private String jobTitle;
 
@@ -38,15 +36,11 @@ public class JobRequirements {
     @Column(name = "form_of_work")
     private String formOfWork;
 
-    @NotNull(message = "Please enter birth date")
-    @Past(message = "Birth date should be less than current date!!")
     @Column(name = "date_start")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
 
-    @NotNull(message = "Please enter birth date")
-    @Past(message = "Birth date should be less than current date!!")
     @Column(name = "date_end")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

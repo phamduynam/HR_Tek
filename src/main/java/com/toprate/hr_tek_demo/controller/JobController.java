@@ -2,7 +2,6 @@ package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.dto.SearchJobDto;
-import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-;
+
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class JobController {
@@ -59,7 +61,14 @@ public class JobController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
         JobDto jobDetail = jobRequirement.convertToJobDto();
 
-        List<Contact> contacts = contactService.findAllContactForJob(id);
+        // tim tat cac cac cv ung tuyen vao job
+        List<Contact> contactList = contactService.findAllContactForJob(id);
+
+        // loc trung ket qua
+        Set<String> idSet = new HashSet<>();
+        List<Contact> contacts = contactList.stream()
+                .filter(e -> idSet.add(e.getCandidateId()))
+                .collect(Collectors.toList());
 
         model.addAttribute("contacts", contacts);
         model.addAttribute("jobDetail", jobDetail);
@@ -147,8 +156,9 @@ public class JobController {
     public String findJobPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
-                                Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
-        int pageSize = 10;
+                                   Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
+        // So phan tu hien thi tren 1 trang
+        int pageSize = 5;
 
         Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<JobRequirements> jobs = page.getContent();
@@ -173,7 +183,14 @@ public class JobController {
     // tim kiem
     @RequestMapping("/search-job")
     public String viewHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto ) {
-        List<JobRequirements> jobs = jobService.searchJobByKeyword(searchJobDto);
+        List<JobRequirements> jobRequirementsList = jobService.searchJobByKeyword(searchJobDto);
+
+        // loc trung ket qua
+        Set<String> idSet = new HashSet<>();
+        List<JobRequirements> jobs = jobRequirementsList.stream()
+                .filter(e -> idSet.add(e.getJobRecruitmentId()))
+                .collect(Collectors.toList());
+
         model.addAttribute("jobs", jobs);
         model.addAttribute("partners", partnerService.findAllPartner());
         model.addAttribute("locations", locationService.findAllLocation());
@@ -181,5 +198,4 @@ public class JobController {
 
         return "job/search-job";
     }
-
 }
