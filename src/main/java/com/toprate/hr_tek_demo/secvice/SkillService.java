@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public interface SkillService {
-    public List<Skill> getAllSkill();
+    List<Skill> getAllSkill();
 
-    public Skill getSkillByName(String name);
+    Skill getSkillByName(String name);
 }

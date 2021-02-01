@@ -7,12 +7,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface JobPositionService {
-    public void save(String jobId, int positionId);
+    void save(String jobId, int positionId);
 
-    public List<JobPosition> findAllByJobId(String id);
+    List<JobPosition> findAllByJobId(String id);
 
-    public void delete(JobPosition jobPosition);
+    void delete(JobPosition jobPosition);
 
-    public void saveAll(List<JobPosition> jobPositionList);
+    void saveAll(List<JobPosition> jobPositionList);
 
 }

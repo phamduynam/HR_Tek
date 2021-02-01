@@ -7,15 +7,15 @@ import java.util.List;
 
 
 public interface ContactPositionService {
-    public List<ContactPosition> getByContact(Contact contact);
+    List<ContactPosition> getByContact(Contact contact);
 
-    public ContactPosition getById(Integer id);
+    ContactPosition getById(Integer id);
 
-    public void save(ContactPosition contactPosition);
+    void save(ContactPosition contactPosition);
 
-    public void saveList(List<ContactPosition> contactPositionList);
+    void saveList(List<ContactPosition> contactPositionList);
 
-    public void deleteById(Integer integer);
+    void deleteById(Integer integer);
 
-    public void delete(ContactPosition contactPosition);
+    void delete(ContactPosition contactPosition);
 }

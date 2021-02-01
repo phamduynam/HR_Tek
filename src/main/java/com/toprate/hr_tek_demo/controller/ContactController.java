@@ -6,10 +6,7 @@ import com.toprate.hr_tek_demo.dto.SearchJobForContactDto;
 import com.toprate.hr_tek_demo.excel.MyFile;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.ContactWorkSkill;
-import com.toprate.hr_tek_demo.secvice.impl.ContactServiceImpl;
-import com.toprate.hr_tek_demo.secvice.impl.PositionServiceImpl;
-import com.toprate.hr_tek_demo.secvice.impl.SkillServiceImpl;
-import com.toprate.hr_tek_demo.secvice.impl.StatusServiceImpl;
+import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +29,9 @@ public class ContactController {
 
     @Autowired
     private StatusServiceImpl statusService;
+
+    @Autowired
+    private JobServiceImpl jobService;
 
     @GetMapping("/view-contacts")
     public String getContactView(Model model){
@@ -78,6 +78,7 @@ public class ContactController {
         contactService.saveContact(contact);
         return "redirect:/contact/view-contacts";
     }
+
     @PostMapping("/update")
     public String updateContact(@ModelAttribute("contactDto") ContactDto contactDto){
         Contact contact = contactDto.convertToModel();
@@ -107,6 +108,7 @@ public class ContactController {
 
         return mav;
     }
+
     @GetMapping("/add-transaction/search/{id}")
     public ModelAndView searchJobForContact(@PathVariable String id, ModelAndView mav, SearchJobForContactDto searchJobForContactDto) {
         Contact contact = contactService.getContactById(id);
@@ -137,4 +139,5 @@ public class ContactController {
         contactService.saveContact(contact);
         return "redirect:/contact/view-contacts";
     }
+
 }

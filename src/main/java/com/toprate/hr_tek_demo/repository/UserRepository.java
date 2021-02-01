@@ -11,12 +11,15 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository  extends JpaRepository<Users, String> {
+
     Optional<Users> findByGmail(String gmail);
 
     @Query(value = "SELECT * FROM user u WHERE u.enable = 1", nativeQuery = true)
-    public List<Users> findAllUser();
+    List<Users> findAllUser();
 
     @Query(value = "select * from user u where u.role_name = :role and u.status = :status "
             , nativeQuery = true)
-    public List<Users> searchUser(@Param("role") String role, @Param("status") String status);
+    List<Users> searchUser(@Param("role") String role, @Param("status") String status);
+
+
 }

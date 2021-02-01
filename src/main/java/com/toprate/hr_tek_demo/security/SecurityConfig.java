@@ -20,7 +20,6 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Qualifier("userServiceimp")
     @Autowired
     private UserDetailsService userDetailsService;
 
