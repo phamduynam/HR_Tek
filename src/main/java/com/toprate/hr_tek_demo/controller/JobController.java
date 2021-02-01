@@ -195,7 +195,8 @@ public class JobController {
         model.addAttribute("partners", partnerService.findAllPartner());
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("skills", skillService.getAllSkill());
 
-        return "job/search-job";
+        return "job/list-job";
     }
 }

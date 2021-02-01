@@ -4,6 +4,8 @@ import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.repository.UserRepository;
+import com.toprate.hr_tek_demo.repository.specification.JobSpecification;
+import com.toprate.hr_tek_demo.repository.specification.UserSpecification;
 import com.toprate.hr_tek_demo.secvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,24 +47,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id);
     }
 
-
-    @PersistenceContext
-    private EntityManager entityManager;
     @Override
-    public List<Users> searchUserByKeyword(SearchUserDto searchUserDto) {
-
-        String role = searchUserDto.getRole();
-        String status = searchUserDto.getStatus();
-
-        Query query = entityManager
-                .createQuery("select u from Users u " +
-                        "where u.role.roleName = :role " +
-                        "and u.status = :status " +
-                        "and u.enable = 1", Users.class)
-                .setParameter("role", role)
-                .setParameter("status", status);
-        List<Users> result = query.getResultList();
-        return result;
+    public List<Users> searchUserByKeyword(SearchUserDto data) {
+        return userRepository.findAll( new UserSpecification().searchUser(data));
     }
 
     @Override

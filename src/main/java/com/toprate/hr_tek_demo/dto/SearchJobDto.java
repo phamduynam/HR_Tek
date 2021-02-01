@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class SearchJobDto {
+
     private Float yearExperience;
 
     private String level;
@@ -19,7 +20,7 @@ public class SearchJobDto {
 
     private String partner;
 
-    private List<JobPosition> jobPositionList;
+    private List<Integer> jobPositionList;
 
-    private List<JobWorkSkill> jobWorkSkillList;
+    private List<Integer> jobWorkSkillList;
 }

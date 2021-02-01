@@ -109,7 +109,7 @@ public class UserController {
         model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRole());
 
-        return "user/search-user";
+        return "user/index";
     }
 
 }

@@ -40,6 +40,7 @@
                                             <div class="form-group" data-select-id="1">
                                                 <label>Địa điểm</label>
                                                 <select th:field="*{location}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                    <option value="">Please choose location</option>
                                                     <option th:each="location : ${locations}"
                                                             th:value = "${location.address}"
                                                             th:text="${location.address}">
@@ -49,18 +50,19 @@
                                             <div class="form-group" data-select-id="2">
                                                 <label>Level</label>
                                                 <select th:field="*{level}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                    <option value="">Please choose level</option>
                                                     <option value="Intern">Intern</option>
                                                     <option value="Fresher">Fresher</option>
                                                     <option value="Junior">Junior</option>
-                                                    <option value="Middel">Middle</option>
-                                                    <option value="Sennior">Sennior</option>
+                                                    <option value="Middle">Middle</option>
+                                                    <option value="Senior">Senior</option>
                                                 </select>
                                             </div>
                                                 <div class="form-group" data-select-id="3">
                                                     <label>Vị trí ứng tuyển</label>
                                                     <select th:field="*{jobPositionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
                                                         <option th:each="position : ${positions}"
-                                                                th:value="${position}"
+                                                                th:value="${position.positionId}"
                                                                 th:text="${position.positionName}">
                                                         </option>
                                                     </select>
@@ -71,15 +73,17 @@
                                             <div class="form-group" data-select-id="4">
                                                 <label>Số năm kinh nghiệm</label>
                                                 <select th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                                    <option th:value = "0.5">6 tháng</option>
-                                                    <option th:value = "1">1 năm</option>
-                                                    <option th:value = "2">2 năm</option>
-                                                    <option th:value = "5">5 năm</option>
+                                                    <option value="">Please choose year experience</option>
+                                                    <option value = "0.5">6 tháng</option>
+                                                    <option value = "1">1 năm</option>
+                                                    <option value = "2">2 năm</option>
+                                                    <option value = "5">5 năm</option>
                                                 </select>
                                             </div>
                                             <div class="form-group" data-select-id="5">
                                                 <label>Đối tác</label>
                                                 <select th:field="*{partner}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                    <option value="">Please choose partner</option>
                                                     <option th:each="partner : ${partners}"
                                                             th:value = "${partner.partnerName}"
                                                             th:text="${partner.partnerName}">
@@ -90,7 +94,7 @@
                                                     <label>Skill</label>
                                                     <select th:field="*{jobWorkSkillList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
                                                         <option th:each="skill : ${skills}"
-                                                                th:value = "${skill}"
+                                                                th:value = "${skill.skillId}"
                                                                 th:text="${skill.skillName}"></option>
                                                     </select>
                                                 </div>

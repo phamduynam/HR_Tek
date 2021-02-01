@@ -141,6 +141,11 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findAll(pageable);
     }
 
+    @Override
+    public List<JobRequirements> searchJobByKeyword(SearchJobDto data) {
+        return jobRepository.findAll(new JobSpecification().searchJob(data));
+    }
+
 
     public List<JobRequirementDTO> searchJobByMatchContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto) {
         List<Integer> idSkills = searchJobForContactDto.getSuitableSkill() ? contactDto.getContactWorkSkillList().stream().map(emp -> emp.getSkill().getSkillId()).collect(Collectors.toList()) : new ArrayList<>();
@@ -167,13 +172,13 @@ public class JobServiceImpl implements JobService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
-    public List<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto) {
-
-        String level = searchJobDto.getLevel();
-        Float yearExperience = searchJobDto.getYearExperience();
-        String location = searchJobDto.getLocation();
-        String partner = searchJobDto.getPartner();
+//    @Override
+//    public List<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto) {
+//
+//        String level = searchJobDto.getLevel();
+//        Float yearExperience = searchJobDto.getYearExperience();
+//        String location = searchJobDto.getLocation();
+//        String partner = searchJobDto.getPartner();
 
 //        List<Position> positionList = searchJobDto.getPositionList();
 //        List<String> positions = new ArrayList<>();
@@ -182,45 +187,47 @@ public class JobServiceImpl implements JobService {
 //            positions.add(positionName);
 //        }
 
-        List<JobWorkSkill> jobWorkSkillList = searchJobDto.getJobWorkSkillList();
-        List<String> skills = new ArrayList<>();
-        for (JobWorkSkill jobWorkSkill : jobWorkSkillList) {
-            String skillName = jobWorkSkill.getSkill().getSkillName();
-            skills.add(skillName);
-        }
-
-        String sql = "select * from job_recruitment j \n" +
-                "    join location l on l.city_id = j.location_city_id \n" +
-                "    join partner pa on pa.partner_id = j.partner_id \n" +
-                "    join (job_position jp join position p on jp.position_id = p.position_id) on j.job_recruitment_id=jp.job_recruitment_id\n" +
-                "    join (job_work_skill jw join skill s on jw.skill_id=s.skill_id) on j.job_recruitment_id=jw.job_recruitment_id\n" +
-                "    where j.enable = 1";
-        if (yearExperience != null) {
-            sql += " and j.year_experience = " + yearExperience;
-        }
-        if (level != null) {
-            sql += " and j.levels = " + "'" + level + "'";
-        }
-        if (location != null) {
-            sql += " and l.address = " + "'" + location + "'";
-        }
-        if (partner != null) {
-            sql += " and pa.partner_name = " + "'" + partner + "'";
-        }
-//        if(positions != null) {
-//            for (String position : positions) {
-//                sql += " and p.position_name = " + "'" + position + "'" + " or ";
-//            }
+//        List<JobWorkSkill> jobWorkSkillList = searchJobDto.getJobWorkSkillList();
+//        List<String> skills = new ArrayList<>();
+//        for (JobWorkSkill jobWorkSkill : jobWorkSkillList) {
+//            String skillName = jobWorkSkill.getSkill().getSkillName();
+//            skills.add(skillName);
 //        }
-        if (skills != null) {
-            for (String skill : skills) {
-                sql += " and s.skill_name = " + "'" + skill + "'" + " or ";
-            }
-        }
 
-        Query query = entityManager.createNativeQuery(sql, JobRequirements.class);
-        List<JobRequirements> result = query.getResultList();
+//        String sql = "select * from job_recruitment j \n" +
+//                "    join location l on l.city_id = j.location_city_id \n" +
+//                "    join partner pa on pa.partner_id = j.partner_id \n" +
+//                "    join (job_position jp join position p on jp.position_id = p.position_id) on j.job_recruitment_id=jp.job_recruitment_id\n" +
+//                "    join (job_work_skill jw join skill s on jw.skill_id=s.skill_id) on j.job_recruitment_id=jw.job_recruitment_id\n" +
+//                "    where j.enable = 1";
+//        if (yearExperience != null) {
+//            sql += " and j.year_experience = " + yearExperience;
+//        }
+//        if (level != null) {
+//            sql += " and j.levels = " + "'" + level + "'";
+//        }
+//        if (location != null) {
+//            sql += " and l.address = " + "'" + location + "'";
+//        }
+//        if (partner != null) {
+//            sql += " and pa.partner_name = " + "'" + partner + "'";
+//        }
+////        if(positions != null) {
+////            for (String position : positions) {
+////                sql += " and p.position_name = " + "'" + position + "'" + " or ";
+////            }
+////        }
+////        if (skills != null) {
+////            for (String skill : skills) {
+////                sql += " and s.skill_name = " + "'" + skill + "'" + " or ";
+////            }
+////        }
+//
+//        Query query = entityManager.createNativeQuery(sql, JobRequirements.class);
+//        List<JobRequirements> result = query.getResultList();
+//
+//        return result;
+//    }
 
-        return result;
-    }
+
 }

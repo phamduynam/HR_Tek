@@ -22,9 +22,9 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Tiêu đề tuyển dụng</label>
-                                    <input th:field="*{jobTitle}" required id="jobTitle" type="text" class="form-control"
-                                           pattern="^(?=.{5,20}$)(?![ .])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$"
-                                           title="Tiêu đề không được chứa ký tự đặc biệt ở đầu và cuối" placeholder="Enter Job Title" autocomplete="off">
+                                    <input th:field="*{jobTitle}" required id="jobTitle" type="text" class="form-control" onkeyup= "titleValidation()"
+                                           placeholder="Enter Job Title" autocomplete="off">
+                                    <span id="title-error"></span>
                                 </div>
 
                                 <div class="form-group">
@@ -246,6 +246,8 @@
                 $(".add-new").removeAttr("disabled");
             });
         });
+
+
     </script>
 </section>
 

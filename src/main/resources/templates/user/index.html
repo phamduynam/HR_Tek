@@ -52,18 +52,20 @@
                             <div>
                                 <span>Vai trò</span>
                                 <select style="width: 200px" th:field="*{role}" class="form-control">
-                                    <option th:value="ADMIN" th:text="ADMIN"></option>
-                                    <option th:value="MANAGER" th:text="MANAGER"></option>
-                                    <option th:value="HR" th:text="HR"></option>
+                                    <option value="">Please role</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                    <option value="MANAGER">MANAGER</option>
+                                    <option value="HR">HR</option>
                                 </select>
                             </div>
 
                             <div>
                                 <span>Trạng thái</span>
                                 <select style="width: 200px" th:field="*{status}" class="form-control">
-                                    <option th:value="ACTIVE" th:text="ACTIVE"></option>
-                                    <option th:value="DEACTIVE" th:text="DEACTIVE"></option>
-                                    <option th:value="PENDING" th:text="PENDING"></option>
+                                    <option value="">Please status</option>
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="DEACTIVE">DEACTIVE</option>
+                                    <option value="PENDING">PENDING</option>
                                 </select>
                             </div>
 

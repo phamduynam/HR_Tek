@@ -29,8 +29,7 @@
 <!--                </div>-->
                 <div class="form-group">
                     <label for="username">Tên hiển thị</label>
-                    <input id="username" type="text" pattern="^(?=.{5,20}$)(?![ .])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$"
-                            required="true" class="form-control" th:field="*{name}" title="Tên không được chứa ký tự đặc biệt ở đầu và cuối"/>
+                    <input id="username" type="text" required="true" class="form-control" th:field="*{name}" />
                 </div>
                 <div class="form-group">
                     <label for="birthDay">Ngày sinh</label>
@@ -38,13 +37,11 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" required="true" class="form-control" th:field="*{gmail}" id="email"
-                           pattern="[a-z0-9]+@toprate.io" title="Email phải có dạng abc@toprate.io" />
+                    <input type="email" required="true" class="form-control" th:field="*{gmail}" id="email"/>
                 </div>
                 <div class="form-group">
                     <label for="phone">SĐT</label>
-                    <input type="tel" minlength="10" maxlength="10" pattern="[0-9]{10}" required="true" class="form-control" th:field="*{phone}" id="phone"
-                            title="Nên chứa 10 chữ số"/>
+                    <input type="tel" required="true" class="form-control" th:field="*{phone}" id="phone"/>
                 </div>
                 <div class="form-group">
                     <h6>Vai trò</h6>
