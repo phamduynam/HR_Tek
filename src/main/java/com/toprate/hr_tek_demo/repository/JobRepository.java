@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JobRepository extends JpaRepository<JobRequirements, String> , JpaSpecificationExecutor<JobRequirements> {
+public interface JobRepository extends JpaRepository<JobRequirements, String>, JpaSpecificationExecutor<JobRequirements> {
 
     @Query(value = "select * from job_recruitment j where j.enable=1", nativeQuery = true)
     public List<JobRequirements> findAllJob();
@@ -25,6 +25,7 @@ public interface JobRepository extends JpaRepository<JobRequirements, String> , 
 //                                                @Param("level") String level,
 //                                                @Param("partner") String partner);
 
-//    List<JobRequirements> findByLevelAndYearExperienceAndJobWorkSkills_Skill_SkillIdIn(String level, Float yearExperience, List<Integer> id);
+    //List<JobRequirements> findByLevelAndYearExperienceAndJobWorkSkills_Skill_SkillIdIn(String level, Float yearExperience, List<Integer> id);
+    List<JobRequirements> findByTakeCareTransactionList_Contact_CandidateId(String id);
 
 }

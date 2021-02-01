@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Controller
@@ -102,6 +101,7 @@ public class ContactController {
         mav.addObject("positions", positionService.getAllPosition());
         mav.addObject("skills", skillService.getAllSkill());
         mav.addObject("contactDto", contactDto);
+        mav.addObject("jobs", jobServiceImpl.searchJobByContact(contactDto));
         return mav;
     }
 
@@ -124,7 +124,7 @@ public class ContactController {
         mav.setViewName("contact/add_transaction");
         mav.addObject("contactDto", contactDto);
         mav.addObject("searchObject", searchJobForContactDto);
-        mav.addObject("jobs", jobServiceImpl.searchJobByMatchContact(contactDto, searchJobForContactDto));
+        mav.addObject("jobs", jobServiceImpl.searchJobMatchByContact(contactDto, searchJobForContactDto));
         return mav;
     }
 
