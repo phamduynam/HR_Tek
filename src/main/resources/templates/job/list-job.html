@@ -56,15 +56,15 @@
                                                     <option value="Sennior">Sennior</option>
                                                 </select>
                                             </div>
-<!--                                                <div class="form-group" data-select-id="3">-->
-<!--                                                    <label>Vị trí ứng tuyển</label>-->
-<!--                                                    <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>-->
-<!--                                                        <option th:each="position : ${positions}"-->
-<!--                                                                th:value="${position}"-->
-<!--                                                                th:text="${position.positionName}">-->
-<!--                                                        </option>-->
-<!--                                                    </select>-->
-<!--                                                </div>-->
+                                                <div class="form-group" data-select-id="3">
+                                                    <label>Vị trí ứng tuyển</label>
+                                                    <select th:field="*{jobPositionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                                        <option th:each="position : ${positions}"
+                                                                th:value="${position}"
+                                                                th:text="${position.positionName}">
+                                                        </option>
+                                                    </select>
+                                                </div>
                                         </div>
 
                                         <div class="col-md-6">

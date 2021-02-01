@@ -19,7 +19,7 @@ public class SearchJobDto {
 
     private String partner;
 
-    private List<Position> positionList;
+    private List<JobPosition> jobPositionList;
 
     private List<JobWorkSkill> jobWorkSkillList;
 }

@@ -35,7 +35,7 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
         if (value == null || value == 0f) {
             return null;
         }
-        return super.equalsSpecification(JobRequirements_.LEVEL, value);
+        return super.equalsSpecification(JobRequirements_.YEAR_EXPERIENCE, value);
     }
 
     private Specification<JobRequirements> findByLevel(String name) {
@@ -51,5 +51,13 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
         Filter<Integer> integerFilter = new Filter<>();
         integerFilter.setIn(ids);
         return super.buildJoinSpecification(integerFilter, JobRequirements_.jobWorkSkills, JobWorkSkill_.skill, Skill_.skillId);
+    }
+
+    private Specification<JobRequirements> findByPosition(List<Integer> ids) {
+        if (ids.size() == 0)
+            return null;
+        Filter<Integer> integerFilter = new Filter<>();
+        integerFilter.setIn(ids);
+        return super.buildJoinSpecification(integerFilter, JobRequirements_.jobPositionList, JobPosition_.position, Position_.positionId);
     }
 }

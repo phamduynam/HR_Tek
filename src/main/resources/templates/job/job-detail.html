@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <h6>Vị trí tuyển dụng</h6>
-                            <select readonly="true" th:field="*{positionList}" class="choices-multiple-remove-button form-control" multiple>
+                            <select disabled="true" th:field="*{positionList}" class="choices-multiple-remove-button form-control" multiple>
                                 <option th:each="position : ${positions}"
                                         th:value="${{position.positionId}}"
                                         th:text="${position.positionName}" disabled>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="form-group">
                             <h6>Kỹ năng</h6>
-                            <select readonly="true" th:field="*{jobWorkSkills}" class="choices-multiple-remove-button form-control" multiple>
+                            <select disabled="true" th:field="*{jobWorkSkills}" class="choices-multiple-remove-button form-control" multiple>
                                 <option th:each="skill : ${skills}"
                                         th:value="${{skill.skillId}}"
                                         th:text="${skill.skillName}" disabled>
