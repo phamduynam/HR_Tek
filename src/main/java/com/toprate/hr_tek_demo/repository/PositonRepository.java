@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface PositonRepository extends JpaRepository<Position, Integer> {
-    Optional<Position> findByPositionName(String name);
+    Position findByPositionName(String name);
 }

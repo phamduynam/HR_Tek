@@ -15,8 +15,8 @@ public class SearchDto {
     Float yearExp;
     String Level;
     String isBlackList;
-    List<ContactWorkSkill> contactWorkSkillList;
-    List<ContactPosition> contactPositionList;
+    List<Integer> contactWorkSkillList;
+    List<Integer> contactPositionList;
 
     public SearchDto() {
     }
@@ -61,19 +61,19 @@ public class SearchDto {
         this.isBlackList = isBlackList;
     }
 
-    public List<ContactWorkSkill> getContactWorkSkillList() {
+    public List<Integer> getContactWorkSkillList() {
         return contactWorkSkillList;
     }
 
-    public void setContactWorkSkillList(List<ContactWorkSkill> contactWorkSkillList) {
+    public void setContactWorkSkillList(List<Integer> contactWorkSkillList) {
         this.contactWorkSkillList = contactWorkSkillList;
     }
 
-    public List<ContactPosition> getContactPositionList() {
+    public List<Integer> getContactPositionList() {
         return contactPositionList;
     }
 
-    public void setContactPositionList(List<ContactPosition> contactPositionList) {
+    public void setContactPositionList(List<Integer> contactPositionList) {
         this.contactPositionList = contactPositionList;
     }
 }

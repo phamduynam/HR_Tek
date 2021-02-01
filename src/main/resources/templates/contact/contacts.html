@@ -2,8 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.w3.org/1999/xhtml"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout.html}"
->
+      layout:decorate="~{layout.html}">
 <head>
     <meta charset="UTF-8">
     <title>Contacts</title>
@@ -18,10 +17,10 @@
                     <div class="card card-border-primary">
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form id = "submit-form"  th:action="@{/contact/search}" method="get" th:object="${searchDto}">
+                        <form id = "submit-form"  th:action="@{/contact/search}" method="post" th:object="${searchDto}">
                             <div class="card-body">
                                 <div class="col-4 mx-auto">
-                                    <div class="input-group">
+                                    <div class="inpu    t-group">
                                         <input th:field="*{keyWord}" type="text" class="form-control" placeholder="Search">
                                         <div class="input-group-append">
                                             <button class="btn btn-secondary" type="submit">
@@ -56,10 +55,9 @@
                                         </div>
                                         <div class="form-group" data-select-id="3">
                                             <label>Vị trí ứng tuyển</label>
-                                            <select class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
-                                                <option></option>
+                                            <select th:field="*{contactPositionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
                                                 <option th:each="position : ${positions}"
-                                                        th:value="${position}"
+                                                        th:value="${position.positionId}"
                                                         th:text="${position.positionName}"></option>
                                             </select>
                                         </div>
@@ -87,9 +85,9 @@
                                         </div>
                                         <div class="form-group" data-select-id="6">
                                             <label>Skill</label>
-                                            <select name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                            <select th:field="*{contactWorkSkillList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
                                                 <option th:each="skill : ${skills}"
-                                                        th:value = "${skill}"
+                                                        th:value = "${skill.skillId}"
                                                         th:text="${skill.skillName}"></option>
                                             </select>
                                         </div>
@@ -104,7 +102,7 @@
                                 </div>
 
                                 <div class="col-6">
-                                    <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{contact/import}" enctype="multipart/form-data" >
+                                    <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{/contact/import}" enctype="multipart/form-data" >
                                         <div class="input-group">
                                             <div class="input-group-btn">
                                                 <button type="submit" class="btn btn-warning ">Upload</button>
@@ -221,7 +219,7 @@
                 var href = $(this).attr('href');
                 console.log(href)
                 $('#deleteModal #delRef').attr('href',href);
-
+                // Hiển thị modal
                 $('#deleteModal').modal();
             });
         } );

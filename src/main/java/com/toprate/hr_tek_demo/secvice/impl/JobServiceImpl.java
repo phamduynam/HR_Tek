@@ -1,8 +1,12 @@
 package com.toprate.hr_tek_demo.secvice.impl;
 
+import com.toprate.hr_tek_demo.dto.ContactDto;
+import com.toprate.hr_tek_demo.dto.JobRequirementDTO;
 import com.toprate.hr_tek_demo.dto.SearchJobDto;
+import com.toprate.hr_tek_demo.dto.SearchJobForContactDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.repository.JobRepository;
+import com.toprate.hr_tek_demo.repository.specification.JobSpecification;
 import com.toprate.hr_tek_demo.secvice.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +21,7 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -41,13 +46,13 @@ public class JobServiceImpl implements JobService {
 
         // Luu job vao jobPositionList
         List<JobPosition> jobPositionList = job.getJobPositionList();
-        for(JobPosition jobPosition : jobPositionList) {
+        for (JobPosition jobPosition : jobPositionList) {
             jobPosition.setJobRequirements(jobSave);
         }
 
         // Luu job vao jobWorkSkillList
         List<JobWorkSkill> jobWorkSkillList = job.getJobWorkSkills();
-        for(JobWorkSkill jobWorkSkill : jobWorkSkillList) {
+        for (JobWorkSkill jobWorkSkill : jobWorkSkillList) {
             jobWorkSkill.setJobRequirements(jobSave);
         }
 
@@ -75,9 +80,9 @@ public class JobServiceImpl implements JobService {
         List<JobWorkSkill> jobWorkSkillListExist = new ArrayList<>(jobExist.getJobWorkSkills());
         List<JobWorkSkill> jobWorkSkillListNew = new ArrayList<>(jobRequirement.getJobWorkSkills());
 
-        for(JobWorkSkill jobWorkSkillExist : jobWorkSkillListExist) {
-            for(JobWorkSkill jobWorkSkillNew : jobWorkSkillListNew) {
-                if(jobWorkSkillNew.getSkill().equals(jobWorkSkillExist.getSkill())) {
+        for (JobWorkSkill jobWorkSkillExist : jobWorkSkillListExist) {
+            for (JobWorkSkill jobWorkSkillNew : jobWorkSkillListNew) {
+                if (jobWorkSkillNew.getSkill().equals(jobWorkSkillExist.getSkill())) {
                     jobWorkSkillNew.setJobworkSkillId(jobWorkSkillExist.getJobworkSkillId());
                     break;
                 }
@@ -87,9 +92,9 @@ public class JobServiceImpl implements JobService {
         // list jobPosition co trong DB
         List<JobPosition> jobPositionListExist = new ArrayList<>(jobExist.getJobPositionList());
         List<JobPosition> jobPositionListNew = new ArrayList<>(jobRequirement.getJobPositionList());
-        for(JobPosition jobPositionExist : jobPositionListExist) {
-            for(JobPosition  jobPositionNew : jobPositionListNew) {
-                if(jobPositionNew.getPosition().equals(jobPositionExist.getPosition())) {
+        for (JobPosition jobPositionExist : jobPositionListExist) {
+            for (JobPosition jobPositionNew : jobPositionListNew) {
+                if (jobPositionNew.getPosition().equals(jobPositionExist.getPosition())) {
                     jobPositionNew.setJobPositionId(jobPositionExist.getJobPositionId());
                     break;
                 }
@@ -97,23 +102,23 @@ public class JobServiceImpl implements JobService {
         }
 
         // xoa list jobWorkSKill
-        for(JobWorkSkill jobWorkSkill : jobWorkSkillListExist) {
+        for (JobWorkSkill jobWorkSkill : jobWorkSkillListExist) {
             jobExist.deleteJobWorkSkill(jobWorkSkill);
             jobWorkSkill.getSkill().deleteJobWorkSkill(jobWorkSkill);
         }
 
         // xoa list jobWorkPosition
-        for(JobPosition jobPosition : jobPositionListExist) {
+        for (JobPosition jobPosition : jobPositionListExist) {
             jobExist.deleteJobPosition(jobPosition);
             jobPosition.getPosition().deleteJobPosition(jobPosition);
         }
 
         // them lai list moi
-        for(JobWorkSkill jobWorkSkill : jobWorkSkillListNew) {
+        for (JobWorkSkill jobWorkSkill : jobWorkSkillListNew) {
             jobExist.addJobWorkSkill(jobWorkSkill);
         }
 
-        for(JobPosition jobPosition : jobPositionListNew) {
+        for (JobPosition jobPosition : jobPositionListNew) {
             jobExist.addJobPosition(jobPosition);
         }
 
@@ -136,8 +141,32 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findAll(pageable);
     }
 
+
+    public List<JobRequirementDTO> searchJobByMatchContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto) {
+        List<Integer> idSkills = searchJobForContactDto.getSuitableSkill() ? contactDto.getContactWorkSkillList().stream().map(emp -> emp.getSkill().getSkillId()).collect(Collectors.toList()) : new ArrayList<>();
+        String level = searchJobForContactDto.getSuitableLevel() ? contactDto.getLevels() : null;
+        Float experience = searchJobForContactDto.getSuitableExp() ? contactDto.getYearExperience() : null;
+        String keyword = searchJobForContactDto.getKeyWord();
+        List<JobRequirements> jobRequirements = jobRepository.findAll(new JobSpecification().searchFilter(keyword, level, experience, idSkills));
+        List<JobRequirementDTO> jobRequirementDTOs = jobRequirements.stream().map(s -> convertJobRequirementsToDTO(s, contactDto)).collect(Collectors.toList());
+        return jobRequirementDTOs;
+    }
+
+    private JobRequirementDTO convertJobRequirementsToDTO(JobRequirements jobRequirements, ContactDto contactDto) {
+        JobRequirementDTO jobRequirementDTO = new JobRequirementDTO();
+        jobRequirementDTO.setJobRecruitmentId(jobRequirements.getJobRecruitmentId());
+        jobRequirementDTO.setJobTitle(jobRequirements.getJobTitle());
+        jobRequirementDTO.setLevel(jobRequirements.getLevel());
+        jobRequirementDTO.setYearExperience(jobRequirements.getYearExperience());
+        jobRequirementDTO.setJobPositionList(jobRequirements.getJobPositionList().stream().map(e -> e.getPosition().getPositionName()).collect(Collectors.joining(", ")));
+        jobRequirementDTO.setJobWorkSkills(jobRequirements.getJobWorkSkills().stream().map(e -> e.getSkill().getSkillName()).collect(Collectors.joining(", ")));
+        jobRequirementDTO.setTakeCareTransactionList(jobRequirements.getTakeCareTransactionList().stream().filter(takeCareTransaction -> takeCareTransaction.getContact().getCandidateId().equals(contactDto.getCandidateId())).count() > 0);
+        return jobRequirementDTO;
+    }
+
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public List<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto) {
 
@@ -155,7 +184,7 @@ public class JobServiceImpl implements JobService {
 
         List<JobWorkSkill> jobWorkSkillList = searchJobDto.getJobWorkSkillList();
         List<String> skills = new ArrayList<>();
-        for(JobWorkSkill jobWorkSkill : jobWorkSkillList) {
+        for (JobWorkSkill jobWorkSkill : jobWorkSkillList) {
             String skillName = jobWorkSkill.getSkill().getSkillName();
             skills.add(skillName);
         }
@@ -173,9 +202,9 @@ public class JobServiceImpl implements JobService {
             sql += " and j.levels = " + "'" + level + "'";
         }
         if (location != null) {
-            sql += " and l.address = " +  "'" + location  + "'";
+            sql += " and l.address = " + "'" + location + "'";
         }
-        if(partner != null) {
+        if (partner != null) {
             sql += " and pa.partner_name = " + "'" + partner + "'";
         }
 //        if(positions != null) {
@@ -183,7 +212,7 @@ public class JobServiceImpl implements JobService {
 //                sql += " and p.position_name = " + "'" + position + "'" + " or ";
 //            }
 //        }
-        if(skills != null) {
+        if (skills != null) {
             for (String skill : skills) {
                 sql += " and s.skill_name = " + "'" + skill + "'" + " or ";
             }
