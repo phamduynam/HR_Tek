@@ -13,4 +13,6 @@ public interface TakeCareTransactionRepository extends JpaRepository<TakeCareTra
 
     List<TakeCareTransaction> findAllByJobRequirements(JobRequirements job);
 
+    TakeCareTransaction findByContact_CandidateIdAndJobRequirements_JobRecruitmentId(String candidateId, String jobRecruitmentId);
+
 }
