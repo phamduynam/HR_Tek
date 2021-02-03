@@ -23,21 +23,13 @@ public class CustomUserDetailService extends UserServiceImpl implements UserDeta
     @Autowired
     private RoleRepository roleRepository;
 
-
-    @Override
-    public UserDetails loadUserByUsername(String Gmail) throws UsernameNotFoundException {
-        Optional<Users> optionalUsers = userRepository.findByGmail(Gmail);
-
-        optionalUsers.orElseThrow(
-                () -> new UsernameNotFoundException("Gmail not found")
-        );
-
-        return optionalUsers.map(CustomUserDeatails::new).get();
-    }
-
-
     @Override
     public Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return null;
     }
 }

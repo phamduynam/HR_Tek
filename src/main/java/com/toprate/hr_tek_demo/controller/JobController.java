@@ -37,18 +37,12 @@ public class JobController {
     private PositionServiceImpl positionService;
 
     @Autowired
-    private JobPositionServiceImpl jobPositionService;
-
-    @Autowired
-    private JobWorkSkillServiceImpl jobWorkSkillService;
-
-    @Autowired
     private SkillServiceImpl skillService;
 
     @Autowired
     private ContactServiceImpl contactService;
 
-    // danh sach job dang tuyen
+    // hien thi danh sach job dang tuyen
     @GetMapping("/list-job")
     public String showJobList(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
         return findJobPaginated(1, "jobRecruitmentId", "asc", model, searchJobDto);
@@ -87,6 +81,7 @@ public class JobController {
         for (int i = 1; i < 2; i++) {
             jobWorkSkills.add(new JobWorkSkill());
         }
+
         newJob.setJobWorkSkills(jobWorkSkills);
 
         model.addAttribute("newJob", newJob);
@@ -116,6 +111,7 @@ public class JobController {
         JobRequirements jobEdit = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
         JobDto job = jobEdit.convertToJobDto();
+
         model.addAttribute("job", job);
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("partners", partnerService.findAllPartner());
@@ -133,8 +129,6 @@ public class JobController {
         return "redirect:/list-job";
     }
 
-
-
     // xoa job
     @GetMapping("/delete-job/{id}")
     public String deleteJob(@PathVariable("id") String id, Model model) {
@@ -144,14 +138,13 @@ public class JobController {
         return "redirect:/list-job";
     }
 
-    // hien thi trang chu
+    // hien thi trang chu man hinh chinh
     @GetMapping("/home")
-    public String homePage(Model model) {
-        model.addAttribute("jobs", jobService.findAllJob());
-        return "job/home";
+    public String showHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
+        return findJobShowHomePage(1, "jobRecruitmentId", "asc", model, searchJobDto);
     }
 
-    // phan trang
+    // phan trang hien thi danh sach job dang tuyen
     @GetMapping("/JobPage/{pageNo}")
     public String findJobPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
@@ -179,8 +172,36 @@ public class JobController {
         return "job/list-job";
     }
 
+    // phan trang hien thi trang chu
+    @GetMapping("/Page/{pageNo}")
+    public String findJobShowHomePage(@PathVariable (value = "pageNo") int pageNo,
+                                   @RequestParam("sortField") String sortField,
+                                   @RequestParam("sortDir") String sortDir,
+                                   Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
+        // So phan tu hien thi tren 1 trang
+        int pageSize = 5;
+
+        Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<JobRequirements> jobs = page.getContent();
+
+        model.addAttribute("currentJobPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("partners", partnerService.findAllPartner());
+        model.addAttribute("skills", skillService.getAllSkill());
+        model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("locations", locationService.findAllLocation());
+        return "job/home";
+    }
+
     // search full text
-    // tim kiem
+    // tim kiem theo toan bo cac tieu chi
     @RequestMapping("/search-job")
     public String viewHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto ) {
         List<JobRequirements> jobRequirementsList = jobService.searchJobByKeyword(searchJobDto);

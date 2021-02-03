@@ -11,5 +11,4 @@ public class HrTekDemoApplication {
 		SpringApplication.run(HrTekDemoApplication.class, args);
 	}
 
-
 }

@@ -1,6 +1,5 @@
 package com.toprate.hr_tek_demo.dto;
 
-import com.toprate.hr_tek_demo.model.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

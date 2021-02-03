@@ -147,8 +147,6 @@ public class JobDto {
 
     private List<JobWorkSkill> jobWorkSkills;
 
-//    private List<JobPosition> jobPositionList;
-
     private List<Position> positionList;
 
     private String hrName;
@@ -158,7 +156,6 @@ public class JobDto {
     private Location location;
 
     private Users user;
-
 
     // constructor mac dinh
     public JobDto() {
@@ -207,34 +204,6 @@ public class JobDto {
         return jobRequirement;
     }
 
-    // construct lay du lieu toan bo cac job dang tuyen dung
-//    public JobDto(String jobRecruitmentId, String jobTitle, int quantity, String formOfWork, Date dateStart, Date dateEnd, String position1, String skill) {
-//        this.jobRecruitmentId = jobRecruitmentId;
-//        this.jobTitle = jobTitle;
-//        this.quantity = quantity;
-//        this.formOfWork = formOfWork;
-//        this.dateStart = dateStart;
-//        this.dateEnd = dateEnd;
-//        this.position1 = position1;
-//        this.skill = skill;
-//    }
-
-    // construct lay du lieu chi tiet 1 job
-
-//    public JobDto(String jobRecruitmentId, String jobTitle, int quantity, String formOfWork, Date dateStart, Date dateEnd, float startSalary, float endSalary, String position1, String skill, String address, String partner1) {
-//        this.jobRecruitmentId = jobRecruitmentId;
-//        this.jobTitle = jobTitle;
-//        this.quantity = quantity;
-//        this.formOfWork = formOfWork;
-//        this.dateStart = dateStart;
-//        this.dateEnd = dateEnd;
-//        this.startSalary = startSalary;
-//        this.endSalary = endSalary;
-//        this.position1 = position1;
-//        this.skill = skill;
-//        this.address = address;
-//        this.partner1 = partner1;
-//    }
 
     // construct hien thi job len man hinh chinh
     public JobDto(String jobRecruitmentId, String jobTitle, String hrName) {

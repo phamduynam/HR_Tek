@@ -6,7 +6,6 @@ import com.toprate.hr_tek_demo.secvice.impl.RoleServiceImpl;
 import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,7 +46,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    // chinh sua nguoi dung
+    // chinh sua 1 nguoi dung
     @GetMapping("edit-user/{id}")
     public String showUpdateForm(@PathVariable("id") String id, Model model) {
         Users user = userServiceImpl.findUserById(id)
@@ -56,6 +55,7 @@ public class UserController {
         return "user/update-user";
     }
 
+    // luu chinh sua nguoi dung
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable("id") String id, @Valid Users user,
                              BindingResult result, Model model) {
@@ -69,7 +69,7 @@ public class UserController {
         return "redirect:/index";
     }
 
-    // xoa nguoi dung khoi he thong
+    // xoa 1 nguoi dung khoi he thong
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") String id, Model model) {
         Users user = userServiceImpl.findUserById(id)
@@ -102,7 +102,7 @@ public class UserController {
         return "user/index";
     }
 
-    // tim kiem
+    // tim kiem theo tat cac cac tieu chi
     @RequestMapping("/search")
     public String viewHomePage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
         List<Users> users = userServiceImpl.searchUserByKeyword(searchUserDto);

@@ -1,6 +1,5 @@
 package com.toprate.hr_tek_demo.repository.specification;
 
-import com.toprate.hr_tek_demo.dto.SearchJobDto;
 import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.repository.specification.base.BaseQuerySpecification;
@@ -12,13 +11,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserSpecification extends BaseQuerySpecification<Users> {
 
+    // tim kiem nguoi dung theo trang thai va quyen
     public Specification<Users> searchUser(SearchUserDto data) {
         if (data.getRole().equals(StringUtils.EMPTY) && data.getStatus().equals(StringUtils.EMPTY) ) {
             return null;
         }
-        return super.initWhere().and(findByRole(data.getRole()).and(findByStatus(data.getStatus())));
+        return super.initWhere().and(findByStatus(data.getStatus())).and(findByRole(data.getRole()));
     }
 
+    // tim kiem nguoi dung theo trang thai
     private Specification<Users> findByStatus(String status) {
         if (status == null || StringUtils.EMPTY.equals(status)) {
             return null;
@@ -26,6 +27,7 @@ public class UserSpecification extends BaseQuerySpecification<Users> {
         return super.equalsSpecification(Users_.STATUS, status);
     }
 
+    // tim kiem nguoi dung theo quyen
     private Specification<Users> findByRole(String role) {
         if (role == null || StringUtils.EMPTY.equals(role)) {
             return null;
@@ -34,5 +36,4 @@ public class UserSpecification extends BaseQuerySpecification<Users> {
         stringFilter.setEquals(role);
         return super.buildJoinSpecification(stringFilter, Users_.role, Role_.roleName);
     }
-
 }

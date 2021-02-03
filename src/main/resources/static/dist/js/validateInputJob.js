@@ -15,38 +15,28 @@ $(function () {
         }
     });
 
-    jQuery.validator.addMethod("specialCharacters", function(value, element) {
+    jQuery.validator.addMethod("regexEmail", function(value, element) {
         // allow any non-whitespace characters as the host part
         return this.optional( element ) || /^[A-z-0-9]+@toprate.io/.test( value );
     },"Không nên chứa kí tự đặc biệt");
-    
 
+    jQuery.validator.addMethod("regexUsername", function(value, element) {
+        // allow any non-whitespace characters as the host part
+        return this.optional( element ) || /^(?![_ -])(?:(?![_ -]{2})[\w -]){5,16}$/.test( value );
+    },"Không nên chứa kí tự đặc biệt");
 
     // Validate chỉ bắt theo tên của trường th:field
     $("#add-job").validate({
         rules: {
             jobTitle: {
-                // required: {
-                //     depends:function(){
-                //         $(this).val($.trim($(this).val()));
-                //         return true;
-                //     }
-                // },
                 required: true,
-                // specialCharacters: true,
+                regexUsername: true,
             },
             quantity: {
                 required: true,
             },
             dateStart: {
-                // required: {
-                //     depends:function(){
-                //         $(this).val($.trim($(this).val()));
-                //         return true;
-                //     }
-                // },
                 required: true,
-                // specialCharacters: true,
             },
             dateEnd: {
                 required: true
@@ -64,7 +54,8 @@ $(function () {
         messages: {
             jobTitle: {
                 required: "Tiêu đề không được để trống !",
-                alphanumeric: "Tiêu đề không chứa kí tự đặc biệt"
+                alphanumeric: "Tiêu đề không chứa kí tự đặc biệt",
+                regexUsername: "Tiêu đề không chứa các ký tự đặc biệt"
             },
             quantity: {
                 required: "Hãy nhập số lượng"
@@ -91,29 +82,17 @@ $(function () {
     $("#add-user").validate({
         rules: {
             name: {
-                // required: {
-                //     depends:function(){
-                //         $(this).val($.trim($(this).val()));
-                //         return true;
-                //     }
-                // },
                 required: true,
                 minlength: 5,
-                // specialCharacters: true,
+                regexUsername: true,
             },
             birthDay: {
                 required: true,
             },
             gmail: {
-                // required: {
-                //     depends:function(){
-                //         $(this).val($.trim($(this).val()));
-                //         return true;
-                //     }
-                // },
                 required: true,
                 email: true,
-                specialCharacters: true
+                regexEmail: true
             },
             phone: {
                 required: true,
@@ -125,7 +104,7 @@ $(function () {
             name: {
                 required: "Hãy nhập tên người dùng",
                 minlength: "Tên phải chứa ít nhất 5 ký tự",
-                alphanumeric: "Tên không chứa các ký tự đặc biệt"
+                regexUsername: "Tên không chứa các ký tự đặc biệt"
             },
             birthDay: {
                 required: "Hãy nhập ngày sinh"
@@ -133,11 +112,11 @@ $(function () {
             gmail: {
                 required: "Hãy nhập Email",
                 email: "Hãy nhập đúng định dạng email",
-                specialCharacters: "Email phải có dạng abc@toprate.io"
+                regexEmail: "Email phải có dạng abc@toprate.io"
             },
             phone: {
                 required: "Hãy nhập số điện thoại",
-                number: "Chỉ chứa các ký tự số",
+                number: "SĐT chỉ chứa các ký tự số",
                 minlength: "Số điện thoại vừa nhập không hợp lệ"
             }
         }

@@ -22,5 +22,4 @@ public class SkillServiceImpl implements SkillService {
         return skillRepository.findBySkillName(name);
     }
 
-
 }

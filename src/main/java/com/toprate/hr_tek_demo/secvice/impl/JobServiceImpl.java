@@ -35,6 +35,7 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findById(id);
     }
 
+    // luu 1 Job moi
     @Override
     public void saveJob(JobRequirements job) {
         // luu job
@@ -57,14 +58,15 @@ public class JobServiceImpl implements JobService {
 
         // luu toan bo jobWorkSkill
         jobWorkSkillService.saveAll(jobWorkSkillList);
-
     }
 
+    // tim kiem tat ca Job
     @Override
     public List<JobRequirements> findAllJob() {
         return jobRepository.findAllJob();
     }
 
+    // chinh sua 1 Job
     @Override
     public void updateJob(JobRequirements jobRequirement) {
 
@@ -116,10 +118,10 @@ public class JobServiceImpl implements JobService {
         for (JobPosition jobPosition : jobPositionListNew) {
             jobExist.addJobPosition(jobPosition);
         }
-
         jobRepository.save(jobRequirement);
     }
 
+    // Xoa 1 Job
     @Override
     public void deleteJob(JobRequirements job) {
         job.setEnable(0);
