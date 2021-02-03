@@ -123,7 +123,7 @@ $(function () {
         },
         messages: {
             name: {
-                required: "Tên không được để trống",
+                required: "Hãy nhập tên người dùng",
                 minlength: "Tên phải chứa ít nhất 5 ký tự",
                 alphanumeric: "Tên không chứa các ký tự đặc biệt"
             },
@@ -138,7 +138,7 @@ $(function () {
             phone: {
                 required: "Hãy nhập số điện thoại",
                 number: "Chỉ chứa các ký tự số",
-                minlength: "Số máy quý khách vừa nhập không hợp lệ"
+                minlength: "Số điện thoại vừa nhập không hợp lệ"
             }
         }
     })

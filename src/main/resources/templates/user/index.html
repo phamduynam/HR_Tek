@@ -20,6 +20,16 @@
         .row .form form > div:nth-child(3) {
             padding-top: 25px;
         }
+        .custom {
+            display: inline-flex;
+        }
+        .custom > span {
+            padding-top: 7px;
+            padding-right: 10px;
+        }
+        .card-body {
+            padding-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -29,52 +39,55 @@
         <div class="col-md-12">
             <!-- Multi Select table start -->
             <div class="card">
-                <div class="card-header">
-                    <div class="card-header-right">
-                        <ul class="list-unstyled card-option">
-                            <li><i class="feather icon-maximize full-card"></i></li>
-                            <li><i class="feather icon-minus minimize-card"></i></li>
-                            <li><i class="feather icon-trash-2 close-card"></i></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="btn-group btn-group-sm col-md-3 add-user" style="float: none; padding-top: 15px">
-                        <a href="/adduser">
-                            <button type="button" class="tabledit-add-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
-                                <span class="icofont icofont-ui-add"> Add new User</span>
-                            </button>
-                        </a>
-                    </div>
-                    <div class="col-md-9 form">
+                <div class="card-body">
                         <form th:action="@{/search}" th:object="${searchUserDto}">
-                            <div>
-                                <span>Vai trò</span>
-                                <select style="width: 200px" th:field="*{role}" class="form-control">
-                                    <option value="">Please role</option>
-                                    <option value="ADMIN">ADMIN</option>
-                                    <option value="MANAGER">MANAGER</option>
-                                    <option value="HR">HR</option>
-                                </select>
+                            <div class="col-4 mx-auto">
+                                <div class="input-group">
+                                    <input id="filterSearch" type="text" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div>
-                                <span>Trạng thái</span>
-                                <select style="width: 200px" th:field="*{status}" class="form-control">
-                                    <option value="">Please status</option>
-                                    <option value="ACTIVE">ACTIVE</option>
-                                    <option value="DEACTIVE">DEACTIVE</option>
-                                    <option value="PENDING">PENDING</option>
-                                </select>
-                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group custom">
+                                        <span>Vai trò</span>
+                                        <select style="width: 200px" th:field="*{role}" class="form-control">
+                                            <option value="">Please choose role</option>
+                                            <option value="ADMIN">ADMIN</option>
+                                            <option value="MANAGER">MANAGER</option>
+                                            <option value="HR">HR</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                            <div>
-                                <input style="cursor: pointer" type="submit" value="Search" />&nbsp;
-                                <input style="cursor: pointer" type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+                                <div class="col-md-4">
+                                    <div class="form-group custom">
+                                        <span>Trạng thái</span>
+                                        <select style="width: 200px" th:field="*{status}" class="form-control">
+                                            <option value="">Please choose status</option>
+                                            <option value="ACTIVE">ACTIVE</option>
+                                            <option value="DEACTIVE">DEACTIVE</option>
+                                            <option value="PENDING">PENDING</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="btn-group btn-group-sm col-md-3 add-user custom" style="float: none">
+                                        <a href="/adduser">
+                                            <button type="button" class="tabledit-add-button btn btn-primary waves-effect waves-light">
+                                                <span class="icofont icofont-ui-add"> Add new User</span>
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </form>
-                    </div>
                 </div>
 
                 <div class="card-block">

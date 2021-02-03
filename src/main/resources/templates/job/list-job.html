@@ -6,7 +6,6 @@
     <title>Danh sách các Job đang tuyển</title>
 
     <style>
-
         .card-body .dataTables_wrapper .row:nth-child(3) {
             display: none;
         }
@@ -23,18 +22,18 @@
                         <!-- /.box-header -->
                         <!-- form start -->
                         <div class="card-body">
-                            <div class="col-4 mx-auto">
-                                <div class="input-group">
-                                    <input id="filterSearch" type="text" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-secondary" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
                                 <form th:action="@{/search-job}" th:object="${searchJobDto}">
+                                    <div class="col-4 mx-auto">
+                                        <div class="input-group">
+                                            <input id="filterSearch" type="text" class="form-control" placeholder="Search">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-secondary" type="submit">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group" data-select-id="1">
@@ -90,20 +89,15 @@
                                                     </option>
                                                 </select>
                                             </div>
-                                                <div class="form-group" data-select-id="6">
-                                                    <label>Skill</label>
-                                                    <select th:field="*{jobWorkSkillList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
-                                                        <option th:each="skill : ${skills}"
-                                                                th:value = "${skill.skillId}"
-                                                                th:text="${skill.skillName}"></option>
-                                                    </select>
-                                                </div>
+                                            <div class="form-group" data-select-id="6">
+                                                <label>Skill</label>
+                                                <select th:field="*{jobWorkSkillList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                                    <option th:each="skill : ${skills}"
+                                                            th:value = "${skill.skillId}"
+                                                            th:text="${skill.skillName}"></option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div>
-                                        <input style="cursor: pointer" type="submit" value="Search" />&nbsp;
-                                        <input style="cursor: pointer" type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
                                     </div>
                                 </form>
 
