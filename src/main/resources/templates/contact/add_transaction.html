@@ -100,7 +100,7 @@
                                     <td th:text="${job.jobWorkSkills}"></td>
                                     <td th:text="${job.level}"></td>
                                     <td th:text="${job.yearExperience}"></td>
-                                    <td style="text-align:center"><input class="use-address"
+                                    <td style="text-align:center"><input class="use-job"
                                                                          th:checked="${job.takeCareTransactionList}"
                                                                          type="checkbox"></td>
                                 </tr>
@@ -161,11 +161,10 @@
 
     let jobRecruitmentId;
     let thisCheckbox;
-    $('.use-address').on('click', function () {
+    $('.use-job').on('click', function () {
         let $row = $(this).closest("tr"), $tds = $row.find("td:nth-child(1)");
         thisCheckbox = $row.find("td:nth-child(7)").children("input");
         thisCheckbox.prop('checked', !thisCheckbox.prop('checked'));
-
         $.each($tds, function () {
             jobRecruitmentId = $(this).text();
         });
