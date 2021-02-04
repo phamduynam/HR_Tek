@@ -6,13 +6,18 @@ import com.toprate.hr_tek_demo.dto.SearchJobForContactDto;
 import com.toprate.hr_tek_demo.excel.MyFile;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.ContactWorkSkill;
+import com.toprate.hr_tek_demo.model.TakeCareTransaction;
 import com.toprate.hr_tek_demo.secvice.impl.*;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Controller
@@ -28,32 +33,35 @@ public class ContactController {
     private SkillServiceImpl skillService;
 
     @Autowired
-    private StatusServiceImpl statusService;
+    private StatusServiceImpl statusServiceImpl;
 
     @Autowired
-    private JobServiceImpl jobService;
+    JobServiceImpl jobServiceImpl;
+
+    @Autowired
+    private TakeCareTransactionServiceImpl takeCareTransactionServiceImpl;
 
     @GetMapping("/view-contacts")
-    public String getContactView(Model model){
+    public String getContactView(Model model) {
         MyFile myFile = new MyFile();
-        model.addAttribute("myFile",myFile);
+        model.addAttribute("myFile", myFile);
         model.addAttribute("contacts", contactService.getAllContactTrue());
-        model.addAttribute("positions",positionService.getAllPosition());
-        model.addAttribute("skills",skillService.getAllSkill());
-        model.addAttribute("statusList",statusService.getAllStatus());
-        model.addAttribute("searchDto",new SearchDto());
+        model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("skills", skillService.getAllSkill());
+        model.addAttribute("statusList", statusServiceImpl.getAllStatus());
+        model.addAttribute("searchDto", new SearchDto());
         return "/contact/contacts";
     }
 
-    @GetMapping("/search")
-    public String searchContact(@ModelAttribute("searchDto") SearchDto searchDto,Model model){
+    @PostMapping("/search")
+    public String searchContact(@ModelAttribute("searchDto") SearchDto searchDto, Model model) {
         MyFile myFile = new MyFile();
-        model.addAttribute("myFile",myFile);
-        model.addAttribute("contacts", contactService.search(searchDto));
-        model.addAttribute("positions",positionService.getAllPosition());
-        model.addAttribute("skills",skillService.getAllSkill());
-        model.addAttribute("statusList",statusService.getAllStatus());
-        model.addAttribute("searchDto",searchDto);
+        model.addAttribute("myFile", myFile);
+        model.addAttribute("contacts", contactService.searchSpecification(searchDto));
+        model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("skills", skillService.getAllSkill());
+        model.addAttribute("statusList", statusServiceImpl.getAllStatus());
+        model.addAttribute("searchDto", searchDto);
         return "/contact/contacts";
     }
 
@@ -66,12 +74,12 @@ public class ContactController {
             listContactContactWorkSkill.add(new ContactWorkSkill());
         }
         contactDto.setContactWorkSkillList(listContactContactWorkSkill);
-        mav.addObject("positions",positionService.getAllPosition());
-        mav.addObject("skills",skillService.getAllSkill());
-        mav.addObject("contactDto",contactDto);
+        mav.addObject("positions", positionService.getAllPosition());
+        mav.addObject("skills", skillService.getAllSkill());
+        mav.addObject("contactDto", contactDto);
         return mav;
     }
-        
+
     @PostMapping("/save")
     public String saveContact(@ModelAttribute("contactDto") ContactDto contactDto) {
         Contact contact = contactDto.convertToModel();
@@ -80,7 +88,7 @@ public class ContactController {
     }
 
     @PostMapping("/update")
-    public String updateContact(@ModelAttribute("contactDto") ContactDto contactDto){
+    public String updateContact(@ModelAttribute("contactDto") ContactDto contactDto) {
         Contact contact = contactDto.convertToModel();
         contactService.updateContact(contact);
         return "redirect:/contact/view-contacts";
@@ -94,6 +102,7 @@ public class ContactController {
         mav.addObject("positions", positionService.getAllPosition());
         mav.addObject("skills", skillService.getAllSkill());
         mav.addObject("contactDto", contactDto);
+        mav.addObject("transactions",takeCareTransactionServiceImpl.getAllByContact(contact));
         return mav;
     }
 
@@ -101,11 +110,10 @@ public class ContactController {
     public ModelAndView addTransactionContact(@PathVariable String id, ModelAndView mav) {
         Contact contact = contactService.getContactById(id);
         ContactDto contactDto = contact.convertToDto();
-        SearchJobForContactDto searchJobForContactDto = new SearchJobForContactDto("",false,false,false);
+        SearchJobForContactDto searchJobForContactDto = new SearchJobForContactDto("", false, false, false);
         mav.setViewName("contact/add_transaction");
-        mav.addObject("contactDto",contactDto);
-        mav.addObject("searchObject",searchJobForContactDto);
-
+        mav.addObject("contactDto", contactDto);
+        mav.addObject("searchObject", searchJobForContactDto);
         return mav;
     }
 
@@ -114,12 +122,27 @@ public class ContactController {
         Contact contact = contactService.getContactById(id);
         ContactDto contactDto = contact.convertToDto();
         mav.setViewName("contact/add_transaction");
-        mav.addObject("contactDto",contactDto);
-        mav.addObject("searchObject",searchJobForContactDto);
-
+        mav.addObject("contactDto", contactDto);
+        mav.addObject("searchObject", searchJobForContactDto);
+        mav.addObject("jobs", jobServiceImpl.searchJobByMatchContact(contactDto, searchJobForContactDto));
         return mav;
     }
 
+    @PostMapping(value = "/add-transaction/create")
+    public ResponseEntity<?> addNew(@RequestParam String candidateId, @RequestParam String jobRecruitmentId) throws NotFoundException {
+        try {
+            TakeCareTransaction takeCareTransaction = takeCareTransactionServiceImpl.getByContactAndJob(candidateId, jobRecruitmentId);
+            if (takeCareTransaction == null) {
+                takeCareTransactionServiceImpl.save(candidateId, jobRecruitmentId);
+                return new ResponseEntity<Object>("Thêm vị trí ứng tuyển thành công", HttpStatus.OK);
+            } else {
+                takeCareTransactionServiceImpl.delete(takeCareTransaction);
+                return new ResponseEntity<Object>("Xóa vị trí ứng tuyển thành công", HttpStatus.OK);
+            }
+        } catch (Exception exception) {
+            return new ResponseEntity<Object>("Thao tác không thành công", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/edit/{id}")
     public ModelAndView editContact(@PathVariable String id, ModelAndView mav) {

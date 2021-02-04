@@ -9,6 +9,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "contact_work_skill")
 public class ContactWorkSkill {
     // FK
@@ -36,9 +37,6 @@ public class ContactWorkSkill {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;
-
-    public ContactWorkSkill() {
-    }
 
     public ContactWorkSkill(Skill skill) {
         this.skill = skill;
@@ -68,59 +66,5 @@ public class ContactWorkSkill {
                 ", skill=" + skill +
                 ", contact=" + contact +
                 '}';
-    }
-
-    public int getContactWorkSkillId() {
-        return contactWorkSkillId;
-    }
-
-    public void setContactWorkSkillId(int contactWorkSkillId) {
-        this.contactWorkSkillId = contactWorkSkillId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getSkillYearExperience() {
-        return skillYearExperience;
-    }
-
-    public void setSkillYearExperience(float skillYearExperience) {
-        this.skillYearExperience = skillYearExperience;
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public void setSkill(Skill skill) {
-        this.skill = skill;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContactWorkSkill that = (ContactWorkSkill) o;
-        return Objects.equals(skill, that.skill) &&
-                Objects.equals(contact, that.contact);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(skill, contact);
     }
 }

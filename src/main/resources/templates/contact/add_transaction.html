@@ -18,13 +18,15 @@
                     <h3 class="card-title">Thêm mới Job phù hợp</h3>
                 </div>
                 <div class="card-body">
-<!--                Thông tin tìm kiếm Job-->
-                    <form id = "add-transaction"  th:object="${searchObject}"
-                          th:action="@{/contact/add-transaction/search/{id}(id=${contactDto.candidateId})}" method="get">
+                    <!--                Thông tin tìm kiếm Job-->
+                    <form id="add-transaction" th:object="${searchObject}"
+                          th:action="@{/contact/add-transaction/search/{id}(id=${contactDto.candidateId})}"
+                          method="get">
 
                         <div class="form-group" style="display: none">
                             <label>ID</label>
-                            <input name="name" th:field="${contactDto.candidateId}" type="text" class="form-control"
+                            <input id="candidateId" name="name" th:field="${contactDto.candidateId}" type="text"
+                                   class="form-control"
                                    readonly placeholder="Id" autocomplete="off">
                         </div>
 
@@ -39,11 +41,12 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-around">
-                            <div class="col-md-4 d-flex justify-content-center">
+                            <div class="col-md-4 d-flex juỉstify-content-center">
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input th:field="*{suitableSkill}" class="form-check-input" type="checkbox" value="" >
-                                        <label class="form-check-label" >
+                                        <input th:field="*{suitableSkill}" class="form-check-input" type="checkbox"
+                                               value="">
+                                        <label class="form-check-label">
                                             Phù hợp kỹ năng
                                         </label>
                                     </div>
@@ -52,8 +55,9 @@
                             <div class="col-md-4 d-flex justify-content-center">
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input th:field="*{suitableLevel}"  class="form-check-input" type="checkbox" value="" >
-                                        <label class="form-check-label" >
+                                        <input th:field="*{suitableLevel}" class="form-check-input" type="checkbox"
+                                               value="">
+                                        <label class="form-check-label">
                                             Phù hợp trình độ
                                         </label>
                                     </div>
@@ -62,8 +66,9 @@
                             <div class="col-md-4">
                                 <div class="form-group d-flex justify-content-center">
                                     <div class="form-check">
-                                        <input th:field="*{suitableExp}" class="form-check-input" type="checkbox" value="">
-                                        <label class="form-check-label" >
+                                        <input th:field="*{suitableExp}" class="form-check-input" type="checkbox"
+                                               value="">
+                                        <label class="form-check-label">
                                             Phù hợp kinh nghiệm
                                         </label>
                                     </div>
@@ -73,24 +78,31 @@
                     </form>
 
 
-<!--                Danh sách Job phù hợp-->
+                    <!--                Danh sách Job phù hợp-->
                     <form action="">
                         <div class="table-wrapper">
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>Tên công việc</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ghi chú</th>
-                                    <th>Chi tiết</th>
+                                    <th>Vị trí</th>
+                                    <th>Kỹ năng</th>
+                                    <th>Level</th>
+                                    <th>Số năm</th>
+                                    <th>Thêm vị trí ứng tuyển</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr th:each="job : ${jobs}">
+                                    <td style="display:none;" th:text="${job.jobRecruitmentId}"></td>
+                                    <td th:text="${job.jobTitle}"></td>
+                                    <td th:text="${job.jobPositionList}"></td>
+                                    <td th:text="${job.jobWorkSkills}"></td>
+                                    <td th:text="${job.level}"></td>
+                                    <td th:text="${job.yearExperience}"></td>
+                                    <td style="text-align:center"><input class="use-address"
+                                                                         th:checked="${job.takeCareTransactionList}"
+                                                                         type="checkbox"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -101,6 +113,94 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-title">Xác nhận</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p id="message-body"></p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-success" id="confirm">Đồng ý</a>
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Hủy</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    let jobRecruitmentId;
+    let thisCheckbox;
+    $('.use-address').on('click', function () {
+        let $row = $(this).closest("tr"), $tds = $row.find("td:nth-child(1)");
+        thisCheckbox = $row.find("td:nth-child(7)").children("input");
+        thisCheckbox.prop('checked', !thisCheckbox.prop('checked'));
+
+        $.each($tds, function () {
+            jobRecruitmentId = $(this).text();
+        });
+        $(document).ready(function () {
+            if (thisCheckbox.is(":checked")) {
+                $('#modal-title').text("Xác nhận xóa vị trí ứng tuyển");
+                $('#message-body').text("Bạn chắc chắn muốn xóa vị trí ứng tuyển này cho ứng viên?");
+            } else {
+                $('#modal-title').text("Xác nhận thêm vị trí ứng tuyển");
+                $('#message-body').text("Bạn chắc chắn muốn thêm vị trí ứng tuyển này cho ứng viên?");
+            }
+            jQuery("#myModal").modal();
+        });
+    });
+    $(document).ready(function () {
+        $('#confirm').click(function () {
+            let candidateId = jQuery("#candidateId").val();
+            $.ajax({
+                url: "/contact/add-transaction/create",
+                type: "post",
+                cache: false,
+                data: {
+                    "candidateId": candidateId,
+                    "jobRecruitmentId": jobRecruitmentId
+                },
+                success: function (response) {
+                    toastr.success(response);
+                    $('#myModal').modal('hide');
+                    thisCheckbox.prop('checked', !thisCheckbox.prop('checked'));
+                },
+                error: function (response) {
+                    toastr.error(response.responseText);
+                    $('#myModal').modal('hide');
+                }
+            });
+        });
+    });
+</script>

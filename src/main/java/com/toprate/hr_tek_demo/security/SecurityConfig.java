@@ -20,8 +20,6 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Autowired AuthenticationManager authenticationManager;
 
@@ -31,13 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth
-                .parentAuthenticationManager(authenticationManager)
-                .userDetailsService(userDetailsService);
-        System.out.println(userDetailsService);
-    }
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {

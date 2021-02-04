@@ -1,10 +1,7 @@
 package com.toprate.hr_tek_demo.model;
 
 import com.toprate.hr_tek_demo.dto.ContactDto;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,6 +16,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "contact")
 public class Contact {
     @Id
@@ -125,7 +123,7 @@ public class Contact {
         contactDto.setEmail2(this.getEmail2());
         contactDto.setEnable(this.isEnable());
         contactDto.setLevels(this.getLevels());
-        contactDto.setBlackList(this.getBlackList());
+        contactDto.setIsBlackList(this.getIsBlackList());
         contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
 
         ArrayList<Position> listPosition = new ArrayList<>();
@@ -150,18 +148,6 @@ public class Contact {
         this.contactPositionList.add(contactPosition);
     }
 
-    public void addCv(CV cv){
-        this.cvList.add(cv);
-    }
-
-    public void addAssignHr(AssignHr assignHr) {
-        this.assignHrList.add(assignHr);
-    }
-
-    public void addTakeCareTransaction(TakeCareTransaction takeCareTransaction) {
-        this.takeCareTransactionList.add(takeCareTransaction);
-    }
-
     public void removeContactWorkSkill(ContactWorkSkill contactWorkSkill) {
         contactWorkSkill.setContact(null);
         this.contactWorkSkillList.remove(contactWorkSkill);
@@ -170,14 +156,6 @@ public class Contact {
     public void removeContactPosition(ContactPosition contactPosition) {
         contactPosition.setContact(null);
         this.contactPositionList.remove(contactPosition);
-    }
-
-    public void removeTakeCareTransaction(TakeCareTransaction takeCareTransaction) {
-        this.takeCareTransactionList.remove(takeCareTransaction);
-    }
-
-    public void removeAssignHr(AssignHr assignHr) {
-        this.assignHrList.remove(assignHr);
     }
 
     public Contact(String candidateId, String candidateName, Date birthDay, String address, String linkCv, Float yearExperience, String sex, Boolean isBlackList, String workLocation, String email1, String email2, String phone1, String phone2, String levels, boolean isEnable, List<AssignHr> assignHrList, List<ContactWorkSkill> contactWorkSkillList, List<ContactPosition> contactPositionList, List<TakeCareTransaction> takeCareTransactionList, List<CV> cvList, Users user) {
@@ -201,178 +179,6 @@ public class Contact {
         this.contactPositionList = contactPositionList;
         this.takeCareTransactionList = takeCareTransactionList;
         this.cvList = cvList;
-        this.user = user;
-    }
-
-    public String getEmail1() {
-        return email1;
-    }
-
-    public void setEmail1(String email1) {
-        this.email1 = email1;
-    }
-
-    public String getEmail2() {
-        return email2;
-    }
-
-    public void setEmail2(String email2) {
-        this.email2 = email2;
-    }
-
-    public String getPhone1() {
-        return phone1;
-    }
-
-    public void setPhone1(String phone1) {
-        this.phone1 = phone1;
-    }
-
-    public String getPhone2() {
-        return phone2;
-    }
-
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
-    }
-
-    public boolean isEnable() {
-        return isEnable;
-    }
-
-    public void setEnable(boolean enable) {
-        isEnable = enable;
-    }
-
-    public Contact() {
-        this.setEnable(true);
-    }
-
-    public String getLevels() {
-        return levels;
-    }
-
-    public void setLevels(String levels) {
-        this.levels = levels;
-    }
-
-    public String getCandidateId() {
-        return candidateId;
-    }
-
-    public void setCandidateId(String candidateId) {
-        this.candidateId = candidateId;
-    }
-
-    public String getCandidateName() {
-        return candidateName;
-    }
-
-    public void setCandidateName(String candidateName) {
-        this.candidateName = candidateName;
-    }
-
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLinkCv() {
-        return linkCv;
-    }
-
-    public void setLinkCv(String linkCv) {
-        this.linkCv = linkCv;
-    }
-
-    public Float getYearExperience() {
-        return yearExperience;
-    }
-
-    public void setYearExperience(Float yearExperience) {
-        this.yearExperience = yearExperience;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public Boolean getBlackList() {
-        return isBlackList;
-    }
-
-    public void setBlackList(Boolean blackList) {
-        isBlackList = blackList;
-    }
-
-    public String getWorkLocation() {
-        return workLocation;
-    }
-
-    public void setWorkLocation(String workLocation) {
-        this.workLocation = workLocation;
-    }
-
-    public List<AssignHr> getAssignHrList() {
-        return assignHrList;
-    }
-
-    public void setAssignHrList(List<AssignHr> assignHrList) {
-        this.assignHrList = assignHrList;
-    }
-
-    public List<ContactWorkSkill> getContactWorkSkillList() {
-        return contactWorkSkillList;
-    }
-
-    public void setContactWorkSkillList(List<ContactWorkSkill> contactWorkSkillList) {
-        this.contactWorkSkillList = contactWorkSkillList;
-    }
-
-    public List<ContactPosition> getContactPositionList() {
-        return contactPositionList;
-    }
-
-    public void setContactPositionList(List<ContactPosition> contactPositionList) {
-        this.contactPositionList = contactPositionList;
-    }
-
-    public List<TakeCareTransaction> getTakeCareTransactionList() {
-        return takeCareTransactionList;
-    }
-
-    public void setTakeCareTransactionList(List<TakeCareTransaction> takeCareTransactionList) {
-        this.takeCareTransactionList = takeCareTransactionList;
-    }
-
-    public List<CV> getCvList() {
-        return cvList;
-    }
-
-    public void setCvList(List<CV> cvList) {
-        this.cvList = cvList;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
         this.user = user;
     }
 

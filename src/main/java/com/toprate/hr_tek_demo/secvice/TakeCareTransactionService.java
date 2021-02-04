@@ -9,6 +9,12 @@ import java.util.List;
 public interface TakeCareTransactionService {
     List<TakeCareTransaction> getAll();
 
+    TakeCareTransaction save(String candidateId, String jobRecruitmentId);
+
+    TakeCareTransaction getByContactAndJob(String candidateId, String jobRecruitmentId);
+
+    void delete(TakeCareTransaction takeCareTransaction);
+
     List<TakeCareTransaction> getAllByContact(Contact contact);
 
     List<TakeCareTransaction> getAllByJob(JobRequirements job);

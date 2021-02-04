@@ -2,6 +2,7 @@ package com.toprate.hr_tek_demo.repository;
 
 import com.toprate.hr_tek_demo.model.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ContactRepository extends JpaRepository<Contact,String> {
+public interface ContactRepository extends JpaRepository<Contact,String> , JpaSpecificationExecutor<Contact> {
     // Trả về Các Contact đã active
     @Query("SELECT c FROM Contact c WHERE c.isEnable = true")
     Collection<Contact> findByIs_enableTrue();
@@ -33,5 +34,5 @@ public interface ContactRepository extends JpaRepository<Contact,String> {
             "join skill f on e.skill_id = f.skill_id\n" +
             "where c.position_id in (select d.position_id from job_position d where d.job_recruitment_id = :id)\n" +
             "and f.skill_id in (select g.skill_id from job_work_skill g where g.job_recruitment_id = :id) ", nativeQuery = true)
-    public List<Contact> findAllContactForJob(@Param("id") String id);
+    List<Contact> findAllContactForJob(@Param("id") String id);
 }

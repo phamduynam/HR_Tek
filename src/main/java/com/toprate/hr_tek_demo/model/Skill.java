@@ -9,6 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "skill")
 public class Skill {
     @Id
@@ -32,9 +33,6 @@ public class Skill {
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<JobWorkSkill> jobWorkSkillList;
 
-    public Skill() {
-    }
-
     public Skill(int skillId) {
         this.skillId = skillId;
     }
@@ -47,38 +45,6 @@ public class Skill {
         this.contactWorkSkillList = contactWorkSkillList;
     }
 
-    public int getSkillId() {
-        return skillId;
-    }
-
-    public void setSkillId(int skillId) {
-        this.skillId = skillId;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
-
-    public List<ContactWorkSkill> getContactWorkSkillList() {
-        return contactWorkSkillList;
-    }
-
-    public void setContactWorkSkillList(List<ContactWorkSkill> contactWorkSkillList) {
-        this.contactWorkSkillList = contactWorkSkillList;
-    }
-
-    public List<JobWorkSkill> getJobWorkSkillList() {
-        return jobWorkSkillList;
-    }
-
-    public void setJobWorkSkillList(List<JobWorkSkill> jobWorkSkillList) {
-        this.jobWorkSkillList = jobWorkSkillList;
-    }
-
     public void removeContactWorkSkill(ContactWorkSkill contactWorkSkill){
         contactWorkSkill.setContact(null);
         this.contactWorkSkillList.remove(contactWorkSkill);
@@ -88,6 +54,7 @@ public class Skill {
         jobWorkSkill.setJobRequirements(null);
         this.contactWorkSkillList.remove(jobWorkSkill);
     }
+
     public void addContactWorkSkill(ContactWorkSkill contactWorkSkill){
         contactWorkSkill.setSkill(this);
         this.contactWorkSkillList.add(contactWorkSkill);

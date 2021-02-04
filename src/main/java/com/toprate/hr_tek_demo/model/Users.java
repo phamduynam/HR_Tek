@@ -11,6 +11,7 @@ import java.sql.Date;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "user")
 public class Users implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -74,95 +75,4 @@ public class Users implements Serializable {
         return roles;
     }
 
-    public Users(Users users) {
-    }
-
-    public Users() {
-
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGmail() {
-        return gmail;
-    }
-
-    public void setGmail(String gmail) {
-        this.gmail = gmail;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
-
-
-    public List<AssignHr> getAssignHrListManager() {
-        return assignHrListManager;
-    }
-
-    public void setAssignHrListManager(List<AssignHr> assignHrListManager) {
-        this.assignHrListManager = assignHrListManager;
-    }
-
-    public List<AssignHr> getAssignHrListHr() {
-        return assignHrListHr;
-    }
-
-    public void setAssignHrListHr(List<AssignHr> assignHrListHr) {
-        this.assignHrListHr = assignHrListHr;
-    }
-
-    public List<JobRequirements> getJobRequirementsList() {
-        return jobRequirementsList;
-    }
-
-    public void setJobRequirementsList(List<JobRequirements> jobRequirementsList) {
-        this.jobRequirementsList = jobRequirementsList;
-    }
-
-    public List<Contact> getContactList() {
-        return contactList;
-    }
-
-    public void setContactList(List<Contact> contactList) {
-        this.contactList = contactList;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

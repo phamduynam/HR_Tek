@@ -174,15 +174,4 @@ public class JobRequirements {
         this.jobPositionList.add(jobPosition);
     }
 
-    public JobRequirements(String jobRecruitmentId) {
-        this.jobRecruitmentId = jobRecruitmentId;
-    }
-
-    public int getEnable() {
-        return enable;
-    }
-
-    public void setEnable(int enable) {
-        this.enable = enable;
-    }
 }
