@@ -21,10 +21,10 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
         if (keyword == null || StringUtils.EMPTY.equals(keyword) && ids.size() == 0 && yearExperience == null && level == null || StringUtils.EMPTY.equals(level)) {
             return null;
         }
-        return super.initWhere().and(findByLevel(level)).and(findByYearTitle(keyword)).and(findByYearExperience(yearExperience)).and(findBySkill(ids));
+        return super.initWhere().and(findByLevel(level)).and(findByJobTitle(keyword)).and(findByYearExperience(yearExperience)).and(findBySkill(ids));
     }
 
-    private Specification<JobRequirements> findByYearTitle(String value) {
+    private Specification<JobRequirements> findByJobTitle(String value) {
         if (value == null || StringUtils.EMPTY.equals(value)) {
             return null;
         }
