@@ -124,7 +124,7 @@ public class FileService {
         contact.setLevels(getStringCellValue(row, level));
         contact.setYearExperience((float) getDoubleCellValue(row, year_experience));
         contact.setEnable(true);
-        contact.setBlackList(false);
+        contact.setIsBlackList(false);
         // list skill String
         String[] listSkillString = processString(row, listSKill);
         String[] listPositionString = processString(row, listPosition);

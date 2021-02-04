@@ -49,6 +49,20 @@ public abstract class BaseQuerySpecification<E> {
         };
     }
 
+    //join one to many
+    public <R, J, F extends Comparable<? super F>> Specification<E> buildJoinSpecification(Filter<F> filter, SingularAttribute<? super E, R> reference, SingularAttribute<J, F> valueField) {
+        Specification<E> result = null;
+        if (filter.getEquals() != null) {
+            result = this.equalsOfJoint(reference, valueField, filter.getEquals());
+        }
+        return result;
+    }
+
+    //filter equals
+    private <R, J, F> Specification<E> equalsOfJoint(SingularAttribute<? super E, R> reference, SingularAttribute<J, F> idField, F value) {
+        return (root, query, builder) -> builder.equal(root.join(reference).get(idField.getName()), value);
+    }
+
     //join many to many
     public <R, J, F extends Comparable<? super F>> Specification<E> buildJoinSpecification(Filter<F> filter, ListAttribute<? super E, R> reference, SingularAttribute<R, J> joinField, SingularAttribute<J, F> valueField) {
         Specification<E> result = null;

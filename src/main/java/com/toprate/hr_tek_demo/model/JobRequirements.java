@@ -100,6 +100,10 @@ public class JobRequirements {
     @ToString.Exclude
     private Users user;
 
+    public JobRequirements(String id) {
+        this.jobRecruitmentId = id;
+        this.setEnable(1);
+    }
     public JobRequirements() {
         this.setEnable(1);
     }

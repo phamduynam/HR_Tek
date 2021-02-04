@@ -31,6 +31,9 @@ public class ContactPosition {
     @ToString.Exclude
     private Position position;
 
+    public ContactPosition(Position position){
+        this.position = position;
+    }
 
     public ContactPosition(Contact contact, Position position) {
         this.contact = contact;

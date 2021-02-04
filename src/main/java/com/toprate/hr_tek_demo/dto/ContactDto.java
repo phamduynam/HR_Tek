@@ -75,7 +75,7 @@ public class ContactDto {
         contact.setSex(this.getSex());
         contact.setLinkCv(this.getLinkCv());
         contact.setEnable(this.isEnable());
-        contact.setBlackList(this.getIsBlackList());
+        contact.setIsBlackList(this.getIsBlackList());
 
         // Add skill not null
         List<ContactWorkSkill> contactWorkSkillList = new ArrayList<>();

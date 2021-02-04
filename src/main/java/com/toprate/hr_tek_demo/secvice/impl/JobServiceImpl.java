@@ -141,8 +141,8 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findAll(pageable);
     }
 
-
-    public List<JobRequirementDTO> searchJobByMatchContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto) {
+    @Override
+    public List<JobRequirementDTO> searchJobMatchByContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto) {
         List<Integer> idSkills = searchJobForContactDto.getSuitableSkill() ? contactDto.getContactWorkSkillList().stream().map(emp -> emp.getSkill().getSkillId()).collect(Collectors.toList()) : new ArrayList<>();
         String level = searchJobForContactDto.getSuitableLevel() ? contactDto.getLevels() : null;
         Float experience = searchJobForContactDto.getSuitableExp() ? contactDto.getYearExperience() : null;
@@ -150,6 +150,11 @@ public class JobServiceImpl implements JobService {
         List<JobRequirements> jobRequirements = jobRepository.findAll(new JobSpecification().searchFilter(keyword, level, experience, idSkills));
         List<JobRequirementDTO> jobRequirementDTOs = jobRequirements.stream().map(s -> convertJobRequirementsToDTO(s, contactDto)).collect(Collectors.toList());
         return jobRequirementDTOs;
+    }
+
+    @Override
+    public List<JobRequirements> searchJobByContact(ContactDto contactDto) {
+        return jobRepository.findByTakeCareTransactionList_Contact_CandidateId(contactDto.getCandidateId());
     }
 
     private JobRequirementDTO convertJobRequirementsToDTO(JobRequirements jobRequirements, ContactDto contactDto) {
