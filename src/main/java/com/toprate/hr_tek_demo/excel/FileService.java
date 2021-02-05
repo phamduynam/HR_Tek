@@ -2,9 +2,6 @@ package com.toprate.hr_tek_demo.excel;
 
 
 import com.toprate.hr_tek_demo.model.*;
-import com.toprate.hr_tek_demo.repository.ContactRepository;
-import com.toprate.hr_tek_demo.secvice.ContactService;
-import com.toprate.hr_tek_demo.secvice.SkillService;
 import com.toprate.hr_tek_demo.secvice.impl.ContactServiceImpl;
 import com.toprate.hr_tek_demo.secvice.impl.PositionServiceImpl;
 import com.toprate.hr_tek_demo.secvice.impl.SkillServiceImpl;
@@ -127,7 +124,7 @@ public class FileService {
         contact.setLevels(getStringCellValue(row, level));
         contact.setYearExperience((float) getDoubleCellValue(row, year_experience));
         contact.setEnable(true);
-        contact.setBlackList(false);
+        contact.setIsBlackList(false);
         // list skill String
         String[] listSkillString = processString(row, listSKill);
         String[] listPositionString = processString(row, listPosition);

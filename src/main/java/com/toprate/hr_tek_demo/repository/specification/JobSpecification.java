@@ -33,7 +33,7 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
         return super.initWhere().and(findByYearExperience(data.getYearExperience())).and(findByLevel(data.getLevel())).and(findByLocation(data.getLocation())).and(findByPartner(data.getPartner())).and(findByPosition(data.getJobPositionList())).and(findBySkill(data.getJobWorkSkillList()));
     }
 
-    // tim kiem tho tieu de
+    // tim kiem theo tieu de
     private Specification<JobRequirements> findByJobTitle(String value) {
         if (value == null || StringUtils.EMPTY.equals(value)) {
             return null;

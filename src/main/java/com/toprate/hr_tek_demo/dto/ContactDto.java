@@ -2,13 +2,18 @@ package com.toprate.hr_tek_demo.dto;
 
 import com.toprate.hr_tek_demo.model.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@Getter
+@Setter
 public class ContactDto {
 
     private String candidateId;
@@ -46,41 +51,13 @@ public class ContactDto {
 
     private List<Position> positionList;
 
+    private List<Skill> skillList;
+
     private List<TakeCareTransaction> takeCareTransactionList;
 
     private List<CV> cvList;
 
-    public List<Position> getPositionList() {
-        return positionList;
-    }
 
-    public void setPositionList(List<Position> positionList) {
-        this.positionList = positionList;
-    }
-
-    public List<ContactWorkSkill> getContactWorkSkillList() {
-        return contactWorkSkillList;
-    }
-
-    public void setContactWorkSkillList(List<ContactWorkSkill> contactWorkSkillList) {
-        this.contactWorkSkillList = contactWorkSkillList;
-    }
-
-    public List<TakeCareTransaction> getTakeCareTransactionList() {
-        return takeCareTransactionList;
-    }
-
-    public void setTakeCareTransactionList(List<TakeCareTransaction> takeCareTransactionList) {
-        this.takeCareTransactionList = takeCareTransactionList;
-    }
-
-    public List<CV> getCvList() {
-        return cvList;
-    }
-
-    public void setCvList(List<CV> cvList) {
-        this.cvList = cvList;
-    }
 
     public Contact convertToModel() {
         Contact contact = new Contact();
@@ -98,7 +75,7 @@ public class ContactDto {
         contact.setSex(this.getSex());
         contact.setLinkCv(this.getLinkCv());
         contact.setEnable(this.isEnable());
-        contact.setBlackList(this.getBlackList());
+        contact.setIsBlackList(this.getIsBlackList());
 
         // Add skill not null
         List<ContactWorkSkill> contactWorkSkillList = new ArrayList<>();
@@ -127,126 +104,7 @@ public class ContactDto {
 
     public ContactDto() {
         this.setEnable(true);
-        this.setBlackList(false);
+        this.setIsBlackList(false);
     }
 
-    public String getCandidateId() {
-        return candidateId;
-    }
-
-    public void setCandidateId(String candidateId) {
-        this.candidateId = candidateId;
-    }
-
-    public String getCandidateName() {
-        return candidateName;
-    }
-
-    public void setCandidateName(String candidateName) {
-        this.candidateName = candidateName;
-    }
-
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLinkCv() {
-        return linkCv;
-    }
-
-    public void setLinkCv(String linkCv) {
-        this.linkCv = linkCv;
-    }
-
-    public Float getYearExperience() {
-        return yearExperience;
-    }
-
-    public void setYearExperience(Float yearExperience) {
-        this.yearExperience = yearExperience;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public Boolean getBlackList() {
-        return isBlackList;
-    }
-
-    public void setBlackList(Boolean blackList) {
-        isBlackList = blackList;
-    }
-
-    public String getWorkLocation() {
-        return workLocation;
-    }
-
-    public void setWorkLocation(String workLocation) {
-        this.workLocation = workLocation;
-    }
-
-    public String getEmail1() {
-        return email1;
-    }
-
-    public void setEmail1(String email1) {
-        this.email1 = email1;
-    }
-
-    public String getEmail2() {
-        return email2;
-    }
-
-    public void setEmail2(String email2) {
-        this.email2 = email2;
-    }
-
-    public String getPhone1() {
-        return phone1;
-    }
-
-    public void setPhone1(String phone1) {
-        this.phone1 = phone1;
-    }
-
-    public String getPhone2() {
-        return phone2;
-    }
-
-    public void setPhone2(String phone2) {
-        this.phone2 = phone2;
-    }
-
-    public String getLevels() {
-        return levels;
-    }
-
-    public void setLevels(String levels) {
-        this.levels = levels;
-    }
-
-    public boolean isEnable() {
-        return isEnable;
-    }
-
-    public void setEnable(boolean enable) {
-        isEnable = enable;
-    }
 }

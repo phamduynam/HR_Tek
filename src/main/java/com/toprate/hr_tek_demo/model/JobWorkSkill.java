@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "job_work_skill")
 public class JobWorkSkill {
     //FK
@@ -35,8 +36,6 @@ public class JobWorkSkill {
     private JobRequirements jobRequirements;
 
 
-    public JobWorkSkill() {
-    }
 
     public JobWorkSkill(int jobworkSkillId, String description, float skillExperience, Skill skill, JobRequirements jobRequirements) {
         this.jobworkSkillId = jobworkSkillId;

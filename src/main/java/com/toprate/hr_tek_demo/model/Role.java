@@ -21,7 +21,4 @@ public class Role {
     @ToString.Exclude // Khoonhg sử dụng trong toString()
     private List<Users> userList;
 
-    public String getRoleName() {
-        return roleName;
-    }
 }

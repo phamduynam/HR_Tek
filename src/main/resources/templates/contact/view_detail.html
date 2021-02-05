@@ -20,7 +20,7 @@
                     <form id="submit-form" th:action="@{/contact/save}" method="post" th:object="${contactDto}">
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group" style="display: none">
                                     <label>ID</label>
                                     <input readonly name="name" th:field="*{candidateId}" type="text"
                                            class="form-control" placeholder="Id" autocomplete="off">
@@ -48,15 +48,14 @@
                                         <option th:value="Khác" th:text="Khác" disabled></option>
                                     </select>
                                 </div>
-
-                            </div>
-
-                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Địa Chỉ</label>
                                     <input readonly name="address" th:field="*{address}" type="text"
                                            class="form-control" placeholder="Enter Address" autocomplete="off">
                                 </div>
+                            </div>
+
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Số năm kinh nghiệm</label>
                                     <select readonly name="exp" th:field="*{yearExperience}"
@@ -91,6 +90,14 @@
                                                 th:text="${position.positionName}" disabled></option>
                                     </select>
                                 </div>
+<!--                                <div class="form-group" >-->
+<!--                                    <label>Kỹ năng</label>-->
+<!--                                    <select disabled th:field="*{contactWorkSkillList.skill}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>-->
+<!--                                        <option th:each="skill : ${skills}"-->
+<!--                                                th:value="${{skill.skillId}}"-->
+<!--                                                th:text="${skill.skillName}" disabled></option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
                             </div>
 
                             <div class="col-md-4">
@@ -139,6 +146,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+<<<<<<< HEAD
+                                <tr th:each="trans : ${transactions}">
+                                    <td th:text=""></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+=======
                                 <tr th:each="job : ${jobs}">
                                     <td style="display:none;" th:text="${job.jobRecruitmentId}"></td>
                                     <td th:text="${job.jobTitle}"></td>
@@ -150,6 +164,7 @@
                                     </td>
                                     <td>node</td>
                                     <td th:text="${job.description}"></td>
+>>>>>>> e6f529ee5e5d489868fdfe7c17b11c87bae18ad2
                                 </tr>
                                 </tbody>
                             </table>

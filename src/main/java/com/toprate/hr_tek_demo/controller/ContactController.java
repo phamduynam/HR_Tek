@@ -32,13 +32,13 @@ public class ContactController {
     private SkillServiceImpl skillService;
 
     @Autowired
-    private StatusServiceImpl statusService;
+    private StatusServiceImpl statusServiceImpl;
 
     @Autowired
     JobServiceImpl jobServiceImpl;
 
     @Autowired
-    private TakeCareTransactionServiceImpl takeCareTransactionService;
+    private TakeCareTransactionServiceImpl takeCareTransactionServiceImpl;
 
     @GetMapping("/view-contacts")
     public String getContactView(Model model) {
@@ -47,7 +47,7 @@ public class ContactController {
         model.addAttribute("contacts", contactService.getAllContactTrue());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills", skillService.getAllSkill());
-        model.addAttribute("statusList", statusService.getAllStatus());
+        model.addAttribute("statusList", statusServiceImpl.getAllStatus());
         model.addAttribute("searchDto", new SearchDto());
         return "/contact/contacts";
     }
@@ -59,7 +59,7 @@ public class ContactController {
         model.addAttribute("contacts", contactService.searchSpecification(searchDto));
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills", skillService.getAllSkill());
-        model.addAttribute("statusList", statusService.getAllStatus());
+        model.addAttribute("statusList", statusServiceImpl.getAllStatus());
         model.addAttribute("searchDto", searchDto);
         return "/contact/contacts";
     }
@@ -101,6 +101,7 @@ public class ContactController {
         mav.addObject("positions", positionService.getAllPosition());
         mav.addObject("skills", skillService.getAllSkill());
         mav.addObject("contactDto", contactDto);
+        mav.addObject("transactions",takeCareTransactionServiceImpl.getAllByContact(contact));
         mav.addObject("jobs", jobServiceImpl.searchJobByContact(contactDto));
         return mav;
     }
@@ -113,7 +114,6 @@ public class ContactController {
         mav.setViewName("contact/add_transaction");
         mav.addObject("contactDto", contactDto);
         mav.addObject("searchObject", searchJobForContactDto);
-
         return mav;
     }
 
@@ -131,12 +131,12 @@ public class ContactController {
     @PostMapping(value = "/add-transaction/create")
     public ResponseEntity<?> addNew(@RequestParam String candidateId, @RequestParam String jobRecruitmentId) throws NotFoundException {
         try {
-            TakeCareTransaction takeCareTransaction = takeCareTransactionService.getByContactAndJob(candidateId, jobRecruitmentId);
+            TakeCareTransaction takeCareTransaction = takeCareTransactionServiceImpl.getByContactAndJob(candidateId, jobRecruitmentId);
             if (takeCareTransaction == null) {
-                takeCareTransactionService.save(candidateId, jobRecruitmentId);
+                takeCareTransactionServiceImpl.save(candidateId, jobRecruitmentId);
                 return new ResponseEntity<Object>("Thêm vị trí ứng tuyển thành công", HttpStatus.OK);
             } else {
-                takeCareTransactionService.delete(takeCareTransaction);
+                takeCareTransactionServiceImpl.delete(takeCareTransaction);
                 return new ResponseEntity<Object>("Xóa vị trí ứng tuyển thành công", HttpStatus.OK);
             }
         } catch (Exception exception) {
@@ -162,4 +162,5 @@ public class ContactController {
         contactService.saveContact(contact);
         return "redirect:/contact/view-contacts";
     }
+
 }

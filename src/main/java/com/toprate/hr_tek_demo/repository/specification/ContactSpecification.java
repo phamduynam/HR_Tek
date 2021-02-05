@@ -19,10 +19,22 @@ import java.util.List;
 public class ContactSpecification extends BaseQuerySpecification<Contact> {
 
     public Specification<Contact> searchFilter(SearchDto searchDto) {
-        if (searchDto.getContactWorkSkillList().size() == 0 && searchDto.getContactPositionList().size() == 0 && searchDto.getLevel().equals(StringUtils.EMPTY) && searchDto.getKeyWord().equals(StringUtils.EMPTY) && searchDto.getYearExp() == 0f && searchDto.getIsBlackList().equals("ALL")) {
+        if (searchDto.getContactWorkSkillList().size() == 0
+                && searchDto.getContactPositionList().size() == 0
+                && searchDto.getLevel().equals(StringUtils.EMPTY)
+                && searchDto.getKeyWord().equals(StringUtils.EMPTY)
+                && searchDto.getYearExp() == 0f
+                && searchDto.getIsBlackList().equals("ALL")) {
             return null;
         }
-        return super.initWhere().and(findByName(searchDto.getKeyWord())).and(findByBlackList(searchDto.getIsBlackList())).and(findYearExperience(searchDto.getYearExp())).and(findByLevel(searchDto.getLevel())).and(findByPosition(searchDto.getContactPositionList())).and(findBySkill(searchDto.getContactWorkSkillList()));
+
+        return super.initWhere()
+                .and(findByName(searchDto.getKeyWord()))
+                .and(findByBlackList(searchDto.getIsBlackList()))
+                .and(findYearExperience(searchDto.getYearExp()))
+                .and(findByLevel(searchDto.getLevel()))
+                .and(findByPosition(searchDto.getContactPositionList()))
+                .and(findBySkill(searchDto.getContactWorkSkillList()));
     }
 
     private Specification<Contact> findYearExperience(Float value) {

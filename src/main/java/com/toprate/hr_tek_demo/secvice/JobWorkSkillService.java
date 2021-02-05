@@ -5,11 +5,11 @@ import com.toprate.hr_tek_demo.model.JobWorkSkill;
 import java.util.List;
 
 public interface JobWorkSkillService {
-    public void save(String jobId, int skillId);
+    void save(String jobId, int skillId);
 
-    public List<JobWorkSkill> findAllByJobId(String id);
+    List<JobWorkSkill> findAllByJobId(String id);
 
-    public void delete(JobWorkSkill jobWorkSkill);
+    void delete(JobWorkSkill jobWorkSkill);
 
-    public void saveAll(List<JobWorkSkill> jobWorkSkillList);
+    void saveAll(List<JobWorkSkill> jobWorkSkillList);
 }

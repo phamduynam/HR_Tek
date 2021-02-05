@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -60,4 +61,10 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return userRepository.findAll(pageable);
     }
+
+    @Override
+    public Optional<Users> getUserByGmail(String gmail) {
+        return userRepository.findByGmail(gmail);
+    }
+
 }

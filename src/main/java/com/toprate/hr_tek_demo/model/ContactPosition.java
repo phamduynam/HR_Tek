@@ -8,6 +8,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "contact_position")
 public class ContactPosition {
     @Id
@@ -30,7 +31,8 @@ public class ContactPosition {
     @ToString.Exclude
     private Position position;
 
-    public ContactPosition() {
+    public ContactPosition(Position position){
+        this.position = position;
     }
 
     public ContactPosition(Contact contact, Position position) {
@@ -38,57 +40,4 @@ public class ContactPosition {
         this.position = position;
     }
 
-    public ContactPosition(Contact contact) {
-        this.contact = contact;
-    }
-
-    public ContactPosition(Position position) {
-        this.position = position;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Contact getContact() {
-        return contact;
-    }
-
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public int getContactPositionId() {
-        return contactPositionId;
-    }
-
-    public void setContactPositionId(int contactPositionId) {
-        this.contactPositionId = contactPositionId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContactPosition that = (ContactPosition) o;
-        return Objects.equals(contact, that.contact) &&
-                Objects.equals(position, that.position);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(contact, position);
-    }
 }

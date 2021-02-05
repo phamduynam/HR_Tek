@@ -14,6 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -173,5 +176,37 @@ public class JobServiceImpl implements JobService {
     }
 
 
+    @Override
+    public List<JobRequirements> searchJobForContact(Contact contact, SearchJobForContactDto searchJobForContactDto) {
+        // Logic tìm kiếm
+        String queryString = "SELECT j.* FROM job_recruitment j";
 
+            // Phù hợp với kỹ năng
+            if(searchJobForContactDto.getSuitableSkill()){
+                queryString.concat(
+                    "JOIN job_work_skill jwk ON j.job_recruitment_id = jwk.job_recruitment_id" +
+                    "JOIN skill s ON s.skill_id = jwk.skill_id" +
+                    "JOIN contact_work_skill cwk ON cwk.skill_id = s.skill_id" +
+                    "JOIN contact c.contact_work_skill_id = cwk.contact_work_skill_id"
+                );
+            }
+
+            // Phù hợp với trình độ
+            if(searchJobForContactDto.getSuitableLevel()){
+                queryString.concat("j.levels = " + "'" + contact.getLevels() + "'");
+            }
+
+            // Phù hợp với kinh nghiệm
+            if(searchJobForContactDto.getSuitableExp()){
+                queryString.concat("j.year_experience >= " + "'" +contact.getYearExperience() + "'");
+            }
+
+            queryString.concat("ORDER BY ");
+
+        EntityManager entityManager = null;
+        Query query = entityManager.createNativeQuery(queryString,JobRequirements.class);
+            List<JobRequirements> jobRequirementsList = query.getResultList();
+
+        return jobRequirementsList;
+    }
 }

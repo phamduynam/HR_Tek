@@ -113,15 +113,6 @@ public class ContactServiceImpl implements ContactService {
     public List<Contact> search(SearchDto searchDto) {
 
         // Logic search
-        String search = "SELECT c.* FROM Contact c " +
-                "JOIN TakeCareTransaction t ON c.candidateId = t.candidateId" +
-                "JOIN Status st ON st.status_id = t.status_id " +
-                "JOIN ContactWorkSkill cwk ON cwk.candidateId = c.candidateId" +
-                "JOIN Skill sk ON cwk.skillId = sk.skillId" +
-                "JOIN ContactPosition cp ON cp.candidateId = c.candidateId" +
-                "JOIN Position p ON cp.position " +
-                "WHERE c.isEnable = true ";
-
 
         String testQuery = "SELECT c.* FROM Contact c WHERE c.is_black_list = '0'";
 

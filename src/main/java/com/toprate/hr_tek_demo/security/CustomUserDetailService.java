@@ -12,10 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
-
 @Transactional
-@Service(value = "userServiceimp")
+//@Service(value = "userServiceimp")
 public class CustomUserDetailService extends UserServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
