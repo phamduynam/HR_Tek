@@ -6,7 +6,6 @@ import com.toprate.hr_tek_demo.dto.SearchJobDto;
 import com.toprate.hr_tek_demo.dto.SearchJobForContactDto;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.JobRequirements;
-import com.toprate.hr_tek_demo.model.Users;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

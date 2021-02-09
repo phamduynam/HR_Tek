@@ -3,6 +3,7 @@ package com.toprate.hr_tek_demo.controller;
 import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.dto.SearchJobDto;
 import com.toprate.hr_tek_demo.model.*;
+import com.toprate.hr_tek_demo.secvice.JobService;
 import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class JobController {
 
     @Autowired
-    private JobServiceImpl jobService;
+    private JobService jobService;
 
     @Autowired
     private LocationServiceImpl locationService;
