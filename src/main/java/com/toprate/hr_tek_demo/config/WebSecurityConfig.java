@@ -4,17 +4,13 @@ import com.toprate.hr_tek_demo.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,20 +20,6 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    public SpringSecurityDialect securityDialect() {
-        return new SpringSecurityDialect();
-    }
-
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler myAuthenticationSuccessHandler() {
-        return new MyAuthenticationSuccessHandler();
-    }
 
     @Bean
     public AuthenticationSuccessHandler myOauth2AuthenticationSuccessHandler() {
@@ -45,45 +27,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private DefaultOAuth2UserService defaultOAuth2UserService;
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/resources/**");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/*").hasAnyRole(Constants.ROLE.ADMIN, Constants.ROLE.MANAGER, Constants.ROLE.HR)
+        http.csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/*").hasAnyRole(Constants.ROLE.ADMIN, Constants.ROLE.MANAGER, Constants.ROLE.HR)
                 .and()
-                .formLogin()
-                .successHandler(myAuthenticationSuccessHandler())
-                .loginPage("/login")
-                .usernameParameter("userName")
-                .passwordParameter("password")
-                .failureUrl("/login?error")
+                    .oauth2Login()
+                    .loginPage("/login")
+                    .successHandler(myOauth2AuthenticationSuccessHandler())
+                    .userInfoEndpoint()
+                    .userService(defaultOAuth2UserService)
                 .and()
-                .logout()
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
-                .permitAll()
+                    .failureUrl("/login?error")
                 .and()
-                .exceptionHandling()
-                .accessDeniedPage("/403")
+                    .logout()
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll()
                 .and()
-                .oauth2Login()
-                .loginPage("/login")
-                .successHandler(myOauth2AuthenticationSuccessHandler())
-                .userInfoEndpoint()
-                .userService(defaultOAuth2UserService);
+                    .exceptionHandling()
+                    .accessDeniedPage("/403")
+                .and()
+                .httpBasic();
     }
 }
