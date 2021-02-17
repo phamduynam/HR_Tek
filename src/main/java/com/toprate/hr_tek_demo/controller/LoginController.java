@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -32,24 +33,26 @@ public class LoginController {
 
 
     @GetMapping("/home-page")
-    public ModelAndView getHome(OAuth2AuthenticationToken authentication,ModelAndView mav) {
-    // Xem token nhận được là gì ?// đặt debbug vào để xem nhé
-            OAuth2AuthorizedClient client = authorizedClientService
+    public ModelAndView getHome(OAuth2AuthenticationToken authentication, ModelAndView mav) {
+        // Xem token nhận được là gì ?// đặt debbug vào để xem nhé
+        OAuth2AuthorizedClient client = authorizedClientService
                     .loadAuthorizedClient(
                             authentication.getAuthorizedClientRegistrationId(),
                             authentication.getName());
+
+
         // Lấy email ra từ token google gửi về
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
         OidcUserAuthority authority = (OidcUserAuthority) authorities.get(0);
         String gmail = authority.getAttributes().get("email").toString();
-
-        Users user = userService.getUserByGmail(gmail).get();
-
-        if(user != null) {
-
-            mav.setViewName("admin");
-            mav.addObject("user", user);
-        }
+//        Users user = userService.getUserByGmail(gmail).get();
+//        //
+//
+//        if(user != null) {
+//
+//            mav.setViewName("admin");
+//            mav.addObject("user", user);
+//        }
         mav.setViewName("admin");
         return mav;
     }

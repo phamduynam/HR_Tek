@@ -55,6 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .loginPage("/login")
                     .userInfoEndpoint()
                 .and()
-                .defaultSuccessUrl("/home",true);
+                .defaultSuccessUrl("/home-page",true);
     }
 }
