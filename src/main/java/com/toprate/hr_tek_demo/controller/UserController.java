@@ -2,8 +2,8 @@ package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.Users;
-import com.toprate.hr_tek_demo.secvice.impl.RoleServiceImpl;
-import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
+import com.toprate.hr_tek_demo.secvice.RoleService;
+import com.toprate.hr_tek_demo.secvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,10 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
-    private RoleServiceImpl roleService;
+    private RoleService roleService;
 
     // Hiển thị danh sách người dùng của hệ thống
     @GetMapping("/index")
@@ -42,14 +42,14 @@ public class UserController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String saveProduct(@ModelAttribute("user") Users user) {
 
-        userServiceImpl.saveUser(user);
+        userService.saveUser(user);
         return "redirect:/index";
     }
 
     // chinh sua 1 nguoi dung
     @GetMapping("edit-user/{id}")
     public String showUpdateForm(@PathVariable("id") String id, Model model) {
-        Users user = userServiceImpl.findUserById(id)
+        Users user = userService.findUserById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid User Id:" + id));
         model.addAttribute("user", user);
         return "user/update-user";
@@ -65,16 +65,16 @@ public class UserController {
         }
         user.setUserId(id);
 
-        userServiceImpl.saveUser(user);
+        userService.saveUser(user);
         return "redirect:/index";
     }
 
     // xoa 1 nguoi dung khoi he thong
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") String id, Model model) {
-        Users user = userServiceImpl.findUserById(id)
+        Users user = userService.findUserById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        userServiceImpl.deleteUser(user);
+        userService.deleteUser(user);
         return "redirect:/index";
     }
 
@@ -86,7 +86,7 @@ public class UserController {
                                 Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
         int pageSize = 5;
 
-        Page<Users> page = userServiceImpl.findPaginated(pageNo, pageSize, sortField, sortDir);
+        Page<Users> page = userService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<Users> users = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -105,7 +105,7 @@ public class UserController {
     // tim kiem theo tat cac cac tieu chi
     @RequestMapping("/search")
     public String viewHomePage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
-        List<Users> users = userServiceImpl.searchUserByKeyword(searchUserDto);
+        List<Users> users = userService.searchUserByKeyword(searchUserDto);
         model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRole());
 

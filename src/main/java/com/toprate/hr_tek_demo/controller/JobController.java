@@ -3,8 +3,7 @@ package com.toprate.hr_tek_demo.controller;
 import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.dto.SearchJobDto;
 import com.toprate.hr_tek_demo.model.*;
-import com.toprate.hr_tek_demo.secvice.JobService;
-import com.toprate.hr_tek_demo.secvice.impl.*;
+import com.toprate.hr_tek_demo.secvice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -26,22 +25,22 @@ public class JobController {
     private JobService jobService;
 
     @Autowired
-    private LocationServiceImpl locationService;
+    private LocationService locationService;
 
     @Autowired
-    private PartnerServiceImpl partnerService;
+    private PartnerService partnerService;
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Autowired
-    private PositionServiceImpl positionService;
+    private PositonService positionService;
 
     @Autowired
-    private SkillServiceImpl skillService;
+    private SkillService skillService;
 
     @Autowired
-    private ContactServiceImpl contactService;
+    private ContactService contactService;
 
     // hien thi danh sach job dang tuyen
     @GetMapping("/list-job")
@@ -88,7 +87,7 @@ public class JobController {
         model.addAttribute("newJob", newJob);
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("partners", partnerService.findAllPartner());
-        model.addAttribute("users",userServiceImpl.getAllUser());
+        model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
         return "job/add-job";
@@ -116,7 +115,7 @@ public class JobController {
         model.addAttribute("job", job);
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("partners", partnerService.findAllPartner());
-        model.addAttribute("users",userServiceImpl.getAllUser());
+        model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
         return "job/edit-job";

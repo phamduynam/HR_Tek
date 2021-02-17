@@ -3,8 +3,6 @@ package com.toprate.hr_tek_demo.secvice.impl;
 import com.toprate.hr_tek_demo.model.Role;
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.repository.UserRepository;
-import com.toprate.hr_tek_demo.secvice.UserService;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
