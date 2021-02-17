@@ -3,6 +3,7 @@ package com.toprate.hr_tek_demo.config;
 
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.repository.UserRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: namnv
@@ -38,9 +42,42 @@ public class Oauth2AuthenticationSuccessHandler implements AuthenticationSuccess
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", user);
+            session.setAttribute("ipAddress", getClientIp(request));
             redirectStrategy.sendRedirect(request, response, "/home");
         } else {
             redirectStrategy.sendRedirect(request, response, "/");
         }
+    }
+
+    public String getClientIp(HttpServletRequest request) {
+        final String LOCALHOST_IPV4 = "127.0.0.1";
+        final String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+
+        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+
+        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+            if (LOCALHOST_IPV4.equals(ipAddress) || LOCALHOST_IPV6.equals(ipAddress)) {
+                try {
+                    InetAddress inetAddress = InetAddress.getLocalHost();
+                    ipAddress = inetAddress.getHostAddress();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (!StringUtils.isEmpty(ipAddress)
+                && ipAddress.length() > 15
+                && ipAddress.indexOf(",") > 0) {
+            ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+        }
+        return ipAddress;
     }
 }
