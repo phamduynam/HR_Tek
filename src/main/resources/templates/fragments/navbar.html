@@ -11,6 +11,15 @@
                     </a>
                 </li>
             </ul>
+            <ul sec:authorize="hasRole('ADMIN')"
+                class="pcoded-item pcoded-left-item">
+                <li class="">
+                    <a href="/exception-log/view">
+                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                        <span class="pcoded-mtext">Báo cáo lỗi hệ thống</span>
+                    </a>
+                </li>
+            </ul>
             <!--            <div sec:authorize="hasRole('HR')">IS ADMIN</div>-->
             <ul class="pcoded-item pcoded-left-item">
                 <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">

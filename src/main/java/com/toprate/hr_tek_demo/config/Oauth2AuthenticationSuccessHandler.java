@@ -6,10 +6,7 @@ import com.toprate.hr_tek_demo.repository.UserRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -73,9 +70,7 @@ public class Oauth2AuthenticationSuccessHandler implements AuthenticationSuccess
             }
         }
 
-        if (!StringUtils.isEmpty(ipAddress)
-                && ipAddress.length() > 15
-                && ipAddress.indexOf(",") > 0) {
+        if (!StringUtils.isEmpty(ipAddress) && ipAddress.length() > 15 && ipAddress.indexOf(",") > 0) {
             ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
         }
         return ipAddress;
