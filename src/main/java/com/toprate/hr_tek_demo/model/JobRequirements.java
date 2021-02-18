@@ -1,7 +1,10 @@
 package com.toprate.hr_tek_demo.model;
 
 import com.toprate.hr_tek_demo.dto.JobDto;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 

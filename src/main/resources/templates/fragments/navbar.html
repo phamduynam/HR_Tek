@@ -5,13 +5,12 @@
             <ul sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')"
                 class="pcoded-item pcoded-left-item">
                 <li class="">
-                    <a href="/index">
+                    <a href="/user/index">
                         <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                         <span class="pcoded-mtext">Quản lý tài khoản</span>
                     </a>
                 </li>
             </ul>
-            <!--            <div sec:authorize="hasRole('HR')">IS ADMIN</div>-->
             <ul class="pcoded-item pcoded-left-item">
                 <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">
                     <a href="/contact/view-contacts">
@@ -23,31 +22,20 @@
                     <a href="/list-job">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                         <span class="pcoded-mtext">Quản lí các job đang tuyển</span>
-                        <!-- <span class="pcoded-badge label label-danger">100+</span> -->
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">
                     <a href="javascript:void(0)">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                         <span class="pcoded-mtext">Quản lí TODO task</span>
-                        <!-- <span class="pcoded-badge label label-danger">100+</span> -->
                     </a>
                 </li>
                 <li sec:authorize="hasRole('MANAGER')" class="">
-                    <!--                                <a href="#C16">Đi tới Chương 16</a>-->
                     <a href="">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                         <span class="pcoded-mtext">Báo cáo thống kê</span>
-                        <!-- <span class="pcoded-badge label label-danger">100+</span> -->
                     </a>
                 </li>
-                <!--                <li class="">-->
-                <!--                    <a href="javascript:void(0)">-->
-                <!--                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>-->
-                <!--                        <span class="pcoded-mtext">Inbox</span>-->
-                <!--                        &lt;!&ndash; <span class="pcoded-badge label label-danger">100+</span> &ndash;&gt;-->
-                <!--                    </a>-->
-                <!--                </li>-->
             </ul>
         </div>
     </nav>

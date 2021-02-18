@@ -1,6 +1,9 @@
 package com.toprate.hr_tek_demo.repository.specification;
 
-import com.toprate.hr_tek_demo.model.*;
+import com.toprate.hr_tek_demo.model.JobRequirements;
+import com.toprate.hr_tek_demo.model.JobRequirements_;
+import com.toprate.hr_tek_demo.model.JobWorkSkill_;
+import com.toprate.hr_tek_demo.model.Skill_;
 import com.toprate.hr_tek_demo.repository.specification.base.BaseQuerySpecification;
 import com.toprate.hr_tek_demo.repository.specification.base.Filter;
 import org.apache.commons.lang.StringUtils;

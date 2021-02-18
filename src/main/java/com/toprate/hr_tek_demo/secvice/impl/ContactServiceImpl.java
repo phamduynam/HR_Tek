@@ -1,19 +1,20 @@
 package com.toprate.hr_tek_demo.secvice.impl;
 
 import com.toprate.hr_tek_demo.dto.SearchDto;
-import com.toprate.hr_tek_demo.model.*;
+import com.toprate.hr_tek_demo.model.Contact;
+import com.toprate.hr_tek_demo.model.ContactPosition;
+import com.toprate.hr_tek_demo.model.ContactWorkSkill;
 import com.toprate.hr_tek_demo.repository.ContactRepository;
 import com.toprate.hr_tek_demo.repository.specification.ContactSpecification;
+import com.toprate.hr_tek_demo.secvice.ContactPositionService;
 import com.toprate.hr_tek_demo.secvice.ContactService;
+import com.toprate.hr_tek_demo.secvice.ContactWorkSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +24,10 @@ public class ContactServiceImpl implements ContactService {
     ContactRepository contactRepository;
 
     @Autowired
-    ContactPositionServiceImpl contactPositionService;
+    ContactPositionService contactPositionService;
 
     @Autowired
-    ContactWorkSkillServiceImpl contactWorkSkillService;
+    ContactWorkSkillService contactWorkSkillService;
 
     @Override
     public Contact getContactById(String id) {

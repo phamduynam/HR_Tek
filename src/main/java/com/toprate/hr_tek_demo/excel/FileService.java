@@ -28,9 +28,6 @@ public class FileService {
     private SkillServiceImpl skillService;
     @Autowired
     private PositionServiceImpl positionService;
-
-
-
     // quản lý các dòng của file excel
     public Iterator<Row> rowIterator;
     // dùng để chạy các cell là hàm

@@ -1,6 +1,7 @@
 package com.toprate.hr_tek_demo.dto;
 
-import com.toprate.hr_tek_demo.model.*;
+import com.toprate.hr_tek_demo.model.JobWorkSkill;
+import com.toprate.hr_tek_demo.model.Position;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

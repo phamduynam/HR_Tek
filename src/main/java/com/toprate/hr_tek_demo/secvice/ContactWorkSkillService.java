@@ -6,6 +6,7 @@ import com.toprate.hr_tek_demo.model.ContactWorkSkill;
 import java.util.List;
 
 public interface ContactWorkSkillService {
+
     List<ContactWorkSkill> getAllByContact(Contact contact);
 
     ContactWorkSkill getById(Integer id);

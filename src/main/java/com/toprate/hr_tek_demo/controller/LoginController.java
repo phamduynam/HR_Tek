@@ -1,7 +1,6 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.model.Users;
-import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
+import com.toprate.hr_tek_demo.secvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -9,21 +8,19 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 public class LoginController {
 
     @Autowired
-    private OAuth2AuthorizedClientService authorizedClientService;
+    OAuth2AuthorizedClientService authorizedClientService;
 
     @Autowired
-    private UserServiceImpl userService;
+    UserService userService;
 
     // MẶc đinh khi login xong sẽ nhảy vào đây
     @GetMapping("/")

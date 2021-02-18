@@ -25,16 +25,17 @@ $(function () {
         $("#formSubmitFile").validate({
             rules: {
                 multipartFile: {
-                    required: true
-                }
+                    required: true,
+                    extension: "xlsx|csv"
+                },
             },
             messages: {
                 multipartFile: {
-                    required: "Bạn chưa chọn file !"
+                    required: "Bạn chưa chọn file đấy nhé",
+                    extension: "File upload phải là .xlsx, .csv"
                 }
             }
         });
-
 
         // Validate chỉ bắt theo tên của trường th:field
         $("#submit-form").validate({

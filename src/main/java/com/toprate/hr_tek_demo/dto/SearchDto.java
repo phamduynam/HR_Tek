@@ -1,10 +1,7 @@
 package com.toprate.hr_tek_demo.dto;
 
-import com.toprate.hr_tek_demo.model.ContactPosition;
-import com.toprate.hr_tek_demo.model.ContactWorkSkill;
 import com.toprate.hr_tek_demo.model.Status;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

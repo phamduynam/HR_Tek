@@ -7,7 +7,8 @@ import com.toprate.hr_tek_demo.excel.MyFile;
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.ContactWorkSkill;
 import com.toprate.hr_tek_demo.model.TakeCareTransaction;
-import com.toprate.hr_tek_demo.secvice.impl.*;
+import com.toprate.hr_tek_demo.secvice.*;
+import com.toprate.hr_tek_demo.secvice.impl.TakeCareTransactionServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,19 +24,19 @@ import java.util.ArrayList;
 @RequestMapping("/contact")
 public class ContactController {
     @Autowired
-    private ContactServiceImpl contactService;
+    ContactService contactService;
 
     @Autowired
-    private PositionServiceImpl positionService;
+    PositionService positionService;
 
     @Autowired
-    private SkillServiceImpl skillService;
+    SkillService skillService;
 
     @Autowired
-    private StatusServiceImpl statusServiceImpl;
+    StatusService statusService;
 
     @Autowired
-    JobServiceImpl jobServiceImpl;
+    JobService jobService;
 
     @Autowired
     private TakeCareTransactionServiceImpl takeCareTransactionServiceImpl;
@@ -47,9 +48,9 @@ public class ContactController {
         model.addAttribute("contacts", contactService.getAllContactTrue());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills", skillService.getAllSkill());
-        model.addAttribute("statusList", statusServiceImpl.getAllStatus());
+        model.addAttribute("statusList", statusService.getAllStatus());
         model.addAttribute("searchDto", new SearchDto());
-        return "/contact/contacts";
+        return "/contact/index";
     }
 
     @PostMapping("/search")
@@ -59,9 +60,9 @@ public class ContactController {
         model.addAttribute("contacts", contactService.searchSpecification(searchDto));
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills", skillService.getAllSkill());
-        model.addAttribute("statusList", statusServiceImpl.getAllStatus());
+        model.addAttribute("statusList", statusService.getAllStatus());
         model.addAttribute("searchDto", searchDto);
-        return "/contact/contacts";
+        return "/contact/index";
     }
 
     @GetMapping("/add")
@@ -97,12 +98,12 @@ public class ContactController {
     public ModelAndView viewDetailContact(@PathVariable String id, ModelAndView mav) {
         Contact contact = contactService.getContactById(id);
         ContactDto contactDto = contact.convertToDto();
-        mav.setViewName("contact/view_detail");
+        mav.setViewName("contact/detail");
         mav.addObject("positions", positionService.getAllPosition());
         mav.addObject("skills", skillService.getAllSkill());
         mav.addObject("contactDto", contactDto);
         mav.addObject("transactions",takeCareTransactionServiceImpl.getAllByContact(contact));
-        mav.addObject("jobs", jobServiceImpl.searchJobByContact(contactDto));
+        mav.addObject("jobs", jobService.searchJobByContact(contactDto));
         return mav;
     }
 
@@ -124,7 +125,7 @@ public class ContactController {
         mav.setViewName("contact/add_transaction");
         mav.addObject("contactDto", contactDto);
         mav.addObject("searchObject", searchJobForContactDto);
-        mav.addObject("jobs", jobServiceImpl.searchJobMatchByContact(contactDto, searchJobForContactDto));
+        mav.addObject("jobs", jobService.searchJobMatchByContact(contactDto, searchJobForContactDto));
         return mav;
     }
 

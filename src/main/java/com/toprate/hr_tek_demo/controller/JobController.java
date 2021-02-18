@@ -2,15 +2,17 @@ package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.dto.SearchJobDto;
-import com.toprate.hr_tek_demo.dto.SearchUserDto;
-import com.toprate.hr_tek_demo.model.*;
+import com.toprate.hr_tek_demo.model.Contact;
+import com.toprate.hr_tek_demo.model.JobRequirements;
+import com.toprate.hr_tek_demo.model.JobWorkSkill;
+import com.toprate.hr_tek_demo.secvice.*;
 import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,31 +20,31 @@ import java.util.List;
 public class JobController {
 
     @Autowired
-    private JobServiceImpl jobService;
+    JobService jobService;
 
     @Autowired
-    private LocationServiceImpl locationService;
+    LocationService locationService;
 
     @Autowired
-    private PartnerServiceImpl partnerService;
+    PartnerService partnerService;
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    UserService userService;
 
     @Autowired
-    private PositionServiceImpl positionService;
+    PositionService positionService;
 
     @Autowired
-    private JobPositionServiceImpl jobPositionService;
+    JobPositionService jobPositionService;
 
     @Autowired
-    private JobWorkSkillServiceImpl jobWorkSkillService;
+    JobWorkSkillService jobWorkSkillService;
 
     @Autowired
-    private SkillServiceImpl skillService;
+    SkillService skillService;
 
     @Autowired
-    private ContactServiceImpl contactService;
+    ContactService contactService;
 
     // danh sach job dang tuyen
     @GetMapping("/list-job")
@@ -63,7 +65,7 @@ public class JobController {
         model.addAttribute("jobDetail", jobDetail);
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/job-detail";
+        return "detail";
     }
 
     // Them moi 1 Job
@@ -81,10 +83,10 @@ public class JobController {
         model.addAttribute("newJob", newJob);
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("partners", partnerService.findAllPartner());
-        model.addAttribute("users",userServiceImpl.getAllUser());
+        model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/add-job";
+        return "add";
     }
 
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
@@ -103,10 +105,10 @@ public class JobController {
         model.addAttribute("job", job);
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("partners", partnerService.findAllPartner());
-        model.addAttribute("users",userServiceImpl.getAllUser());
+        model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/edit-job";
+        return "edit";
     }
 
     @PostMapping("update-job")

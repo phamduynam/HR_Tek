@@ -7,6 +7,7 @@ import com.toprate.hr_tek_demo.model.TakeCareTransaction;
 import java.util.List;
 
 public interface TakeCareTransactionService {
+
     List<TakeCareTransaction> getAll();
 
     TakeCareTransaction save(String candidateId, String jobRecruitmentId);
