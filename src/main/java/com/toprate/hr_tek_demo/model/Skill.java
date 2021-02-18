@@ -1,7 +1,6 @@
 package com.toprate.hr_tek_demo.model;
 
 import lombok.*;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import javax.persistence.*;
 import java.util.List;

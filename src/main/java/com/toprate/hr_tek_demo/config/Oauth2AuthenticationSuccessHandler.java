@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,8 +36,8 @@ public class Oauth2AuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2AuthenticationToken authenticationToken = (OAuth2AuthenticationToken) authentication;
         String email = authenticationToken.getPrincipal().getAttributes().get("email").toString();
-        Users user = userRepository.findByGmail(email).orElse(null);
-        if (user != null) {
+        Optional<Users> user = userRepository.findByGmail(email);
+        if (user.isPresent()) {
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", user);
             session.setAttribute("ipAddress", getClientIp(request));

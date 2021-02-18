@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toprate.hr_tek_demo.model.ExceptionLog;
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.secvice.ExceptionLogService;
+import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,8 +46,8 @@ public class LoggerSystem {
     public void saveExceptionLog(JoinPoint joinPoint, Throwable e) {
         HttpSession session = httpSessionFactory.getObject();
 
-        Users user = (Users) session.getAttribute("userInfo");
-        String ipAddress = session.getAttribute("ipAddress").toString();
+        Optional<Users> user = (Optional<Users>) session.getAttribute("userInfo");
+        String ipAddress = Optional.ofNullable(session.getAttribute("ipAddress")).orElse(StringUtils.EMPTY).toString();
 
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
@@ -64,8 +66,10 @@ public class LoggerSystem {
             excepLog.setMethod(methodName);
             excepLog.setExcName(e.getClass().getName());
             excepLog.setExcMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
-            excepLog.setUserId(user.getUserId());
-            excepLog.setUserName(user.getGmail());
+            if (user.isPresent()) {
+                excepLog.setUserId(user.get().getUserId());
+                excepLog.setUserName(user.get().getGmail());
+            }
             excepLog.setUri(request.getRequestURI());
             excepLog.setIp(ipAddress);
 
@@ -78,7 +82,7 @@ public class LoggerSystem {
     }
 
     public Map<String, String> convertMap(Map<String, String[]> paramMap) {
-        Map<String, String> rtnMap = new HashMap<String, String>();
+        Map<String, String> rtnMap = new HashMap<>();
         for (String key : paramMap.keySet()) {
             rtnMap.put(key, paramMap.get(key)[0]);
         }
