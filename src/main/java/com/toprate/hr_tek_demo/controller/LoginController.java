@@ -1,7 +1,7 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
+import com.toprate.hr_tek_demo.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -10,10 +10,10 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.stereotype.Controller;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,7 +27,7 @@ public class LoginController {
 
     // MẶc đinh khi login xong sẽ nhảy vào đây
     @GetMapping("/")
-    public String getStart(){
+    public String getStart() {
         return "/login";
     }
 
@@ -36,9 +36,9 @@ public class LoginController {
     public ModelAndView getHome(OAuth2AuthenticationToken authentication, ModelAndView mav) {
         // Xem token nhận được là gì ?// đặt debbug vào để xem nhé
         OAuth2AuthorizedClient client = authorizedClientService
-                    .loadAuthorizedClient(
-                            authentication.getAuthorizedClientRegistrationId(),
-                            authentication.getName());
+                .loadAuthorizedClient(
+                        authentication.getAuthorizedClientRegistrationId(),
+                        authentication.getName());
 
 
         // Lấy email ra từ token google gửi về
@@ -63,8 +63,11 @@ public class LoginController {
     }
 
     @GetMapping("/403")
-    public String accessDenied() {
-        return "403";
+    public String accessDenied(Model model) {
+        model.addAttribute("statusCode", Constants.ERROR.FORBIDDEN_CODE);
+        model.addAttribute("error", Constants.ERROR.FORBIDDEN_TEXT);
+        model.addAttribute("errorMessage", Constants.ERROR.ERROR_MESSAGE);
+        return "error/default";
     }
 
     @GetMapping("/login")
