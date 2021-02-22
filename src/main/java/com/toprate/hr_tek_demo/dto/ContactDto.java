@@ -78,7 +78,6 @@ public class ContactDto {
 
         // Add skill not null
         List<ContactWorkSkill> contactWorkSkillList = new ArrayList<>();
-
         if(this.getContactWorkSkillList() != null){
             for (ContactWorkSkill contactWorkSkill : this.getContactWorkSkillList()) {
                 if (contactWorkSkill.getSkill() != null) {

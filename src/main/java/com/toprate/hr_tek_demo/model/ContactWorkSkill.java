@@ -25,14 +25,14 @@ public class ContactWorkSkill {
 
     // FK
     @ManyToOne
-    @JoinColumn(name = "skill_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "skill_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Skill skill;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "contact_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "contact_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;
@@ -65,5 +65,13 @@ public class ContactWorkSkill {
                 ", skill=" + skill +
                 ", contact=" + contact +
                 '}';
+    }
+
+    public Skill getSkill() {
+        return skill;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 }

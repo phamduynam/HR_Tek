@@ -15,6 +15,15 @@ $(function () {
         }
     });
 
+    jQuery.validator.addMethod("EmailToprate", function(value, element) {
+        // allow any non-whitespace characters as the host part
+        return this.optional( element ) || /[a-z0-9]+@toprate.io/.test( value );
+    },"Email phải có @toprate.io");
+
+    jQuery.validator.addMethod("Phone", function(value, element) {
+        // allow any non-whitespace characters as the host part
+        return this.optional( element ) || /[0]{1}[0-9]{9}/.test( value );
+    },"Số điện thoại phải có 10 số");
 
     jQuery.validator.addMethod("specialCharacters", function(value, element) {
             // allow any non-whitespace characters as the host part
@@ -127,4 +136,45 @@ $(function () {
             }
         }
     })
+
+        // Validate Create user form
+        $("#addUser").validate({
+        rules: {
+            name : {
+                required: true,
+            },
+            birthDay: {
+                required: true,
+            },
+            role : {
+                required: true
+            },
+            gmail: {
+                required: true,
+                EmailToprate: true
+            },
+            phone: {
+                required: true,
+                Phone: true
+            },
+        },
+        messages: {
+            name : {
+                required: "Bạn chưa nhập tên ",
+            },
+            birthDay: {
+                required: "Hãy chọn ngày sinh",
+            },
+            role : {
+                required: "Bạn chưa chọn quyền"
+            },
+            gmail: {
+                required: "Hãy nhập email"
+            },
+            phone: {
+                required: "Hãy nhập số điện thoại"
+            },
+        }
+    });
+
 });

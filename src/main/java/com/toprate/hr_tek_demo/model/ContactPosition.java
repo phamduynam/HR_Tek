@@ -19,13 +19,13 @@ public class ContactPosition {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "contact_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "contact_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;
 
     @ManyToOne
-    @JoinColumn(name = "position_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "position_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Position position;

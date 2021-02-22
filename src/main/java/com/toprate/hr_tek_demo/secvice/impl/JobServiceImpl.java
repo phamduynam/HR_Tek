@@ -73,7 +73,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void updateJob(JobRequirements jobRequirement) {
-
         String id = jobRequirement.getJobRecruitmentId();
 
         JobRequirements jobExist = jobRepository.findById(id).get();

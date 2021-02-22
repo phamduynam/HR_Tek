@@ -56,7 +56,7 @@
                                         </div>
                                         <div class="form-group" data-select-id="3">
                                             <label>Vị trí ứng tuyển</label>
-                                            <select th:field="*{contactPositionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                            <select th:field="*{contactPositionList}" class="form-control choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
                                                 <option th:each="position : ${positions}"
                                                         th:value="${position.positionId}"
                                                         th:text="${position.positionName}"></option>
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="form-group" data-select-id="6">
                                             <label>Skill</label>
-                                            <select th:field="*{contactWorkSkillList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                            <select th:field="*{contactWorkSkillList}" name="listSkill" class="form-control select2 select2-hidden-accessible choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
                                                 <option th:each="skill : ${skills}"
                                                         th:value = "${skill.skillId}"
                                                         th:text="${skill.skillName}"></option>
@@ -114,7 +114,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -167,26 +166,12 @@
                                             <i class="icofont icofont-eye"></i></a>
                                         <a th:href="@{/contact/edit/{id}(id=${contact.candidateId})}" class="btn btn-sm">
                                             <i class="icofont icofont-ui-edit"></i></a>
-                                        <a id="deleteButton" th:href="@{/contact/delete/{id}(id=${contact.candidateId})}" class="btn btn-sm" >
+                                        <a  sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" id="deleteButton" th:href="@{/contact/delete/{id}(id=${contact.candidateId})}" class="btn btn-sm" >
                                             <i class="icofont icofont-ui-delete"></i></a>
                                     </div>
                                 </td>
                             </tr>
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên</th>
-                                <th>Vị Trí </th>
-                                <th>Level</th>
-                                <th>Skill</th>
-                                <th>Exp</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Blacklist</th>
-                                <th>Action</th>
-                            </tr>
-                            </tfoot>
                         </table>
                     </div>
                 </div>

@@ -30,6 +30,10 @@ public class LoginController {
         return "/login";
     }
 
+    @GetMapping("/home")
+    public String getHome(){
+        return "index";
+    }
 
     @GetMapping("/home-page")
     public ModelAndView getHome(OAuth2AuthenticationToken authentication, ModelAndView mav) {

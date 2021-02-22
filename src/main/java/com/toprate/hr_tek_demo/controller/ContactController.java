@@ -39,7 +39,7 @@ public class ContactController {
     JobService jobService;
 
     @Autowired
-    private TakeCareTransactionServiceImpl takeCareTransactionServiceImpl;
+    private TakeCareTransactionService takeCareTransactionService;
 
     @GetMapping("/view-contacts")
     public String getContactView(Model model) {
@@ -102,7 +102,7 @@ public class ContactController {
         mav.addObject("positions", positionService.getAllPosition());
         mav.addObject("skills", skillService.getAllSkill());
         mav.addObject("contactDto", contactDto);
-        mav.addObject("transactions",takeCareTransactionServiceImpl.getAllByContact(contact));
+        mav.addObject("transactions",takeCareTransactionService.getAllByContact(contact));
         mav.addObject("jobs", jobService.searchJobByContact(contactDto));
         return mav;
     }
@@ -132,12 +132,13 @@ public class ContactController {
     @PostMapping(value = "/add-transaction/create")
     public ResponseEntity<?> addNew(@RequestParam String candidateId, @RequestParam String jobRecruitmentId) throws NotFoundException {
         try {
-            TakeCareTransaction takeCareTransaction = takeCareTransactionServiceImpl.getByContactAndJob(candidateId, jobRecruitmentId);
+            TakeCareTransaction takeCareTransaction = takeCareTransactionService.getByContactAndJob(candidateId, jobRecruitmentId);
             if (takeCareTransaction == null) {
-                takeCareTransactionServiceImpl.save(candidateId, jobRecruitmentId);
+
+                takeCareTransactionService.save(candidateId, jobRecruitmentId);
                 return new ResponseEntity<Object>("Thêm vị trí ứng tuyển thành công", HttpStatus.OK);
             } else {
-                takeCareTransactionServiceImpl.delete(takeCareTransaction);
+                takeCareTransactionService.delete(takeCareTransaction);
                 return new ResponseEntity<Object>("Xóa vị trí ứng tuyển thành công", HttpStatus.OK);
             }
         } catch (Exception exception) {

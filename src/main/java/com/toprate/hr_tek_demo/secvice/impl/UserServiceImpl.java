@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.exceptions.AlreadyInitializedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -75,8 +76,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<Users> getUserByGmail(String gmail) {
-        return userRepository.findByGmail(gmail);
+    public Users getUserByGmail(String gmail) {
+        return userRepository.findByGmail(gmail).orElse(null);
     }
 
 }

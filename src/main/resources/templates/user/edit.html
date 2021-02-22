@@ -1,4 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
 <head>
@@ -6,117 +6,66 @@
 </head>
 
 <body>
+<section layout:fragment="content">
+    <div >
+        <div class="card card-primary">
+            <div class="card-header with-border">
+                <h3 class="card-title">Thêm mới người dùng</h3>
+            </div>
 
-<section layout:fragment="header">
+            <div class="card-body">
+                <form id="addUser" th:object="${user}" th:action="@{/user/update}" method="post">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group" style="display: none">
+                                <label>ID</label>
+                                <input class ="form-control" th:field="*{userId}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Tên hiển thị</label>
+                                <input class ="form-control" th:field="*{name}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Ngày sinh</label>
+                                <input type="date"  class="form-control" th:field="*{birthDay}" />
+                            </div>
+                            <div class="form-group">
+                                <h6>Trạng thái</h6>
+                                <select th:field="*{status}" class="form-control">
+                                    <option th:value="ACTIVE" th:text="ACTIVE"></option>
+                                    <option th:value="DEACTIVE" th:text="DEACTIVE"></option>
+                                    <option th:value="PENDING" th:text="PENDING"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" th:field="*{gmail}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label>SĐT</label>
+                                <input type="tel" class="form-control" th:field="*{phone}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <h6>Vai trò</h6>
+                                <select th:field="*{role.roleName}" class="form-control">
+                                    <option th:value="HR" th:text="HR"></option>
+                                    <option th:value="MANAGER" th:text="MANAGER"></option>
+                                    <option th:value="ADMIN" th:text="ADMIN"></option>
+                                </select>
+                            </div>
 
-    <h1>Customer registration</h1>
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Registration Client</li>
-    </ol>
-</section>
-<div layout:fragment="content">
-    <script th:inline="javascript">
-        function checkEmail() {
-            let email = document.getElementById('email').value;
-            if(email.validity.typeMismatch){
-                email.setCustomValidity("'" + email.value + "' is not a valid email. Enter email as abc@toprate.io");
-            }
-            else if (email.validity.valueMissing) {
-                email.setCustomValidity("this field is required")
-                alert("trungdv");
-            }
-            else {
-                email.setCustomValidity("");
-            }
-        }
-
-        function checkPhone() {
-            let phone = document.getElementById('phone').value;
-            if(phone.validity.typeMismatch){
-                phone.setCustomValidity("'" + phone.value + "' is not a valid phone. Phone should contain min 10 digits");
-            }
-            else if (phone.validity.valueMissing) {
-                phone.setCustomValidity("this field is required")
-            }
-            else {
-                phone.setCustomValidity("");
-            }
-        }
-
-        function checkUsername() {
-            let username = document.getElementById('username').value;
-            if(username.validity.typeMismatch){
-                username.setCustomValidity("Username should contain 8-20 characters, not beginning with a '.' or ' ', not end with . or ' ' ");
-            }
-            else if (username.validity.valueMissing) {
-                username.setCustomValidity("this field is required")
-            }
-            else {
-                username.setCustomValidity("");
-            }
-        }
-    </script>
-
-
-    <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title">Chỉnh sửa người dùng</h3>
-            <div class="box-tools pull-right">
-                <a href="/customers" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success" type="submit" id="create">Update</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <form data-toggle="validator" role="form" th:object="${user}" th:action="@{/update/{id}(id=${user.userId})}" method="post">
-            <div class="box-body">
-                <div class="form-group">
-                    <label for="username">Tên hiển thị</label>
-                    <input id="username" type="text" pattern="^(?=.{8,20}$)(?![ .])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$"
-                          oninput="checkUsername()" required="true" class="form-control" th:field="*{name}"/>
-                </div>
-                <div class="form-group">
-                    <label for="birthDay">Ngày sinh</label>
-                    <input type="date" required="true" class="form-control" th:field="*{birthDay}" id="birthDay" />
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" pattern="[a-z0-9]+@toprate.io"
-                           oninput="checkEmail()" required="true" class="form-control" th:field="*{gmail}" id="email" />
-                </div>
-                <div class="form-group">
-                    <label for="phone">SĐT</label>
-                    <input type="tel" pattern="[0-9]{10}" oninput="checkPhone()"
-                            maxlength="10" required="true" class="form-control" th:field="*{phone}" id="phone" />
-                </div>
-                <div class="form-group">
-                    <h6>Vai trò</h6>
-                    <select th:field="*{role.roleName}" class="form-control">
-                        <option th:value="HR" th:text="HR"></option>
-                        <option th:value="MANAGER" th:text="MANAGER"></option>
-                        <option th:value="ADMIN" th:text="ADMIN"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <h6>Trạng thái</h6>
-                    <select th:field="*{status}" class="form-control">
-                        <option th:value="ACTIVE" th:text="ACTIVE"></option>
-                        <option th:value="DEACTIVE" th:text="DEACTIVE"></option>
-                        <option th:value="PENDING" th:text="PENDING"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <h6>Enable</h6>
-                    <select th:field="*{enable}" class="form-control">
-                        <option th:value="1" th:text="1"></option>
-                        <option th:value="0" th:text="0"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="box-footer">
-                <button class="btn btn-primary" type="submit">Update</button>
-            </div>
-        </form>
     </div>
-</div>
+</section>
 
 
 </body>

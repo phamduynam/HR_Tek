@@ -5,23 +5,13 @@
     <title>Thông tin chi tiết Job</title>
 </head>
 <body>
-<section layout:fragment="header">
-    <h1>Customer registration</h1>
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Registration Client</li>
-    </ol>
-</section>
-<div layout:fragment="content">
-    <div class="box">
-        <div class="box-header with-border">
+<section layout:fragment="content">
+    <div class="card">
+        <div class="card-header with-border card-border-primary">
             <h3 style="text-align: center" class="box-title">Thông tin chi tiết Job</h3>
-            <div class="box-tools pull-right">
-                <a href="/customers" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
-            </div>
         </div>
         <form data-toggle="validator" role="form" th:object="${jobDetail}" th:action="@{/job-detail/{id}(id=${jobDetail.jobRecruitmentId})}" method="post">
-            <div class="box-body">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -39,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <h6>Kỹ năng</h6>
-                            <select readonly="true" th:field="*{jobWorkSkills}" class="choices-multiple-remove-button form-control" multiple>
+                            <select readonly="true" th:field="*{skillList}" class="choices-multiple-remove-button form-control" multiple>
                                 <option th:each="skill : ${skills}"
                                         th:value="${{skill.skillId}}"
                                         th:text="${skill.skillName}" disabled>
@@ -48,23 +38,21 @@
                         </div>
                         <div class="form-group">
                             <label for="level">Level</label>
-                            <input type="email" readonly="true" class="form-control" th:field="*{level}" id="level" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{level}" id="level" />
                         </div>
                         <div class="form-group">
                             <label for="yearEx">SN Kinh nghiệm</label>
-                            <input type="email" readonly="true" class="form-control" th:field="*{yearExperience}" id="yearEx" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{yearExperience}" id="yearEx" />
                         </div>
                         <div class="form-group">
                             <label for="quantity">Số lượng</label>
-                            <input type="email" readonly="true" class="form-control" th:field="*{quantity}" id="quantity" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{quantity}" id="quantity" />
                         </div>
                         <div class="form-group">
                             <label for="start">Thời gian bắt đầu</label>
                             <input type="date" readonly="true" class="form-control" th:field="*{dateStart}" id="start" />
                         </div>
-
                     </div>
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="dateEnd">Thời gian kết thúc</label>
@@ -72,15 +60,15 @@
                         </div>
                         <div class="form-group">
                             <label for="formOfWork">Hình thức làm việc</label>
-                            <input type="tel" readonly="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
                         </div>
                         <div class="form-group">
                             <label for="startSalary">Lương khởi điểm</label>
-                            <input type="email" readonly="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
                         </div>
                         <div class="form-group">
                             <label for="endSalary">Lương cuối cùng</label>
-                            <input type="tel" readonly="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
                         </div>
                         <div class="form-group">
                             <label for="partner">Đối tác</label>
@@ -88,14 +76,14 @@
                         </div>
                         <div class="form-group">
                             <label for="address">Địa điểm làm việc</label>
-                            <input type="tel" readonly="true" class="form-control" th:field="*{location.address}" id="address" />
+                            <input type="text" readonly="true" class="form-control" th:field="*{location.address}" id="address" />
                         </div>
                         <div class="form-group">
-                            <label for="address">HR phụ trách</label>
-                            <input type="tel" readonly="true" class="form-control" th:field="*{user.name}" id="address" />
+                            <label for="hrname">HR phụ trách</label>
+                            <input type="text" readonly="true" class="form-control" th:field="*{user.name}" id="hrname" />
                         </div>
                     </div>
-                <div>
+                </div>
             </div>
         </form>
 
@@ -119,16 +107,16 @@
                         <td th:text="${contact.candidateName}"></td>
                         <td>
                             <p th:each="positionList : ${contact.contactPositionList}">
-                                    <span th:each="position : ${positionList.position}">
-                                        <span th:text="${position.positionName}"></span>
-                                    </span>
+                                <span th:each="position : ${positionList.position}">
+                                    <span th:text="${position.positionName}"></span>
+                                </span>
                             </p>
                         </td>
                         <td>
                             <p th:each="skillList : ${contact.contactWorkSkillList}">
-                                    <span th:each="skill : ${skillList.skill}">
-                                        <span th:text="${skill.skillName}"></span>
-                                    </span>
+                                <span th:each="skill : ${skillList.skill}">
+                                    <span th:text="${skill.skillName}"></span>
+                                </span>
                             </p>
                         </td>
                         <td th:text="${contact.yearExperience}"></td>
@@ -140,52 +128,12 @@
                                 </a>
                             </div>
                     </tr>
-
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tên ứng viên</th>
-                        <th>Vị trí ứng tuyển</th>
-                        <th>Kỹ năng</th>
-                        <th>Số năm KN</th>
-                        <th>Level</th>
-                    </tr>
-                    </tfoot>
                 </table>
-
-<!--                <div th:if = "${totalPages > 1}">-->
-<!--                    <div class = "row col-sm-10">-->
-<!--                        <div class = "col-sm-2">-->
-<!--                            Total Rows: [[${totalItems}]]-->
-<!--                        </div>-->
-<!--                        <div class = "col-sm-1">-->
-<!--					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--						                <a  th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
-<!--						                <span style="color: #ff0000" th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;-->
-<!--					                </span>-->
-<!--                        </div>-->
-<!--                        <div class = "col-sm-1">-->
-<!--                            <a th:if="${currentPage >= 2}" th:href="@{'/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>-->
-<!--                            &lt;!&ndash;                                    <span th:unless="${currentPage < totalPages}">Next</span>&ndash;&gt;-->
-<!--                        </div>-->
-<!--                        <div class = "col-sm-1">-->
-<!--                            <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-<!--                            <span th:unless="${currentPage < totalPages}">Next</span>-->
-<!--                        </div>-->
-
-<!--                        <div class="col-sm-1">-->
-<!--                            <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-<!--                            <span th:unless="${currentPage < totalPages}">Last</span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
             </div>
-
-
         </div>
     </div>
-</div>
+</section>
+
 </body>
 </html>

@@ -126,6 +126,13 @@ public class Contact {
         contactDto.setIsBlackList(this.getIsBlackList());
         contactDto.setContactWorkSkillList(this.getContactWorkSkillList());
 
+        ArrayList<Skill> skillList = new ArrayList<>();
+        if(this.getContactWorkSkillList() != null){
+            for (ContactWorkSkill contactWorkSkill : contactWorkSkillList){
+                skillList.add(contactWorkSkill.getSkill());
+            }
+        }
+
         ArrayList<Position> listPosition = new ArrayList<>();
         if(this.getContactPositionList() != null){
             for (ContactPosition contactPosition : contactPositionList) {
@@ -134,7 +141,7 @@ public class Contact {
         }
 
         contactDto.setPositionList(listPosition);
-
+        contactDto.setSkillList(skillList);
         return contactDto;
     }
 

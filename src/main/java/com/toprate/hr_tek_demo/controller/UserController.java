@@ -1,14 +1,21 @@
 package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.SearchUserDto;
+import com.toprate.hr_tek_demo.model.TakeCareTransaction;
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.secvice.RoleService;
 import com.toprate.hr_tek_demo.secvice.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.exceptions.AlreadyInitializedException;
 
 import java.util.List;
 
@@ -38,6 +45,19 @@ public class UserController {
         return "user/add";
     }
 
+
+    @PostMapping("/save")
+    public String saveUser(Users user, RedirectAttributes redirAttrs) {
+        Users users = userService.getUserByGmail(user.getGmail());
+        if(users != null){
+            redirAttrs.addFlashAttribute("error", "Gmail đã được sử dụng cho tài khoản khác !");
+            return "redirect:/user/add";
+        }
+        userService.saveUser(user);
+        return "redirect:/user/index";
+    }
+
+
     // Hiển thị view edit
     @GetMapping("edit/{id}")
     public String showUpdateForm(@PathVariable("id") String id, Model model) {
@@ -45,6 +65,12 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid User Id:" + id));
         model.addAttribute("user", user);
         return "user/edit";
+    }
+
+    @PostMapping("/update")
+    public String saveUser(Users user) {
+        userService.saveUser(user);
+        return "redirect:/user/index";
     }
 
     // Delete User
@@ -82,12 +108,11 @@ public class UserController {
 
     // Search
     @GetMapping("/search")
-    public String viewHomePage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
+    public String viewHomePage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto) {
         List<Users> users = userService.searchUserByKeyword(searchUserDto);
         model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRole());
 
         return "user/search";
     }
-
 }

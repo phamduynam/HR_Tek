@@ -1,77 +1,60 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout">
 <head>
     <title>Thêm mới người dùng</title>
 </head>
 <body>
-<section layout:fragment="header">
-    <h1>Customer registration</h1>
-    <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li class="active">Registration Client</li>
-    </ol>
-</section>
-<div layout:fragment="content">
-    <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title">Thêm mới người dùng</h3>
-            <div class="box-tools pull-right">
-                <a href="/customers" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+<section layout:fragment="content">
+    <div >
+        <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+        <div class="card card-primary">
+            <div class="card-header with-border">
+                <h3 class="card-title">Thêm mới người dùng</h3>
+            </div>
+
+            <div class="card-body">
+                <form id="addUser" th:object="${user}" th:action="@{/user/save}" method="post">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Tên hiển thị</label>
+                                <input class ="form-control" th:field="*{name}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Ngày sinh</label>
+                                <input type="date"  class="form-control" th:field="*{birthDay}" />
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" th:field="*{gmail}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label>SĐT</label>
+                                <input type="tel" class="form-control" th:field="*{phone}" autocomplete="off"/>
+                            </div>
+                            <div class="form-group">
+                                <label>Vai trò</label>
+                                <select th:field="*{role.roleName}" class="form-control">
+                                    <option value ="">Please select...</option>
+                                    <option th:each="r : ${roles}"
+                                            th:value="${r.roleName}"
+                                            th:text="${r.roleName}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success" type="submit" id="create">Create</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <form data-toggle="validator" role="form" th:object="${user}" th:action="@{/save}" method="post">
-            <div class="box-body">
-
-<!--                <div class="form-group">-->
-<!--                    <label for="userId">ID</label>-->
-<!--                    <input type="text" required="true" class="form-control" th:field="*{userId}" id="userId" />-->
-<!--                </div>-->
-                <div class="form-group">
-                    <label for="username">Tên hiển thị</label>
-                    <input id="username" type="text" pattern="^(?=.{8,20}$)(?![ .])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$"
-                           oninput="checkUsername()" required="true" class="form-control" th:field="*{name}"/>
-                </div>
-                <div class="form-group">
-                    <label for="birthDay">Ngày sinh</label>
-                    <input type="date" required="true" class="form-control" th:field="*{birthDay}" id="birthDay" />
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" required="true" class="form-control" th:field="*{gmail}" id="email"
-                           pattern="[a-z0-9]+@toprate.io"  />
-                </div>
-                <div class="form-group">
-                    <label for="phone">SĐT</label>
-                    <input type="tel" minlength="10" maxlength="10" pattern="[0-9]{10}" required="true" class="form-control" th:field="*{phone}" id="phone" />
-                </div>
-                <div class="form-group">
-                    <h6>Vai trò</h6>
-                    <select th:field="*{role.roleName}" class="form-control">
-                        <option th:each="role : ${roles}" th:value="${role.roleName}" th:text="${role.roleName}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <h6>Trạng thái</h6>
-                    <select th:field="*{status}" class="form-control">
-                        <option th:value="ACTIVE" th:text="ACTIVE"></option>
-                        <option th:value="DEACTIVE" th:text="DEACTIVE"></option>
-                        <option th:value="PENDING" th:text="PENDING"></option>
-                    </select>
-                </div>
-<!--                <div class="form-group">-->
-<!--                    <h6>Enable</h6>-->
-<!--                    <select th:field="*{enable}" class="form-control">-->
-<!--                        <option th:value="1" th:text="1"></option>-->
-<!--                        <option th:value="0" th:text="0"></option>-->
-<!--                    </select>-->
-<!--                </div>-->
-            </div>
-            <div class="box-footer">
-                <button class="btn btn-primary" type="submit">Create</button>
-            </div>
-        </form>
     </div>
-</div>
+</section>
+
 </body>
 </html>

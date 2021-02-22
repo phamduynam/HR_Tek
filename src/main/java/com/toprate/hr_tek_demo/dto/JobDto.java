@@ -47,6 +47,8 @@ public class JobDto {
 
     private List<JobWorkSkill> jobWorkSkills;
 
+    private List<Skill> skillList;
+
     private List<Position> positionList;
 
     private String hrName;

@@ -55,15 +55,6 @@
                                             <option value="Sennior">Sennior</option>
                                         </select>
                                     </div>
-<!--                                    <div class="form-group" data-select-id="3">-->
-<!--                                        <label>Vị trí ứng tuyển</label>-->
-<!--                                        <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>-->
-<!--                                            <option th:each="position : ${positions}"-->
-<!--                                                    th:value="${position}"-->
-<!--                                                    th:text="${position.positionName}">-->
-<!--                                            </option>-->
-<!--                                        </select>-->
-<!--                                    </div>-->
                                 </div>
 
                                 <div class="col-md-6">
@@ -88,6 +79,7 @@
                                     <div class="form-group" data-select-id="6">
                                         <label>Skill</label>
                                         <select name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                            <!--/*@thymesVar id="skill" type="templates"*/-->
                                             <option th:each="skill : ${skills}"
                                                     th:value = "${skill}"
                                                     th:text="${skill.skillName}"></option>
@@ -100,22 +92,12 @@
                                     <input style="cursor: pointer" type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
                                 </div>
                             </form>
-
                         </div>
                         <div class="card-body"  >
                             <div class="row">
                                 <div class="col-6">
                                     <a th:href="@{/add-job}" class="btn btn-success">Add New Job</a>
                                 </div>
-
-                                <!--                                <div class="col-6">-->
-                                <!--                                    <form method="post" th:object="${myFile}" th:action="@{contact/import}" enctype="multipart/form-data" >-->
-                                <!--                                        <input type="file" th:field="*{multipartFile}" id="myFile" name="filename2">-->
-                                <!--                                        <div class="mt-3">-->
-                                <!--                                            <button type="submit" class="btn btn-primary">Submit</button>-->
-                                <!--                                        </div>-->
-                                <!--                                    </form>-->
-                                <!--                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -191,32 +173,6 @@
                         </tfoot>
                     </table>
 
-                    <div th:if = "${totalPages > 1}">
-                        <div class = "row col-sm-10">
-                            <div class = "col-sm-2">
-                                Total Rows: [[${totalItems}]]
-                            </div>
-                            <div class = "col-sm-1">
-					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						                <a  th:if="${currentJobPage != i}" th:href="@{'/JobPage/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-						                <span style="color: #ff0000" th:unless="${currentJobPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
-					                </span>
-                            </div>
-                            <div class = "col-sm-2">
-                                <a th:if="${currentJobPage >= 2}" th:href="@{'/JobPage/' + ${currentJobPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
-                                <!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
-                            </div>
-                            <div class = "col-sm-1">
-                                <a th:if="${currentJobPage < totalPages}" th:href="@{'/JobPage/' + ${currentJobPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-                                <span th:unless="${currentJobPage < totalPages}">Next</span>
-                            </div>
-
-                            <div class="col-sm-1">
-                                <a th:if="${currentJobPage < totalPages}" th:href="@{'/JobPage/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-                                <span th:unless="${currentJobPage < totalPages}">Last</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

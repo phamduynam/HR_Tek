@@ -64,62 +64,35 @@
 
                     </div>
                 </div>
-
-                <div class="card-body" style="overflow:scroll;">
-                    <table id="example" class="table table-bordered table-hover dataTable dtr-inline">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Thời gian</th>
-                            <th>Tên lỗi</th>
-                            <th>Vị trí</th>
-                            <th>IP</th>
-                            <th>URI</th>
-                            <th>Người dùng</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="exceptionLog : ${exceptionLogs}">
-                            <td th:text="${exceptionLog.id}"></td>
-                            <td th:text="${exceptionLog.createTime}"></td>
-                            <td th:text="${exceptionLog.excName}"></td>
-                            <td th:text="${exceptionLog.method}"></td>
-                            <td th:text="${exceptionLog.ip}"></td>
-                            <td th:text="${exceptionLog.uri}"></td>
-                            <td th:text="${exceptionLog.userName}"></td>
-
-                        </tr>
-
-                        </tbody>
-                    </table>
-
-<!--                                        <div th:if = "${totalPages > 1}">-->
-<!--                                            <div class = "row col-sm-10">-->
-<!--                                                <div class = "col-sm-2">-->
-<!--                                                    Total Rows: [[${totalItems}]]-->
-<!--                                                </div>-->
-<!--                                                <div class = "col-sm-1">-->
-<!--                    					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-<!--                    						                <a  th:if="${currentJobPage != i}" th:href="@{'/JobPage/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>-->
-<!--                    						                <span style="color: #ff0000" th:unless="${currentJobPage != i}">[[${i}]]</span>  &nbsp; &nbsp;-->
-<!--                    					                </span>-->
-<!--                                                </div>-->
-<!--                                                <div class = "col-sm-2">-->
-<!--                                                    <a th:if="${currentJobPage >= 2}" th:href="@{'/JobPage/' + ${currentJobPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>-->
-<!--                                                    &lt;!&ndash;                                    <span th:unless="${currentPage < totalPages}">Next</span>&ndash;&gt;-->
-<!--                                                </div>-->
-<!--                                                <div class = "col-sm-1">-->
-<!--                                                    <a th:if="${currentJobPage < totalPages}" th:href="@{'/JobPage/' + ${currentJobPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>-->
-<!--                                                    <span th:unless="${currentJobPage < totalPages}">Next</span>-->
-<!--                                                </div>-->
-
-<!--                                                <div class="col-sm-1">-->
-<!--                                                    <a th:if="${currentJobPage < totalPages}" th:href="@{'/JobPage/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>-->
-<!--                                                    <span th:unless="${currentJobPage < totalPages}">Last</span>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                <div class="card card-border-warning">
+                    <div class="card-body">
+                        <table id="example" class="table table-bordered table-hover dataTable dtr-inline">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Thời gian</th>
+                                <th>Tên lỗi</th>
+                                <th>Vị trí</th>
+                                <th>IP</th>
+                                <th>URI</th>
+                                <th>Người dùng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="exceptionLog : ${exceptionLogs}">
+                                <td th:text="${exceptionLog.id}"></td>
+                                <td th:text="${exceptionLog.createTime}"></td>
+                                <td th:text="${exceptionLog.excName}"></td>
+                                <td th:text="${exceptionLog.method}"></td>
+                                <td th:text="${exceptionLog.ip}"></td>
+                                <td th:text="${exceptionLog.uri}"></td>
+                                <td th:text="${exceptionLog.userName}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->

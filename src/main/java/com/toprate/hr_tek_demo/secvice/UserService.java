@@ -21,5 +21,5 @@ public interface UserService {
 
     Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 
-    Optional<Users> getUserByGmail(String gmail);
+    Users getUserByGmail(String gmail);
 }

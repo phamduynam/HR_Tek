@@ -19,8 +19,8 @@ public class Partner {
     @Column(name = "partner_name")
     private String partnerName;
 
-    @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<JobRequirements> jobRequirementsList;
 }
