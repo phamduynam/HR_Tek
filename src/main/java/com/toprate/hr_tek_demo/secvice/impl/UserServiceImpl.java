@@ -20,6 +20,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    // tim kiem nguoi dung bang tu khoa nhap vao
+    @Override
+    public List<Users> filterRecords(String keyword) {
+        if(keyword != null) {
+            return userRepository.filterRecords(keyword);
+        }
+        return userRepository.findAllUser();
+    }
+
     // tim kiem tat ca nguoi dung
     @Override
     public List<Users> getAllUser() {

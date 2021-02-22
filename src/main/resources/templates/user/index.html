@@ -9,6 +9,9 @@
         .card-body .dataTables_wrapper .row:nth-child(3) {
             display: none;
         }
+        .card-body .dataTables_wrapper .row:nth-child(1) {
+            display: none;
+        }
     </style>
 </head>
 
@@ -21,7 +24,7 @@
                     <form th:action="@{/search}" th:object="${searchUserDto}">
                         <div class="col-4 mx-auto">
                             <div class="input-group">
-                                <input id="filterSearch" type="text" class="form-control" placeholder="Search">
+                                <input id="filterSearch" type="text" th:field="*{keyword}" class="form-control" placeholder="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="submit">
                                         <i class="fa fa-search"></i>
@@ -131,7 +134,7 @@
 						                <span style="color: #ff0000" th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					                </span>
                             </div>
-                            <div class = "col-sm-1">
+                            <div class = "col-sm-2">
                                 <a th:if="${currentPage >= 2}" th:href="@{'/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
                                 <!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
                             </div>

@@ -6,6 +6,7 @@ import com.toprate.hr_tek_demo.secvice.RoleService;
 import com.toprate.hr_tek_demo.secvice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,15 @@ public class UserController {
 
     @Autowired
     private RoleService roleService;
+
+//    @RequestMapping("/search")
+//    public String viewHomePage(Model model, @Param("keyword") String keyword) {
+//        List<Users> users = userService.filterRecords(keyword);
+//        model.addAttribute("users", users);
+//        model.addAttribute("keyword", keyword);
+//
+//        return "user/index";
+//    }
 
     // Hiển thị danh sách người dùng của hệ thống
     @GetMapping("/index")
@@ -102,7 +112,7 @@ public class UserController {
         return "user/index";
     }
 
-    // tim kiem theo tat cac cac tieu chi
+    // tim kiem theo tat ca cac tieu chi
     @RequestMapping("/search")
     public String viewHomePage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto ) {
         List<Users> users = userService.searchUserByKeyword(searchUserDto);

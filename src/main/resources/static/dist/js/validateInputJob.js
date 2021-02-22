@@ -47,8 +47,11 @@ $(function () {
             endSalary: {
                 required: true
             },
-            levels: {
+            level: {
                 required:  true,
+            },
+            positionList: {
+                required: true
             }
         },
         messages: {
@@ -74,6 +77,9 @@ $(function () {
             },
             level: {
                 required: "Hãy chọn level"
+            },
+            positionList: {
+                required: "Hãy chọn vị trí tuyển dụng"
             }
         }
     })

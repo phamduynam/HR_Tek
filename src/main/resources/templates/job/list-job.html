@@ -9,6 +9,9 @@
         .card-body .dataTables_wrapper .row:nth-child(3) {
             display: none;
         }
+        .card-body .dataTables_wrapper .row:nth-child(1) {
+            display: none;
+        }
     </style>
 </head>
 
@@ -129,7 +132,7 @@
                         </tr>
                         </thead>
                         <tbody id="myTable">
-                        <tr th:if = "${jobs.empty}">
+                        <tr th:if = "${jobs.isEmpty()}">
                             <td colspan="2"> No Result </td>
                         </tr>
                         <tr th:each="job : ${jobs}">

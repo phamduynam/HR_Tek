@@ -16,49 +16,6 @@
     </ol>
 </section>
 <div layout:fragment="content">
-    <script th:inline="javascript">
-        function checkEmail() {
-            let email = document.getElementById('email').value;
-            if(email.validity.typeMismatch){
-                email.setCustomValidity("'" + email.value + "' is not a valid email. Enter email as abc@toprate.io");
-            }
-            else if (email.validity.valueMissing) {
-                email.setCustomValidity("this field is required")
-                alert("trungdv");
-            }
-            else {
-                email.setCustomValidity("");
-            }
-        }
-
-        function checkPhone() {
-            let phone = document.getElementById('phone').value;
-            if(phone.validity.typeMismatch){
-                phone.setCustomValidity("'" + phone.value + "' is not a valid phone. Phone should contain min 10 digits");
-            }
-            else if (phone.validity.valueMissing) {
-                phone.setCustomValidity("this field is required")
-            }
-            else {
-                phone.setCustomValidity("");
-            }
-        }
-
-        function checkUsername() {
-            let username = document.getElementById('username').value;
-            if(username.validity.typeMismatch){
-                username.setCustomValidity("Username should contain 8-20 characters, not beginning with a '.' or ' ', not end with . or ' ' ");
-            }
-            else if (username.validity.valueMissing) {
-                username.setCustomValidity("this field is required")
-            }
-            else {
-                username.setCustomValidity("");
-            }
-        }
-    </script>
-
-
     <div class="box">
         <div class="box-header with-border">
             <h3 class="box-title">Chỉnh sửa người dùng</h3>

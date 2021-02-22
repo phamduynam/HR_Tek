@@ -16,4 +16,11 @@ public interface UserRepository  extends JpaRepository<Users, String>, JpaSpecif
     @Query(value = "SELECT * FROM user u WHERE u.enable = 1", nativeQuery = true)
     List<Users> findAllUser();
 
+    @Query("SELECT u from Users u WHERE u.name LIKE %?1%"
+            + " OR u.gmail LIKE %?1%"
+            + " OR u.phone LIKE %?1%"
+            + " OR u.status LIKE %?1%"
+            + " OR u.role.roleName LIKE %?1%")
+    public List<Users> filterRecords(String keyword);
+
 }
