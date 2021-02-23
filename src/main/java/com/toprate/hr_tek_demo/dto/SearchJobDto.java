@@ -22,4 +22,6 @@ public class SearchJobDto {
     private List<Integer> jobPositionList;
 
     private List<Integer> jobWorkSkillList;
+
+    private String keyword;
 }

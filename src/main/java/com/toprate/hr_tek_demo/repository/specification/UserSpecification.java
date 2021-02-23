@@ -21,7 +21,9 @@ public class UserSpecification extends BaseQuerySpecification<Users> {
         if (data.getRole().equals(StringUtils.EMPTY) && data.getStatus().equals(StringUtils.EMPTY) && data.getKeyword().equals(StringUtils.EMPTY)) {
             return super.initWhere();
         }
-        return findByStatus(data.getStatus()).and(findByRole(data.getRole()).and(findByName(data.getKeyword()).or(findByPhone(data.getKeyword())).or(findByMail(data.getKeyword())).or(findLikeByStatus(data.getKeyword())).or(findLikeByRole(data.getKeyword()))));
+        return findByStatus(data.getStatus())
+                .and(findByRole(data.getRole())
+                .and(findByName(data.getKeyword()).or(findByPhone(data.getKeyword())).or(findByMail(data.getKeyword())).or(findLikeByStatus(data.getKeyword())).or(findLikeByRole(data.getKeyword()))));
     }
 
     // tim kiem nguoi dung theo trang thai
