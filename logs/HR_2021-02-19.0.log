@@ -1,3 +1,38 @@
+<<<<<<< HEAD
+19-02-2021 09:41:08 - com.toprate.hr_tek_demo.HrTekDemoApplication [restartedMain] INFO  - Starting HrTekDemoApplication using Java 1.8.0_281 on TRUNGDV10 with PID 11400 (F:\HR_Tek\target\classes started by Admin in F:\HR_Tek)
+19-02-2021 09:41:08 - com.toprate.hr_tek_demo.HrTekDemoApplication [restartedMain] INFO  - No active profile set, falling back to default profiles: default
+19-02-2021 09:41:08 - org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor [restartedMain] INFO  - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-02-2021 09:41:08 - org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor [restartedMain] INFO  - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-02-2021 09:41:09 - org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] INFO  - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-02-2021 09:41:10 - org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] INFO  - Finished Spring Data repository scanning in 198 ms. Found 15 JPA repository interfaces.
+19-02-2021 09:41:11 - org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] INFO  - Tomcat initialized with port(s): 8080 (http)
+19-02-2021 09:41:11 - org.apache.coyote.http11.Http11NioProtocol [restartedMain] INFO  - Initializing ProtocolHandler ["http-nio-8080"]
+19-02-2021 09:41:11 - org.apache.catalina.core.StandardService [restartedMain] INFO  - Starting service [Tomcat]
+19-02-2021 09:41:11 - org.apache.catalina.core.StandardEngine [restartedMain] INFO  - Starting Servlet engine: [Apache Tomcat/9.0.41]
+19-02-2021 09:41:11 - org.apache.jasper.servlet.TldScanner [restartedMain] INFO  - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+19-02-2021 09:41:11 - org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [restartedMain] INFO  - Initializing Spring embedded WebApplicationContext
+19-02-2021 09:41:11 - org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] INFO  - Root WebApplicationContext: initialization completed in 2963 ms
+19-02-2021 09:41:11 - org.hibernate.jpa.internal.util.LogHelper [restartedMain] INFO  - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-02-2021 09:41:11 - org.hibernate.Version [restartedMain] INFO  - HHH000412: Hibernate ORM core version 5.4.25.Final
+19-02-2021 09:41:12 - org.hibernate.annotations.common.Version [restartedMain] INFO  - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+19-02-2021 09:41:12 - com.zaxxer.hikari.HikariDataSource [restartedMain] INFO  - HikariPool-1 - Starting...
+19-02-2021 09:41:13 - com.zaxxer.hikari.HikariDataSource [restartedMain] INFO  - HikariPool-1 - Start completed.
+19-02-2021 09:41:13 - org.hibernate.dialect.Dialect [restartedMain] INFO  - HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+19-02-2021 09:41:14 - org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] INFO  - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-02-2021 09:41:14 - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [restartedMain] INFO  - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-02-2021 09:41:15 - org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] WARN  - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+19-02-2021 09:41:16 - org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] INFO  - Will secure Ant [pattern='/resources/**'] with []
+19-02-2021 09:41:16 - org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] INFO  - Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@463ce29b, org.springframework.security.web.context.SecurityContextPersistenceFilter@142cc682, org.springframework.security.web.header.HeaderWriterFilter@5250a0ae, org.springframework.security.web.authentication.logout.LogoutFilter@3b8bb6de, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@7b445000, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@210a89a5, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@5264ed35, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@194a5689, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@be97188, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3cd51382, org.springframework.security.web.session.SessionManagementFilter@5b935228, org.springframework.security.web.access.ExceptionTranslationFilter@23b8825f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5daafff1]
+19-02-2021 09:41:16 - org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor [restartedMain] INFO  - Initializing ExecutorService 'applicationTaskExecutor'
+19-02-2021 09:41:16 - org.springframework.boot.autoconfigure.web.servlet.WelcomePageHandlerMapping [restartedMain] INFO  - Adding welcome page template: index
+19-02-2021 09:41:17 - org.apache.coyote.http11.Http11NioProtocol [restartedMain] INFO  - Starting ProtocolHandler ["http-nio-8080"]
+19-02-2021 09:41:17 - org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] INFO  - Tomcat started on port(s): 8080 (http) with context path ''
+19-02-2021 09:41:17 - com.toprate.hr_tek_demo.HrTekDemoApplication [restartedMain] INFO  - Started HrTekDemoApplication in 10.697 seconds (JVM running for 16.949)
+19-02-2021 09:41:24 - org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] [http-nio-8080-exec-1] INFO  - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-02-2021 09:41:24 - org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-1] INFO  - Initializing Servlet 'dispatcherServlet'
+19-02-2021 09:41:24 - org.springframework.web.servlet.DispatcherServlet [http-nio-8080-exec-1] INFO  - Completed initialization in 2 ms
+19-02-2021 09:41:37 - nz.net.ultraq.thymeleaf.expressions.ExpressionProcessor [http-nio-8080-exec-10] WARN  - Fragment expression "layout" is being wrapped as a Thymeleaf 3 fragment expression (~{...}) for backwards compatibility purposes.  This wrapping will be dropped in the next major version of the expression processor, so please rewrite as a Thymeleaf 3 fragment expression to future-proof your code.  See https://github.com/thymeleaf/thymeleaf/issues/451 for more information.
+=======
 19-02-2021 09:05:05 - com.toprate.hr_tek_demo.HrTekDemoApplication [restartedMain] INFO  - Starting HrTekDemoApplication using Java 1.8.0_191 on Cetrick with PID 10820 (D:\Computer Switch\WorkSpace\HrTek\hr_tek_demo\target\classes started by Admin in D:\Computer Switch\WorkSpace\HrTek\hr_tek_demo)
 19-02-2021 09:05:05 - com.toprate.hr_tek_demo.HrTekDemoApplication [restartedMain] INFO  - No active profile set, falling back to default profiles: default
 19-02-2021 09:05:06 - org.springframework.boot.devtools.env.DevToolsPropertyDefaultsPostProcessor [restartedMain] INFO  - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
@@ -5333,3 +5368,4 @@ Caused by: java.lang.ClassNotFoundException: com.toprate.hr_tek_demo.secvice.Use
 19-02-2021 18:25:58 - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean [SpringContextShutdownHook] INFO  - Closing JPA EntityManagerFactory for persistence unit 'default'
 19-02-2021 18:25:58 - com.zaxxer.hikari.HikariDataSource [SpringContextShutdownHook] INFO  - HikariPool-11 - Shutdown initiated...
 19-02-2021 18:25:58 - com.zaxxer.hikari.HikariDataSource [SpringContextShutdownHook] INFO  - HikariPool-11 - Shutdown completed.
+>>>>>>> dd2879d149894aa01fe15551c82fa8298b6aa43c

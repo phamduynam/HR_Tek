@@ -8,7 +8,12 @@ import lombok.Setter;
 @Setter
 @Data
 public class SearchUserDto {
+
     private String role;
 
     private String status;
+
+    private String keyword;
+
+
 }

@@ -10,10 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/job")
@@ -47,7 +51,7 @@ public class JobController {
     ContactService contactService;
 
     // danh sach job dang tuyen
-    @GetMapping("/list")
+    @GetMapping("/list-job")
     public String showJobList(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
         return findJobPaginated(1, "jobRecruitmentId", "asc", model, searchJobDto);
     }
@@ -77,6 +81,7 @@ public class JobController {
         for (int i = 1; i < 2; i++) {
             jobWorkSkills.add(new JobWorkSkill());
         }
+
         newJob.setJobWorkSkills(jobWorkSkills);
 
         model.addAttribute("newJob", newJob);
@@ -89,10 +94,15 @@ public class JobController {
     }
 
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
-    public String saveJob(@ModelAttribute("newJob") JobDto newJob) {
+    public String saveJob(@Valid @ModelAttribute("newJob") JobDto newJob, Errors errors) {
+
+        if (null != errors && errors.getErrorCount() > 0) {
+            return "/job/add";
+        }
+
         JobRequirements jobRequirement = newJob.convertToModel();
         jobService.saveJob(jobRequirement);
-        return "redirect:/job/list";
+        return "redirect:/job/list-job";
     }
 
     // chinh sua 1 job
@@ -101,6 +111,7 @@ public class JobController {
         JobRequirements jobEdit = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
         JobDto job = jobEdit.convertToJobDto();
+
         model.addAttribute("job", job);
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("partners", partnerService.findAllPartner());
@@ -110,15 +121,13 @@ public class JobController {
         return "/job/edit";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update-job")
     public String updateJob(@ModelAttribute("job") JobDto job) {
 
         JobRequirements jobRequirement = job.convertToModel();
         jobService.updateJob(jobRequirement);
-        return "redirect:/job/list";
+        return "redirect:/job/list-job";
     }
-
-
 
     // xoa job
     @GetMapping("/delete/{id}")
@@ -126,23 +135,25 @@ public class JobController {
         JobRequirements job = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         jobService.deleteJob(job);
-        return "redirect:/job/list";
+        return "redirect:/job/list-job";
     }
 
-    // hien thi trang chu
+    // hien thi trang chu man hinh chinh
     @GetMapping("/home")
     public String homePage(Model model) {
         model.addAttribute("jobs", jobService.findAllJob());
-        return "index";
+
+        return "/job/home";
     }
 
-    // phan trang
+    // phan trang hien thi danh sach job dang tuyen
     @GetMapping("/JobPage/{pageNo}")
     public String findJobPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
-                                Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
-        int pageSize = 10;
+                                   Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
+        // So phan tu hien thi tren 1 trang
+        int pageSize = 5;
 
         Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
         List<JobRequirements> jobs = page.getContent();
@@ -163,17 +174,51 @@ public class JobController {
         return "/job/list-job";
     }
 
-    // search full text
+    // phan trang hien thi trang chu
+    @GetMapping("/Page/{pageNo}")
+    public String findJobShowHomePage(@PathVariable (value = "pageNo") int pageNo,
+                                   @RequestParam("sortField") String sortField,
+                                   @RequestParam("sortDir") String sortDir,
+                                   Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
+        // So phan tu hien thi tren 1 trang
+        int pageSize = 5;
+
+        Page<JobRequirements> page = jobService.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<JobRequirements> jobs = page.getContent();
+
+        model.addAttribute("currentJobPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        model.addAttribute("jobs", jobs);
+        model.addAttribute("partners", partnerService.findAllPartner());
+        model.addAttribute("skills", skillService.getAllSkill());
+        model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("locations", locationService.findAllLocation());
+        return "/job/home";
+    }
+
     // tim kiem
-    @RequestMapping("/search")
+    @RequestMapping("/search-job")
     public String viewHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto ) {
-        List<JobRequirements> jobs = jobService.searchJobByKeyword(searchJobDto);
+        List<JobRequirements> jobRequirementsList = jobService.searchJobByKeyword(searchJobDto);
+
+        // loc trung ket qua
+        Set<String> idSet = new HashSet<>();
+        List<JobRequirements> jobs = jobRequirementsList.stream()
+                .filter(e -> idSet.add(e.getJobRecruitmentId()))
+                .collect(Collectors.toList());
+
         model.addAttribute("jobs", jobs);
         model.addAttribute("partners", partnerService.findAllPartner());
         model.addAttribute("locations", locationService.findAllLocation());
         model.addAttribute("positions", positionService.getAllPosition());
+        model.addAttribute("skills", skillService.getAllSkill());
 
-        return "/job/search-job";
+        return "/job/list-job";
     }
-
 }

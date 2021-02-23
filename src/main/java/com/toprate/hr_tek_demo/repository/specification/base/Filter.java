@@ -20,6 +20,7 @@ import java.util.List;
 public class Filter<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     private T equals;
+    private T like;
     private T notEquals;
     private List<T> in;
     private List<T> notIn;

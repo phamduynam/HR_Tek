@@ -17,7 +17,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form id = "submit-form"  th:action="@{/update-job}" method="post" th:object="${job}">
+                    <form id = "add-job"  th:action="@{/job/update-job}" method="post" th:object="${job}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -27,7 +27,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Tiêu đề tuyển dụng</label>
-                                    <input name="name" th:field="*{jobTitle}" type="text" class="form-control"  placeholder="Enter Job Title" autocomplete="off">
+                                    <input th:field="*{jobTitle}" required id="jobTitle" type="text" class="form-control"
+                                           pattern="^(?=.{5,20}$)(?![ .])(?!.*[_.]{2})[a-zA-Z0-9._ ]+(?<![_.])$"
+                                           title="Tiêu đề không được chứa ký tự đặc biệt ở đầu và cuối" placeholder="Enter Job Title" autocomplete="off">
                                 </div>
 
                                 <div class="form-group">
@@ -37,7 +39,7 @@
 
                                 <div class="form-group" data-select-id="4">
                                     <label>Hình thức làm việc</label>
-                                    <select name="level" th:field="*{formOfWork}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                    <select required name="level" th:field="*{formOfWork}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                         <option value ="">Please select...</option>
                                         <option th:value="Onsite" th:text="'Onsite'"></option>
                                         <option th:value="Insite" th:text="'Insite'"></option>
@@ -84,20 +86,20 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label >Thời gian bắt đầu</label>
-                                    <input name = "address"  th:field="*{dateStart}" type="date" class="form-control"  placeholder="Enter Address" autocomplete="off">
+                                    <input name ="address" required th:field="*{dateStart}"  type="date" class="form-control" title="Hãy chọn thời gian bắt đầu" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="phone1">Thời gian kết thúc</label>
-                                    <input name="phone_1" id="phone1" th:field="*{dateEnd}" type="date" class="form-control"  placeholder="Enter Main Phone" autocomplete="off">
+                                    <input required name="phone_1" id="phone1" th:field="*{dateEnd}" type="date" class="form-control" title="Hãy chọn thời gian kết thúc" autocomplete="off">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="startSalary">Lương khởi điểm</label>
-                                    <input id = "startSalary"  th:field="*{startSalary}" type="text" class="form-control"  placeholder="Enter Address" autocomplete="off">
+                                    <input required id = "startSalary"  th:field="*{startSalary}" type="text" class="form-control" title="Hãy nhập lương khởi điểm" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="endSalary">Lương kết thúc</label>
-                                    <input name="phone_1" id="endSalary" th:field="*{endSalary}" type="text" class="form-control"  placeholder="Enter Main Phone" autocomplete="off">
+                                    <input required name="phone_1" id="endSalary" th:field="*{endSalary}" type="text" class="form-control" title="Hãy nhập lương kết thúc" autocomplete="off">
                                 </div>
                                 <div  class="form-group" >
                                     <label>Đối tác</label>

@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="card card-border-primary">
                         <div class="card-body">
-                            <form id = "submit-form"  th:action="@{/save-job}" method="post" th:object="${newJob}">
+                            <form id="add-job" th:action="@{/job/save-job}" method="post" th:object="${newJob}">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">

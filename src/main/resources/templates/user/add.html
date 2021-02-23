@@ -14,7 +14,7 @@
             </div>
 
             <div class="card-body">
-                <form id="addUser" th:object="${user}" th:action="@{/user/save}" method="post">
+                <form id="add-user" th:object="${user}" th:action="@{/user/save}" method="post">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -24,6 +24,15 @@
                             <div class="form-group">
                                 <label>Ngày sinh</label>
                                 <input type="date"  class="form-control" th:field="*{birthDay}" />
+                            </div>
+                            <div class="form-group">
+                                <label>Vai trò</label>
+                                <select th:field="*{role.roleName}" class="form-control">
+                                    <option value ="">Please select...</option>
+                                    <option th:each="r : ${roles}"
+                                            th:value="${r.roleName}"
+                                            th:text="${r.roleName}"></option>
+                                </select>
                             </div>
 
                         </div>
@@ -36,15 +45,7 @@
                                 <label>SĐT</label>
                                 <input type="tel" class="form-control" th:field="*{phone}" autocomplete="off"/>
                             </div>
-                            <div class="form-group">
-                                <label>Vai trò</label>
-                                <select th:field="*{role.roleName}" class="form-control">
-                                    <option value ="">Please select...</option>
-                                    <option th:each="r : ${roles}"
-                                            th:value="${r.roleName}"
-                                            th:text="${r.roleName}"></option>
-                                </select>
-                            </div>
+
                         </div>
                     </div>
                     <div class="card-footer">

@@ -8,6 +8,12 @@
         table tr td, th {
             text-align: center;
         }
+        .card-block .dataTables_wrapper .row:nth-child(3) {
+            display: none;
+        }
+        .card-block .dataTables_wrapper .row:nth-child(1) {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -17,16 +23,6 @@
         <div class="col-md-12">
             <!-- Multi Select table start -->
             <div class="card">
-                <div class="card-header">
-                    <div class="card-header-right">
-                        <ul class="list-unstyled card-option">
-                            <li><i class="feather icon-maximize full-card"></i></li>
-                            <li><i class="feather icon-minus minimize-card"></i></li>
-                            <li><i class="feather icon-trash-2 close-card"></i></li>
-                        </ul>
-                    </div>
-                </div>
-
                 <div class="card-block">
                     <div class="dt-responsive table-responsive">
                         <table id="multi-select" class="table table-striped table-bordered nowrap">
@@ -45,14 +41,34 @@
                             </tr>
 
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên Job</th>
-                                <th>HR phụ trách</th>
-                            </tr>
-                            </tfoot>
                         </table>
+
+                        <div th:if = "${totalPages > 1}">
+                            <div class = "row col-sm-10">
+                                <div class = "col-sm-2">
+                                    Total Rows: [[${totalItems}]]
+                                </div>
+                                <div class = "col-sm-1">
+					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						                <a  th:if="${currentJobPage != i}" th:href="@{'/Page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						                <span style="color: #ff0000" th:unless="${currentJobPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					                </span>
+                                </div>
+                                <div class = "col-sm-2">
+                                    <a th:if="${currentJobPage >= 2}" th:href="@{'/Page/' + ${currentJobPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
+                                    <!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
+                                </div>
+                                <div class = "col-sm-1">
+                                    <a th:if="${currentJobPage < totalPages}" th:href="@{'/Page/' + ${currentJobPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                                    <span th:unless="${currentJobPage < totalPages}">Next</span>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a th:if="${currentJobPage < totalPages}" th:href="@{'/Page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                                    <span th:unless="${currentJobPage < totalPages}">Last</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

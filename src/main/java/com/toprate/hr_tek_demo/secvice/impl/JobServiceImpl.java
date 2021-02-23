@@ -18,7 +18,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +40,7 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findById(id);
     }
 
+    // luu 1 Job moi
     @Override
     public void saveJob(JobRequirements job) {
         // luu job
@@ -63,18 +63,18 @@ public class JobServiceImpl implements JobService {
 
         // luu toan bo jobWorkSkill
         jobWorkSkillService.saveAll(jobWorkSkillList);
-
     }
 
+    // tim kiem tat ca Job
     @Override
     public List<JobRequirements> findAllJob() {
         return jobRepository.findAllJob();
     }
 
+    // chinh sua 1 Job
     @Override
     public void updateJob(JobRequirements jobRequirement) {
         String id = jobRequirement.getJobRecruitmentId();
-
         JobRequirements jobExist = jobRepository.findById(id).get();
 
         // list jobWorkSkill co trong DB
@@ -122,17 +122,17 @@ public class JobServiceImpl implements JobService {
         for (JobPosition jobPosition : jobPositionListNew) {
             jobExist.addJobPosition(jobPosition);
         }
-
         jobRepository.save(jobRequirement);
     }
 
+    // Xoa 1 Job
     @Override
     public void deleteJob(JobRequirements job) {
         job.setEnable(0);
         jobRepository.save(job);
     }
 
-
+    // phan trang
     @Override
     public Page<JobRequirements> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
@@ -142,8 +142,14 @@ public class JobServiceImpl implements JobService {
         return jobRepository.findAll(pageable);
     }
 
+    // tim kiem Job
     @Override
+    public List<JobRequirements> searchJobByKeyword(SearchJobDto data) {
+        return jobRepository.findAll(new JobSpecification().searchJob(data));
+    }
+
     public List<JobRequirementDTO> searchJobMatchByContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto) {
+
         List<Integer> idSkills = searchJobForContactDto.getSuitableSkill() ? contactDto.getContactWorkSkillList().stream().map(emp -> emp.getSkill().getSkillId()).collect(Collectors.toList()) : new ArrayList<>();
         String level = searchJobForContactDto.getSuitableLevel() ? contactDto.getLevels() : null;
         Float experience = searchJobForContactDto.getSuitableExp() ? contactDto.getYearExperience() : null;
@@ -168,66 +174,6 @@ public class JobServiceImpl implements JobService {
         jobRequirementDTO.setJobWorkSkills(jobRequirements.getJobWorkSkills().stream().map(e -> e.getSkill().getSkillName()).collect(Collectors.joining(", ")));
         jobRequirementDTO.setTakeCareTransactionList(jobRequirements.getTakeCareTransactionList().stream().filter(takeCareTransaction -> takeCareTransaction.getContact().getCandidateId().equals(contactDto.getCandidateId())).count() > 0);
         return jobRequirementDTO;
-    }
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto) {
-
-        String level = searchJobDto.getLevel();
-        Float yearExperience = searchJobDto.getYearExperience();
-        String location = searchJobDto.getLocation();
-        String partner = searchJobDto.getPartner();
-
-        List<Position> positionList = searchJobDto.getPositionList();
-        List<String> positions = new ArrayList<>();
-        for (Position position : positionList) {
-            String positionName = position.getPositionName();
-            positions.add(positionName);
-        }
-
-        List<JobWorkSkill> jobWorkSkillList = searchJobDto.getJobWorkSkillList();
-        List<String> skills = new ArrayList<>();
-        for (JobWorkSkill jobWorkSkill : jobWorkSkillList) {
-            String skillName = jobWorkSkill.getSkill().getSkillName();
-            skills.add(skillName);
-        }
-
-        String sql = "from job_recruitment j  \n" +
-                "    join location l on l.city_id = j.location_city_id \n" +
-                "    join partner pa on pa.partner_id = j.partner_id \n" +
-                "    join (job_position jp join position p on jp.position_id = p.position_id) on j.job_recruitment_id=jp.job_recruitment_id\n" +
-                "    join (job_work_skill jw join skill s on jw.skill_id=s.skill_id) on j.job_recruitment_id=jw.job_recruitment_id\n" +
-                "    where j.enable = 1";
-        if (yearExperience != null) {
-            sql += " and j.year_experience = " + yearExperience;
-        }
-        if (level != null) {
-            sql += " and j.levels = " + "'" + level + "'";
-        }
-        if (location != null) {
-            sql += " and l.address = " + "'" + location + "'";
-        }
-        if (partner != null) {
-            sql += " and pa.partner_name = " + "'" + partner + "'";
-        }
-//        if(positions != null) {
-//            for (String position : positions) {
-//                sql += " and p.position_name = " + "'" + position + "'" + " or ";
-//            }
-//        }
-        if (skills != null) {
-            for (String skill : skills) {
-                sql += " and s.skill_name = " + "'" + skill + "'" + " or ";
-            }
-        }
-
-        Query query = entityManager.createNativeQuery(sql, JobRequirements.class);
-        List<JobRequirements> result = query.getResultList();
-
-        return result;
     }
 
 
@@ -258,7 +204,8 @@ public class JobServiceImpl implements JobService {
 
             queryString.concat("ORDER BY ");
 
-            Query query = entityManager.createNativeQuery(queryString,JobRequirements.class);
+        EntityManager entityManager = null;
+        Query query = entityManager.createNativeQuery(queryString,JobRequirements.class);
             List<JobRequirements> jobRequirementsList = query.getResultList();
 
         return jobRequirementsList;

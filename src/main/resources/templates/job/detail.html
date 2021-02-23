@@ -10,7 +10,7 @@
         <div class="card-header with-border card-border-primary">
             <h3 style="text-align: center" class="box-title">Thông tin chi tiết Job</h3>
         </div>
-        <form data-toggle="validator" role="form" th:object="${jobDetail}" th:action="@{/job-detail/{id}(id=${jobDetail.jobRecruitmentId})}" method="post">
+        <form data-toggle="validator" role="form" th:object="${jobDetail}" th:action="@{/job/detail/{id}(id=${jobDetail.jobRecruitmentId})}" method="post">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group">
                             <h6>Vị trí tuyển dụng</h6>
-                            <select readonly="true" th:field="*{positionList}" class="choices-multiple-remove-button form-control" multiple>
+                            <select disabled="true" th:field="*{positionList}" class="choices-multiple-remove-button form-control" multiple>
                                 <option th:each="position : ${positions}"
                                         th:value="${{position.positionId}}"
                                         th:text="${position.positionName}" disabled>
@@ -55,13 +55,14 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="dateEnd">Thời gian kết thúc</label>
-                            <input type="date" readonly="true" class="form-control" th:field="*{dateEnd}" id="dateEnd" />
+                            <label for="partner">Đối tác</label>
+                            <input type="text" readonly="true" class="form-control" th:field="*{partner.partnerName}" id="partner" />
                         </div>
                         <div class="form-group">
                             <label for="formOfWork">Hình thức làm việc</label>
                             <input type="text" readonly="true" class="form-control" th:field="*{formOfWork}" id="formOfWork" />
                         </div>
+
                         <div class="form-group">
                             <label for="startSalary">Lương khởi điểm</label>
                             <input type="text" readonly="true" class="form-control" th:field="*{startSalary}" id="startSalary" />
@@ -71,16 +72,16 @@
                             <input type="text" readonly="true" class="form-control" th:field="*{endSalary}" id="endSalary" />
                         </div>
                         <div class="form-group">
-                            <label for="partner">Đối tác</label>
-                            <input type="text" readonly="true" class="form-control" th:field="*{partner.partnerName}" id="partner" />
-                        </div>
-                        <div class="form-group">
                             <label for="address">Địa điểm làm việc</label>
                             <input type="text" readonly="true" class="form-control" th:field="*{location.address}" id="address" />
                         </div>
                         <div class="form-group">
                             <label for="hrname">HR phụ trách</label>
                             <input type="text" readonly="true" class="form-control" th:field="*{user.name}" id="hrname" />
+                        </div>
+                        <div class="form-group">
+                            <label for="dateEnd">Thời gian kết thúc</label>
+                            <input type="date" readonly="true" class="form-control" th:field="*{dateEnd}" id="dateEnd" />
                         </div>
                     </div>
                 </div>

@@ -59,7 +59,6 @@ public class JobDto {
 
     private Users user;
 
-
     // constructor mac dinh
     public JobDto() {
         this.setEnable(1);

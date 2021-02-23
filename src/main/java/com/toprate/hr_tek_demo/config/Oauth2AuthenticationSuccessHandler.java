@@ -1,6 +1,5 @@
 package com.toprate.hr_tek_demo.config;
 
-
 import com.toprate.hr_tek_demo.model.Users;
 import com.toprate.hr_tek_demo.repository.UserRepository;
 import org.apache.commons.lang.StringUtils;
