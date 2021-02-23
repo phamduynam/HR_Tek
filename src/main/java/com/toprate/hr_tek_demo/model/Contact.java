@@ -75,10 +75,11 @@ public class Contact {
     @Column
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
+
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL,orphanRemoval=true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<AssignHr> assignHrList;
+    private List<AssignHrContact> assignHrContactList;
 
     @OneToMany(mappedBy = "contact", cascade = CascadeType.ALL, orphanRemoval=true)
     @EqualsAndHashCode.Exclude
@@ -165,7 +166,7 @@ public class Contact {
         this.contactPositionList.remove(contactPosition);
     }
 
-    public Contact(String candidateId, String candidateName, Date birthDay, String address, String linkCv, Float yearExperience, String sex, Boolean isBlackList, String workLocation, String email1, String email2, String phone1, String phone2, String levels, boolean isEnable, List<AssignHr> assignHrList, List<ContactWorkSkill> contactWorkSkillList, List<ContactPosition> contactPositionList, List<TakeCareTransaction> takeCareTransactionList, List<CV> cvList, Users user) {
+    public Contact(String candidateId, String candidateName, Date birthDay, String address, String linkCv, Float yearExperience, String sex, Boolean isBlackList, String workLocation, String email1, String email2, String phone1, String phone2, String levels, boolean isEnable, List<AssignHrContact> assignHrContactList, List<ContactWorkSkill> contactWorkSkillList, List<ContactPosition> contactPositionList, List<TakeCareTransaction> takeCareTransactionList, List<CV> cvList, Users user) {
         this.candidateId = candidateId;
         this.candidateName = candidateName;
         this.birthDay = birthDay;
@@ -181,7 +182,6 @@ public class Contact {
         this.phone2 = phone2;
         this.levels = levels;
         this.isEnable = isEnable;
-        this.assignHrList = assignHrList;
         this.contactWorkSkillList = contactWorkSkillList;
         this.contactPositionList = contactPositionList;
         this.takeCareTransactionList = takeCareTransactionList;

@@ -63,4 +63,5 @@ public class TakeCareTransactionServiceImpl implements TakeCareTransactionServic
     public List<TakeCareTransaction> getAllByJob(JobRequirements job) {
         return takeCareTransactionRepository.findAllByJobRequirements(job);
     }
+
 }

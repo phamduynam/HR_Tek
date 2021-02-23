@@ -10,11 +10,12 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "assign_hr")
-public class AssignHr {
+@Table(name = "assign_hr_contact")
+public class AssignHrContact {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "assign_hr_id")
+    @Column(name = "assign_hr_contact_id")
     private int assignHrId;
 
     @Column(name = "date_start")
@@ -22,11 +23,6 @@ public class AssignHr {
 
     @Column(name = "date_end")
     private Date dateEnd;
-
-    @OneToMany(mappedBy = "assignHr", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<AssignHrJob> assignHrJobList;
 
     //FK
     @ManyToOne
@@ -36,7 +32,7 @@ public class AssignHr {
     private Contact contact;
     // FK
     @ManyToOne
-    @JoinColumn(name = "manager_id") 
+    @JoinColumn(name = "manager_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Users user_manager;

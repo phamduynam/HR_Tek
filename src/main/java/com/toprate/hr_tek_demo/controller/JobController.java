@@ -6,7 +6,6 @@ import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.JobRequirements;
 import com.toprate.hr_tek_demo.model.JobWorkSkill;
 import com.toprate.hr_tek_demo.secvice.*;
-import com.toprate.hr_tek_demo.secvice.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -134,7 +133,7 @@ public class JobController {
     @GetMapping("/home")
     public String homePage(Model model) {
         model.addAttribute("jobs", jobService.findAllJob());
-        return "/job/home";
+        return "index";
     }
 
     // phan trang

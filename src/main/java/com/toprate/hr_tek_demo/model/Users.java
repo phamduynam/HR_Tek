@@ -40,16 +40,15 @@ public class Users implements Serializable {
     @Column(name = "status")
     private String status;
 
-
     @OneToMany(mappedBy = "user_manager", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<AssignHr> assignHrListManager;
+    private List<AssignHrContact> assignHrContactContactListManager;
 
     @OneToMany(mappedBy = "user_hr", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<AssignHr> assignHrListHr;
+    private List<AssignHrContact> assignHrContactListHrContact;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
@@ -61,7 +60,7 @@ public class Users implements Serializable {
     @ToString.Exclude
     private List<Contact> contactList;
 
-    @ManyToOne(optional=false)
+    @ManyToOne
     @JoinColumn(name = "role_name" ,nullable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
