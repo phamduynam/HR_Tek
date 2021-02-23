@@ -8,14 +8,11 @@ import com.toprate.hr_tek_demo.repository.ContactRepository;
 import com.toprate.hr_tek_demo.repository.JobRepository;
 import com.toprate.hr_tek_demo.repository.StatusRepository;
 import com.toprate.hr_tek_demo.repository.TakeCareTransactionRepository;
-import com.toprate.hr_tek_demo.secvice.StatusService;
 import com.toprate.hr_tek_demo.secvice.TakeCareTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Service
 public class TakeCareTransactionServiceImpl implements TakeCareTransactionService {
