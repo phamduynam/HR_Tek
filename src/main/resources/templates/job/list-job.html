@@ -157,11 +157,11 @@
                                 <td th:text="${job.dateEnd}"></td>
                                 <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm btn-group-justified">
-                                        <a th:href="@{detail/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
+                                        <a th:href="@{/job/detail/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
                                             <i  class="icofont icofont-eye"></i></a>
-                                        <a th:href="@{edit/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
+                                        <a th:href="@{/job/edit/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
                                             <i  class="icofont icofont-ui-edit"></i></a>
-                                        <a sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" id="deleteButton" th:href="@{delete/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm" >
+                                        <a sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" id="deleteButton" th:href="@{/job/delete/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm" >
                                             <i  class="icofont icofont-ui-delete"></i></a>
                                     </div>
                                 </td>

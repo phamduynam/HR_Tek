@@ -55,6 +55,9 @@ public abstract class BaseQuerySpecification<E> {
         if (filter.getEquals() != null) {
             result = this.equalsOfJoint(reference, valueField, filter.getEquals());
         }
+        if (filter.getLike() != null) {
+            result = this.likeOfJoint(reference, valueField, filter.getLike());
+        }
         return result;
     }
 
@@ -63,11 +66,21 @@ public abstract class BaseQuerySpecification<E> {
         return (root, query, builder) -> builder.equal(root.join(reference).get(idField.getName()), value);
     }
 
+    //filter equals
+    private <R, J, F> Specification<E> likeOfJoint(SingularAttribute<? super E, R> reference, SingularAttribute<J, F> idField, F value) {
+        return (root, query, builder) -> builder.like(builder.lower(root.join(reference).get(idField.getName())), wrapLikeQuery(value.toString()));
+    }
+
+
+
     //join many to many
     public <R, J, F extends Comparable<? super F>> Specification<E> buildJoinSpecification(Filter<F> filter, ListAttribute<? super E, R> reference, SingularAttribute<R, J> joinField, SingularAttribute<J, F> valueField) {
         Specification<E> result = null;
         if (filter.getEquals() != null) {
             result = this.equalsOfJoint(reference, joinField, valueField, filter.getEquals());
+        }
+        if (filter.getLike() != null) {
+            result = this.likeOfJoint(reference, joinField, valueField, filter.getLike());
         }
         if (filter.getIn() != null) {
             result = this.valueInOfJoint(reference, joinField, valueField, filter.getIn());
@@ -75,6 +88,9 @@ public abstract class BaseQuerySpecification<E> {
         return result;
     }
 
+    private <R, J, F> Specification<E> likeOfJoint(ListAttribute<? super E, R> reference, SingularAttribute<R, J> joinField, SingularAttribute<J, F> idField, F value) {
+        return (root, query, builder) -> builder.like(builder.lower(root.join(reference).join(joinField).get(idField.getName())), wrapLikeQuery(value.toString()));
+    }
     //filter equals
     private <R, J, F> Specification<E> equalsOfJoint(ListAttribute<? super E, R> reference, SingularAttribute<R, J> joinField, SingularAttribute<J, F> idField, F value) {
         return (root, query, builder) -> builder.equal(root.join(reference).join(joinField).get(idField), value);

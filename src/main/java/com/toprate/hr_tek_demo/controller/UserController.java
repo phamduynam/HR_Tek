@@ -51,18 +51,18 @@ public class UserController {
 
 
     // Hiển thị view edit
-    @GetMapping("edit/{id}")
+    @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") String id, Model model) {
         Users user = userService.findUserById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid User Id:" + id));
         model.addAttribute("user", user);
-        return "user/edit";
+        return "/user/edit";
     }
 
     @PostMapping("/update")
     public String saveUser(Users user) {
         userService.saveUser(user);
-        return "redirect:user/index";
+        return "redirect:/user/index";
     }
 
     // Delete User
@@ -72,7 +72,7 @@ public class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userService.deleteUser(user);
 
-        return "redirect:user/index";
+        return "redirect:/user/index";
     }
 
     // Page able
@@ -96,7 +96,7 @@ public class UserController {
 
         model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRole());
-        return "user/index";
+        return "/user/index";
     }
 
     // Search
@@ -105,6 +105,6 @@ public class UserController {
         List<Users> users = userService.searchUserByKeyword(searchUserDto);
         model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRole());
-        return "user/index";
+        return "/user/index";
     }
 }

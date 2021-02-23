@@ -34,7 +34,7 @@ public class DefaultOAuth2UserServiceImpl extends DefaultOAuth2UserService {
         try {
             return processOAuth2User(oAuth2UserRequest);
         } catch (Exception ex) {
-            throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
+            throw   new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }
 

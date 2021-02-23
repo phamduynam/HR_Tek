@@ -10,7 +10,7 @@
         <div class="card-header with-border card-border-primary">
             <h3 style="text-align: center" class="box-title">Thông tin chi tiết Job</h3>
         </div>
-        <form data-toggle="validator" role="form" th:object="${jobDetail}" th:action="@{/job-detail/{id}(id=${jobDetail.jobRecruitmentId})}" method="post">
+        <form data-toggle="validator" role="form" th:object="${jobDetail}" th:action="@{/job/detail/{id}(id=${jobDetail.jobRecruitmentId})}" method="post">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">

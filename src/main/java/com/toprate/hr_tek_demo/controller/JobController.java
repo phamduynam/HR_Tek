@@ -51,7 +51,7 @@ public class JobController {
     ContactService contactService;
 
     // danh sach job dang tuyen
-    @GetMapping("/list")
+    @GetMapping("/list-job")
     public String showJobList(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
         return findJobPaginated(1, "jobRecruitmentId", "asc", model, searchJobDto);
     }
@@ -68,7 +68,7 @@ public class JobController {
         model.addAttribute("jobDetail", jobDetail);
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/detail";
+        return "/job/detail";
     }
 
     // Them moi 1 Job
@@ -90,19 +90,19 @@ public class JobController {
         model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/add";
+        return "/job/add";
     }
 
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
     public String saveJob(@Valid @ModelAttribute("newJob") JobDto newJob, Errors errors) {
 
         if (null != errors && errors.getErrorCount() > 0) {
-            return "job/add";
+            return "/job/add";
         }
 
         JobRequirements jobRequirement = newJob.convertToModel();
         jobService.saveJob(jobRequirement);
-        return "redirect:job/list-job";
+        return "redirect:/job/list-job";
     }
 
     // chinh sua 1 job
@@ -118,15 +118,15 @@ public class JobController {
         model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/edit";
+        return "/job/edit";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/update-job")
     public String updateJob(@ModelAttribute("job") JobDto job) {
 
         JobRequirements jobRequirement = job.convertToModel();
         jobService.updateJob(jobRequirement);
-        return "redirect:job/list-job";
+        return "redirect:/job/list-job";
     }
 
     // xoa job
@@ -135,14 +135,15 @@ public class JobController {
         JobRequirements job = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         jobService.deleteJob(job);
-        return "redirect:job/list-job";
+        return "redirect:/job/list-job";
     }
 
     // hien thi trang chu man hinh chinh
     @GetMapping("/home")
     public String homePage(Model model) {
         model.addAttribute("jobs", jobService.findAllJob());
-        return "job/home";
+
+        return "/job/home";
     }
 
     // phan trang hien thi danh sach job dang tuyen
@@ -170,7 +171,7 @@ public class JobController {
         model.addAttribute("skills", skillService.getAllSkill());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("locations", locationService.findAllLocation());
-        return "job/list-job";
+        return "/job/list-job";
     }
 
     // phan trang hien thi trang chu
@@ -198,10 +199,8 @@ public class JobController {
         model.addAttribute("skills", skillService.getAllSkill());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("locations", locationService.findAllLocation());
-        return "job/home";
+        return "/job/home";
     }
-
-    // search full text
 
     // tim kiem
     @RequestMapping("/search-job")
@@ -220,6 +219,6 @@ public class JobController {
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills", skillService.getAllSkill());
 
-        return "job/list-job";
+        return "/job/list-job";
     }
 }
