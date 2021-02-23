@@ -15,7 +15,7 @@ public class TakeCareTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "takecare_transaction_id")
-    private int takecareTransacntion;
+    private int takecareTransacntionId;
 
     @Column(name = "takecare_transaction_name")
     private String takecareTransacntionName;
@@ -24,13 +24,13 @@ public class TakeCareTransaction {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "candidate_id") // thông qua khóa ngoại candidate_id
+    @JoinColumn(name = "candidate_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;
 
     @ManyToOne
-    @JoinColumn(name = "job_id") // thông qua khóa ngoại job_id
+    @JoinColumn(name = "job_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private JobRequirements  jobRequirements;
@@ -40,13 +40,18 @@ public class TakeCareTransaction {
     @ToString.Exclude
     private List<BlackListAction> blackListActionList;
 
-    @OneToOne(mappedBy = "takeCareTransaction" )
-    private NoteStatus noteStatus;
-
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Status status;
 
     @OneToMany(mappedBy = "takeCareTransaction", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<TodoTask> todoTaskList;
 
+    public TakeCareTransaction(Status status) {
+        this.setStatus(status);
+    }
 }

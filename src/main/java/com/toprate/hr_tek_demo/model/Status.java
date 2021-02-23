@@ -22,6 +22,5 @@ public class Status {
     @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private List<NoteStatus> noteStatusList;
-
+    private List<TakeCareTransaction> takeCareTransactionList;
 }

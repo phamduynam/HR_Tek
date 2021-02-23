@@ -1,6 +1,6 @@
 package com.toprate.hr_tek_demo.controller;
 
-import com.toprate.hr_tek_demo.secvice.impl.UserServiceImpl;
+import com.toprate.hr_tek_demo.secvice.UserService;
 import com.toprate.hr_tek_demo.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,7 +9,6 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,10 +19,10 @@ import java.util.List;
 public class LoginController {
 
     @Autowired
-    private OAuth2AuthorizedClientService authorizedClientService;
+    OAuth2AuthorizedClientService authorizedClientService;
 
     @Autowired
-    private UserServiceImpl userService;
+    UserService userService;
 
     // MẶc đinh khi login xong sẽ nhảy vào đây
     @GetMapping("/")
@@ -31,6 +30,10 @@ public class LoginController {
         return "/login";
     }
 
+    @GetMapping("/home")
+    public String getHome(){
+        return "index";
+    }
 
     @GetMapping("/home-page")
     public ModelAndView getHome(OAuth2AuthenticationToken authentication, ModelAndView mav) {

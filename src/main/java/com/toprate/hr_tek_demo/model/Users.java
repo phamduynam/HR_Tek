@@ -5,13 +5,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @Table(name = "user")
 public class Users implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,30 +41,28 @@ public class Users implements Serializable {
     private String status;
 
 
-    @OneToMany(mappedBy = "user_manager", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "user_manager", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<AssignHr> assignHrListManager;
 
-    @OneToMany(mappedBy = "user_hr", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "user_hr", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<AssignHr> assignHrListHr;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<JobRequirements> jobRequirementsList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Contact> contactList;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name = "role_name" ,nullable = false) // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "role_name" ,nullable = false)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Role role;
@@ -73,6 +71,11 @@ public class Users implements Serializable {
         List<Role> roles = new ArrayList<>();
         roles.add(getRole());
         return roles;
+    }
+
+    public Users(){
+        this.enable = 1;
+        this.status = "ACTIVE";
     }
 
 }

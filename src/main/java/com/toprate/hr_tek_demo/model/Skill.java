@@ -20,16 +20,16 @@ public class Skill {
     private String skillName;
 
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ContactWorkSkill> contactWorkSkillList;
 
 
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<JobWorkSkill> jobWorkSkillList;
 
     public Skill(int skillId) {

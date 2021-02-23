@@ -7,7 +7,9 @@ import com.toprate.hr_tek_demo.dto.SearchJobForContactDto;
 import com.toprate.hr_tek_demo.model.*;
 import com.toprate.hr_tek_demo.repository.JobRepository;
 import com.toprate.hr_tek_demo.repository.specification.JobSpecification;
+import com.toprate.hr_tek_demo.secvice.JobPositionService;
 import com.toprate.hr_tek_demo.secvice.JobService;
+import com.toprate.hr_tek_demo.secvice.JobWorkSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,10 +30,10 @@ public class JobServiceImpl implements JobService {
     private JobRepository jobRepository;
 
     @Autowired
-    private JobWorkSkillServiceImpl jobWorkSkillService;
+    private JobWorkSkillService jobWorkSkillService;
 
     @Autowired
-    private JobPositionServiceImpl jobPositionService;
+    private JobPositionService jobPositionService;
 
     @Override
     public Optional<JobRequirements> findJobById(String id) {
@@ -72,7 +74,6 @@ public class JobServiceImpl implements JobService {
     // chinh sua 1 Job
     @Override
     public void updateJob(JobRequirements jobRequirement) {
-
         String id = jobRequirement.getJobRecruitmentId();
         JobRequirements jobExist = jobRepository.findById(id).get();
 

@@ -22,13 +22,13 @@ public class JobPosition {
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "job_recruitment_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "job_recruitment_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private JobRequirements jobRequirements;
     //FK
     @ManyToOne
-    @JoinColumn(name = "position_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "position_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Position position;

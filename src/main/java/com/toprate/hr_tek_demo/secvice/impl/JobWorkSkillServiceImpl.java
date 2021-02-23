@@ -1,8 +1,6 @@
 package com.toprate.hr_tek_demo.secvice.impl;
 
-import com.toprate.hr_tek_demo.model.JobRequirements;
 import com.toprate.hr_tek_demo.model.JobWorkSkill;
-import com.toprate.hr_tek_demo.model.Skill;
 import com.toprate.hr_tek_demo.repository.JobWorkSkillRepository;
 import com.toprate.hr_tek_demo.secvice.JobWorkSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,8 @@ import java.util.List;
 @Service
 public class JobWorkSkillServiceImpl implements JobWorkSkillService {
     @Autowired
-    private JobWorkSkillRepository jobWorkSkillRepository;
+    JobWorkSkillRepository jobWorkSkillRepository;
+
     @Override
     public void save(String jobId, int skillId) {
         JobWorkSkill jobWorkSkill = new JobWorkSkill();

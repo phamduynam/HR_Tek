@@ -1,7 +1,10 @@
 package com.toprate.hr_tek_demo.model;
 
 import com.toprate.hr_tek_demo.dto.JobDto;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -66,43 +69,43 @@ public class JobRequirements {
     @Column(name = "year_experience")
     private Float yearExperience;
 
-    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khong sử dụng trong toString()
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<AssignHrJob> assignHrJobList;
 
-    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khong sử dụng trong toString()
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<JobWorkSkill> jobWorkSkills;
 
-    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khong sử dụng trong toString()
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<JobPosition> jobPositionList;
 
-    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khong sử dụng trong toString()
+    @OneToMany(mappedBy = "jobRequirements", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<TakeCareTransaction> takeCareTransactionList;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "partner_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "partner_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Partner partner;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "location_city_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "location_city_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Location location;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "user_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "user_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Users user;
@@ -132,6 +135,14 @@ public class JobRequirements {
         jobDto.setLocation(this.location);
         jobDto.setUser(this.user);
 
+
+        ArrayList<Skill> skills = new ArrayList<>();
+        if(this.getJobWorkSkills() != null){
+            for(JobWorkSkill jobWorkSkill : jobWorkSkills){
+                skills.add(jobWorkSkill.getSkill());
+            }
+        }
+
         ArrayList<Position> listPosition = new ArrayList<>();
         if(this.getJobPositionList() != null){
             for (JobPosition jobPosition : this.getJobPositionList()) {
@@ -139,7 +150,7 @@ public class JobRequirements {
             }
         }
         jobDto.setPositionList(listPosition);
-
+        jobDto.setSkillList(skills);
         return jobDto;
     }
 

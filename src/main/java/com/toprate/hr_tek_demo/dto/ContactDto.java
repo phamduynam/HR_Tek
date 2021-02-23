@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,7 +78,6 @@ public class ContactDto {
 
         // Add skill not null
         List<ContactWorkSkill> contactWorkSkillList = new ArrayList<>();
-
         if(this.getContactWorkSkillList() != null){
             for (ContactWorkSkill contactWorkSkill : this.getContactWorkSkillList()) {
                 if (contactWorkSkill.getSkill() != null) {

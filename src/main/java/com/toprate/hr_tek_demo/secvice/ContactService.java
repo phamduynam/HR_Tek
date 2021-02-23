@@ -7,6 +7,7 @@ import java.util.List;
 
 
 public interface ContactService {
+
     Contact getContactById(String id);
 
     void saveContact(Contact contact);
@@ -26,5 +27,6 @@ public interface ContactService {
     Contact getContactByPhone_1(String phone);
 
     Contact getContactByPhone_2(String phone);
-    public List<Contact> searchSpecification(SearchDto data);
+
+    List<Contact> searchSpecification(SearchDto data);
 }

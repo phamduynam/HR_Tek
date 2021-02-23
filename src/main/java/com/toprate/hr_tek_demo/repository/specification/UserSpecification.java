@@ -18,10 +18,10 @@ public class UserSpecification extends BaseQuerySpecification<Users> {
 
     // tim kiem nguoi dung theo trang thai va quyen
     public Specification<Users> searchUser(SearchUserDto data) {
-        if (data.getRole().equals(StringUtils.EMPTY) && data.getStatus().equals(StringUtils.EMPTY)  && data.getKeyword().equals(StringUtils.EMPTY) ) {
+        if (data.getRole().equals(StringUtils.EMPTY) && data.getStatus().equals(StringUtils.EMPTY) && data.getKeyword().equals(StringUtils.EMPTY)) {
             return null;
         }
-        return super.initWhere().and(findByStatus(data.getStatus())).and(findByRole(data.getRole()));
+        return super.initWhere().and(findByStatus(data.getStatus())).and(findByRole(data.getRole())).or(findByName(data.getKeyword())).or(findByPhone(data.getKeyword())).and(findByMail(data.getKeyword()));
     }
 
     // tim kiem nguoi dung theo trang thai
@@ -42,13 +42,36 @@ public class UserSpecification extends BaseQuerySpecification<Users> {
         return super.buildJoinSpecification(stringFilter, Users_.role, Role_.roleName);
     }
 
-//    private Specification<Users> filterRecords(String keyword) {
-//        if (keyword == null || StringUtils.EMPTY.equals(keyword)) {
-//            return null;
-//        }
-//        if(keyword != null) {
-//            return (Specification<Users>) userRepository.filterRecords(keyword);
-//        }
-//        return (Specification<Users>) userRepository.findAllUser();
-//    }
+    // tim kiem nguoi dung theo ten
+    private Specification<Users> findByName(String name) {
+        if (name == null || StringUtils.EMPTY.equals(name)) {
+            return null;
+        }
+        return super.likeSpecification(Users_.NAME, name);
+    }
+
+    // tim kiem nguoi dung theo email
+    private Specification<Users> findByMail(String mail) {
+        if (mail == null || StringUtils.EMPTY.equals(mail)) {
+            return null;
+        }
+        return super.likeSpecification(Users_.GMAIL, mail);
+    }
+
+    // Tim kiem nguoi dung theo sdt
+    private Specification<Users> findByPhone(String phone) {
+        if (phone == null || StringUtils.EMPTY.equals(phone)) {
+            return null;
+        }
+        return super.likeSpecification(Users_.PHONE, phone);
+    }
+
+    // Tim kiem nguoi dung theo trang thai
+    private Specification<Users> findLikeByStatus(String status) {
+        if (status == null || StringUtils.EMPTY.equals(status)) {
+            return null;
+        }
+        return super.likeSpecification(Users_.STATUS, status);
+    }
+
 }

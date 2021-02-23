@@ -3,6 +3,7 @@ package com.toprate.hr_tek_demo.secvice;
 import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.Users;
 import org.springframework.data.domain.Page;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,5 +23,5 @@ public interface UserService {
 
     Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 
-    Optional<Users> getUserByGmail(String gmail);
+    Users getUserByGmail(String gmail);
 }

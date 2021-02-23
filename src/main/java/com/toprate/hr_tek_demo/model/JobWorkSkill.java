@@ -24,13 +24,13 @@ public class JobWorkSkill {
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "skill_id") // thông qua khóa ngoại contact_candidate_id
+    @JoinColumn(name = "skill_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Skill skill;
 
     @ManyToOne
-    @JoinColumn(name = "job_recruitment_id") // thông qua khóa ngoại contact_candidate_id
+    @JoinColumn(name = "job_recruitment_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private JobRequirements jobRequirements;

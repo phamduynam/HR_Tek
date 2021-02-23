@@ -1,4 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 <head>
@@ -6,10 +6,10 @@
     <title>Danh sách người dùng của hệ thống</title>
 
     <style>
-        .card-body .dataTables_wrapper .row:nth-child(3) {
+        .card-block .dataTables_wrapper .row:nth-child(3) {
             display: none;
         }
-        .card-body .dataTables_wrapper .row:nth-child(1) {
+        .card-block .dataTables_wrapper .row:nth-child(1) {
             display: none;
         }
     </style>
@@ -20,139 +20,132 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-body">
-                    <form th:action="@{/search}" th:object="${searchUserDto}">
-                        <div class="col-4 mx-auto">
-                            <div class="input-group">
-                                <input id="filterSearch" type="text" th:field="*{keyword}" class="form-control" placeholder="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-secondary" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
+                <div class="card-header">
+                    <div class="card card-border-primary">
+                        <div class="card-body">
+                            <form th:action="@{/user/search}" method="post" th:object="${searchUserDto}">
+                                <div class="col-4 mx-auto">
+                                    <div class="input-group">
+                                        <input id="filterSearch" type="text" th:field="*{keyword}" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="row">
+                                    <div  class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Vai trò</span>
+                                            <select  th:field="*{role}" class="form-control">
+                                                <option value ="">Please select role</option>
+                                                <option th:value="ADMIN" th:text="ADMIN"></option>
+                                                <option th:value="MANAGER" th:text="MANAGER"></option>
+                                                <option th:value="HR" th:text="HR"></option>
+                                            </select>
+                                        </div>
+
+                                            <a th:href="@{/user/add}" class="btn btn-success">Add Contact</a>
+
+                                    </div>
+                                    <div  class="col-md-6">
+                                        <div class="form-group">
+                                            <span>Trạng thái</span>
+                                            <select  th:field="*{status}" class="form-control">
+                                                <option value ="">Please select status</option>
+                                                <option th:value="ACTIVE" th:text="ACTIVE"></option>
+                                                <option th:value="DEACTIVE" th:text="DEACTIVE"></option>
+                                                <option th:value="PENDING" th:text="PENDING"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+<!--                                <div class="row">-->
+<!--                                    <div class="col-6">-->
+<!--                                        <a th:href="@{/user/add}" class="btn btn-success">Add Contact</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            </form>
                         </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group custom">
-                                    <span>Vai trò</span>
-                                    <select style="width: 200px" th:field="*{role}" class="form-control">
-                                        <option value="">Please choose role</option>
-                                        <option value="ADMIN">ADMIN</option>
-                                        <option value="MANAGER">MANAGER</option>
-                                        <option value="HR">HR</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="form-group custom">
-                                    <span>Trạng thái</span>
-                                    <select style="width: 200px" th:field="*{status}" class="form-control">
-                                        <option value="">Please choose status</option>
-                                        <option value="ACTIVE">ACTIVE</option>
-                                        <option value="DEACTIVE">DEACTIVE</option>
-                                        <option value="PENDING">PENDING</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="btn-group btn-group-sm col-md-3 add-user custom" style="float: none; margin-top: 20px">
-                                    <a href="/adduser">
-                                        <button type="button" class="tabledit-add-button btn btn-primary waves-effect waves-light">
-                                            <span class="icofont icofont-ui-add"> Add new User</span>
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
 
-                <div class="card-body" style="overflow:scroll;">
-                    <table id="example" class="table table-bordered table-hover dataTable dtr-inline">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tên hiển thị</th>
-                            <th>Ngày sinh</th>
-                            <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Vai Trò</th>
-                            <th>Trạng thái</th>
-                            <th>Tác vụ</th>
-                        </tr>
-                        </thead>
-                        <tbody id="myTable">
-                        <tr th:if = "${users.empty}">
-                            <td colspan="2"> No Result </td>
-                        </tr>
-                        <tr th:each="user : ${users}">
-                            <td th:text="${user.userId}"></td>
-                            <td th:text="${user.name}"></td>
-                            <td  th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
-                            <td th:text="${user.gmail}"></td>
-                            <td th:text="${user.phone}"></td>
-                            <td>
-                                <p th:each="role : ${roles}" th:if="(${role.roleName} == ${user.role.roleName})" th:text="${role.roleName}"></p>
-                            </td>
-                            <td th:text="${user.status}"></td>
-                            <td class="text-right py-0 align-middle">
-                                <div class="btn-group btn-group-sm btn-group-justified">
-                                    <a th:href="@{/edit-user/{id}(id=${user.userId})}" class="btn btn-sm">
-                                        <i style="color: #0d6aad" class="icofont icofont-ui-edit"></i></a>
-                                    <a id="deleteButton" th:href="@{/delete/{id}(id=${user.userId})}" class="btn btn-sm" >
-                                        <i style="color: #0d6aad" class="icofont icofont-ui-delete"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Tên hiển thị</th>
-                            <th>Ngày sinh</th>
-                            <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Vai Trò</th>
-                            <th>Trạng thái</th>
-                            <th>Tác vụ</th>
-                        </tr>
-                        </tfoot>
-                    </table>
+                <div class="card card-border-warning">
+                    <div class="card-block">
 
-                    <div th:if = "${totalPages > 1}">
-                        <div class = "row col-sm-10">
-                            <div class = "col-sm-2">
-                                Total Rows: [[${totalItems}]]
-                            </div>
-                            <div class = "col-sm-1">
+                        <div class="dt-responsive table-responsive">
+                            <table id="multi-select" class="table table-striped table-bordered nowrap">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên hiển thị</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Email</th>
+                                    <th>SĐT</th>
+                                    <th>Vai Trò</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tác vụ</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.userId}"></td>
+                                    <td th:text="${user.name}"></td>
+                                    <td  th:text="${#dates.format(user.birthDay, 'dd/MM/yyyy')}"></td>
+                                    <td th:text="${user.gmail}"></td>
+                                    <td th:text="${user.phone}"></td>
+                                    <td>
+                                        <p th:each="role : ${roles}" th:if="(${role.roleName} == ${user.role.roleName})" th:text="${role.roleName}"></p>
+                                    </td>
+                                    <td th:text="${user.status}"></td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm btn-group-justified">
+
+                                            <a th:href="@{/user/edit/{id}(id=${user.userId})}" class="btn btn-sm">
+                                                <i class="icofont icofont-ui-edit"></i></a>
+                                            <a id="deleteButton" th:href="@{/user/delete/{id}(id=${user.userId})}" class="btn btn-sm" >
+                                                <i class="icofont icofont-ui-delete"></i></a>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div th:if = "${totalPages > 1}">
+                                <div class = "row col-sm-10">
+                                    <div class = "col-sm-2">
+                                        Total Rows: [[${totalItems}]]
+                                    </div>
+                                    <div class = "col-sm-1">
 					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-						                <a  th:if="${currentPage != i}" th:href="@{'/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						                <a  th:if="${currentPage != i}" th:href="@{'/user/page/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
 						                <span style="color: #ff0000" th:unless="${currentPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
 					                </span>
-                            </div>
-                            <div class = "col-sm-2">
-                                <a th:if="${currentPage >= 2}" th:href="@{'/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous</a>
-                                <!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
-                            </div>
-                            <div class = "col-sm-1">
-                                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
-                                <span th:unless="${currentPage < totalPages}">Next</span>
-                            </div>
+                                    </div>
+                                    <div class = "col-sm-1">
+                                        <a th:if="${currentPage >= 2}" th:href="@{'/user/page/' + ${currentPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Trước</a>
+                                        <!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
+                                    </div>
+                                    <div class = "col-sm-1">
+                                        <a th:if="${currentPage < totalPages}" th:href="@{'/user/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Tiếp</a>
+                                        <span th:unless="${currentPage < totalPages}">Next</span>
+                                    </div>
 
-                            <div class="col-sm-1">
-                                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
-                                <span th:unless="${currentPage < totalPages}">Last</span>
+                                    <div class="col-sm-1">
+                                        <a th:if="${currentPage < totalPages}" th:href="@{'/user/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Cuối</a>
+                                        <span th:unless="${currentPage < totalPages}">Last</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.card-body -->
+
             </div>
-            <!-- /.card -->
         </div>
         <!-- /.col -->
     </div>
@@ -167,27 +160,8 @@
         });
     </script>
 
-    <script>
-        // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
-        $(document).ready(function() {
-            $('#example').DataTable();
-        } );
-    </script>
-    <script>
-        // Thêm modal delete
-        $(document).ready(function() {
-            $('.table #deleteButton').on('click',function(event){
-                event.preventDefault();
-                // laays link
-                var href = $(this).attr('href');
-                console.log(href)
-                $('#deleteModal #delRef').attr('href',href);
-
-                $('#deleteModal').modal();
-            });
-        } );
-    </script>
 </section>
+
 
 </body>
 </html>

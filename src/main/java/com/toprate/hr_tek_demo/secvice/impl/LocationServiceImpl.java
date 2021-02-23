@@ -13,6 +13,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Autowired
     private LocationRepository locationRepository;
+
     @Override
     public List<Location> findAllLocation() {
         return locationRepository.findAll();

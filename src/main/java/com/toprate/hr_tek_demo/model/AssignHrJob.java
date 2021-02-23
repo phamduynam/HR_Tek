@@ -20,14 +20,14 @@ public class AssignHrJob {
     private String description;
     // Fk
     @ManyToOne
-    @JoinColumn(name = "assign_hr_id") // thông qua khóa ngoại assign_hr_id
+    @JoinColumn(name = "assign_hr_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private AssignHr assignHr;
 
     // Fk
     @ManyToOne
-    @JoinColumn(name = "job_recruitment_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "job_recruitment_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private JobRequirements jobRequirements;

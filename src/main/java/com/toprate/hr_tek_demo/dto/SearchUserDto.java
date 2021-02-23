@@ -14,4 +14,6 @@ public class SearchUserDto {
     private String status;
 
     private String keyword;
+
+
 }

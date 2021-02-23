@@ -2,7 +2,9 @@ package com.toprate.hr_tek_demo.controller;
 
 import com.toprate.hr_tek_demo.dto.JobDto;
 import com.toprate.hr_tek_demo.dto.SearchJobDto;
-import com.toprate.hr_tek_demo.model.*;
+import com.toprate.hr_tek_demo.model.Contact;
+import com.toprate.hr_tek_demo.model.JobRequirements;
+import com.toprate.hr_tek_demo.model.JobWorkSkill;
 import com.toprate.hr_tek_demo.secvice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,60 +20,59 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/job")
 public class JobController {
 
     @Autowired
-    private JobService jobService;
+    JobService jobService;
 
     @Autowired
-    private LocationService locationService;
+    LocationService locationService;
 
     @Autowired
-    private PartnerService partnerService;
+    PartnerService partnerService;
 
     @Autowired
-    private UserService userService;
+    UserService userService;
 
     @Autowired
-    private PositonService positionService;
+    PositionService positionService;
 
     @Autowired
-    private SkillService skillService;
+    JobPositionService jobPositionService;
 
     @Autowired
-    private ContactService contactService;
+    JobWorkSkillService jobWorkSkillService;
 
-    // hien thi danh sach job dang tuyen
-    @GetMapping("/list-job")
+    @Autowired
+    SkillService skillService;
+
+    @Autowired
+    ContactService contactService;
+
+    // danh sach job dang tuyen
+    @GetMapping("/list")
     public String showJobList(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
         return findJobPaginated(1, "jobRecruitmentId", "asc", model, searchJobDto);
     }
 
     // thong tin chi tiet 1 job
-    @GetMapping("/job-detail/{id}")
+    @GetMapping("/detail/{id}")
     public String showJobDetail(@PathVariable("id") String id, Model model) {
         JobRequirements jobRequirement = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
         JobDto jobDetail = jobRequirement.convertToJobDto();
 
-        // tim tat cac cac cv ung tuyen vao job
-        List<Contact> contactList = contactService.findAllContactForJob(id);
-
-        // loc trung ket qua
-        Set<String> idSet = new HashSet<>();
-        List<Contact> contacts = contactList.stream()
-                .filter(e -> idSet.add(e.getCandidateId()))
-                .collect(Collectors.toList());
-
+        List<Contact> contacts = contactService.findAllContactForJob(id);
         model.addAttribute("contacts", contacts);
         model.addAttribute("jobDetail", jobDetail);
         model.addAttribute("positions", positionService.getAllPosition());
-        model.addAttribute("skills", skillService.getAllSkill());
-        return "job/job-detail";
+        model.addAttribute("skills",skillService.getAllSkill());
+        return "job/detail";
     }
 
     // Them moi 1 Job
-    @RequestMapping("/add-job")
+    @RequestMapping("/add")
     public String showNewJobPage(Model model) {
         JobDto newJob = new JobDto();
 
@@ -90,23 +90,23 @@ public class JobController {
         model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/add-job";
+        return "job/add";
     }
 
     @RequestMapping(value = "/save-job", method = RequestMethod.POST)
     public String saveJob(@Valid @ModelAttribute("newJob") JobDto newJob, Errors errors) {
 
         if (null != errors && errors.getErrorCount() > 0) {
-            return "job/add-job";
+            return "job/add";
         }
 
         JobRequirements jobRequirement = newJob.convertToModel();
         jobService.saveJob(jobRequirement);
-        return "redirect:/list-job";
+        return "redirect:job/list-job";
     }
 
     // chinh sua 1 job
-    @GetMapping("edit-job/{id}")
+    @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") String id, Model model) {
         JobRequirements jobEdit = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
@@ -118,30 +118,31 @@ public class JobController {
         model.addAttribute("users",userService.getAllUser());
         model.addAttribute("positions", positionService.getAllPosition());
         model.addAttribute("skills",skillService.getAllSkill());
-        return "job/edit-job";
+        return "job/edit";
     }
 
-    @PostMapping("update-job")
+    @PostMapping("/update")
     public String updateJob(@ModelAttribute("job") JobDto job) {
 
         JobRequirements jobRequirement = job.convertToModel();
         jobService.updateJob(jobRequirement);
-        return "redirect:/list-job";
+        return "redirect:job/list-job";
     }
 
     // xoa job
-    @GetMapping("/delete-job/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteJob(@PathVariable("id") String id, Model model) {
         JobRequirements job = jobService.findJobById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         jobService.deleteJob(job);
-        return "redirect:/list-job";
+        return "redirect:job/list-job";
     }
 
     // hien thi trang chu man hinh chinh
     @GetMapping("/home")
-    public String showHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto) {
-        return findJobShowHomePage(1, "jobRecruitmentId", "asc", model, searchJobDto);
+    public String homePage(Model model) {
+        model.addAttribute("jobs", jobService.findAllJob());
+        return "job/home";
     }
 
     // phan trang hien thi danh sach job dang tuyen
@@ -201,7 +202,8 @@ public class JobController {
     }
 
     // search full text
-    // tim kiem theo toan bo cac tieu chi
+
+    // tim kiem
     @RequestMapping("/search-job")
     public String viewHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto ) {
         List<JobRequirements> jobRequirementsList = jobService.searchJobByKeyword(searchJobDto);

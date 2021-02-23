@@ -1,26 +1,18 @@
-<section class="sidebar" th:fragment="menu" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<section class="sidebar" th:fragment="menu"
+         xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <nav class="pcoded-navbar">
         <div class="pcoded-inner-navbar main-menu">
             <div class="pcoded-navigatio-lavel" menu-title-theme="theme5">Trang chủ</div>
             <ul sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')"
                 class="pcoded-item pcoded-left-item">
                 <li class="">
-                    <a href="/index">
+                    <a href="/user/index">
                         <span class="pcoded-micon"><i class="feather icon-user"></i></span>
                         <span class="pcoded-mtext">Quản lý tài khoản</span>
                     </a>
                 </li>
             </ul>
-            <ul sec:authorize="hasRole('ADMIN')"
-                class="pcoded-item pcoded-left-item">
-                <li class="">
-                    <a href="/exception-log/view">
-                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
-                        <span class="pcoded-mtext">Báo cáo lỗi hệ thống</span>
-                    </a>
-                </li>
-            </ul>
-            <!--            <div sec:authorize="hasRole('HR')">IS ADMIN</div>-->
+
             <ul class="pcoded-item pcoded-left-item">
                 <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">
                     <a href="/contact/view-contacts">
@@ -28,35 +20,33 @@
                         <span class="pcoded-mtext">Quản lý CV ứng viên</span>
                     </a>
                 </li>
-                <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" class="">
-                    <a href="/list-job">
-                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">
+                    <a href="/job/list">
+                        <span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
                         <span class="pcoded-mtext">Quản lí các job đang tuyển</span>
-                        <!-- <span class="pcoded-badge label label-danger">100+</span> -->
                     </a>
                 </li>
                 <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">
                     <a href="javascript:void(0)">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                         <span class="pcoded-mtext">Quản lí TODO task</span>
-                        <!-- <span class="pcoded-badge label label-danger">100+</span> -->
                     </a>
                 </li>
                 <li sec:authorize="hasRole('MANAGER')" class="">
-                    <!--                                <a href="#C16">Đi tới Chương 16</a>-->
                     <a href="">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                         <span class="pcoded-mtext">Báo cáo thống kê</span>
-                        <!-- <span class="pcoded-badge label label-danger">100+</span> -->
                     </a>
                 </li>
-                <!--                <li class="">-->
-                <!--                    <a href="javascript:void(0)">-->
-                <!--                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>-->
-                <!--                        <span class="pcoded-mtext">Inbox</span>-->
-                <!--                        &lt;!&ndash; <span class="pcoded-badge label label-danger">100+</span> &ndash;&gt;-->
-                <!--                    </a>-->
-                <!--                </li>-->
+            </ul>
+            <ul sec:authorize="hasRole('ADMIN')"
+                class="pcoded-item pcoded-left-item">
+                <li class="">
+                    <a href="/exception-log/view">
+                        <span class="pcoded-micon"><i class="feather icon-alert-triangle"></i></span>
+                        <span class="pcoded-mtext">Báo cáo lỗi hệ thống</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>

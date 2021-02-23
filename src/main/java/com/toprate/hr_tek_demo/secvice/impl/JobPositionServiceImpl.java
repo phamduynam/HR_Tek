@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class JobPositionServiceImpl implements JobPositionService {
     @Autowired
-    private JobPositionRepository jobPositionRepository;
+    JobPositionRepository jobPositionRepository;
 
     @Override
     public void save(String jobId, int positionId) {

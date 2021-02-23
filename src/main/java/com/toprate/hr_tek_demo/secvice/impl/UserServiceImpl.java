@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<Users> getUserByGmail(String gmail) {
-        return userRepository.findByGmail(gmail);
+    public Users getUserByGmail(String gmail) {
+        return userRepository.findByGmail(gmail).orElse(null);
     }
 
 }

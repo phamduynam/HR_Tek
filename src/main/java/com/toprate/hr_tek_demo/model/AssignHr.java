@@ -23,21 +23,20 @@ public class AssignHr {
     @Column(name = "date_end")
     private Date dateEnd;
 
-    @OneToMany(mappedBy = "assignHr", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở)
-    // MapopedBy trỏ tới tên biến Address ở trong Person.
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "assignHr", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<AssignHrJob> assignHrJobList;
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "contact_candidate_id") // thông qua khóa ngoại contact_candidate_id
+    @JoinColumn(name = "contact_candidate_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;
     // FK
     @ManyToOne
-    @JoinColumn(name = "manager_id") // thông qua khóa ngoại manager_id
+    @JoinColumn(name = "manager_id") 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Users user_manager;

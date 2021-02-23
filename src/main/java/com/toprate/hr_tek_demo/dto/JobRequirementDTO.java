@@ -1,16 +1,7 @@
 package com.toprate.hr_tek_demo.dto;
 
-import com.toprate.hr_tek_demo.model.*;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

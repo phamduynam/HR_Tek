@@ -20,7 +20,4 @@ public class FileController {
         return "redirect:/contact/view-contacts";
     }
 
-
-
-
 }

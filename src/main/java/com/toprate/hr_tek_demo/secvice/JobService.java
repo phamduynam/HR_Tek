@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JobService {
+
     Optional<JobRequirements> findJobById(String id);
 
     void saveJob(JobRequirements jobRequirements);

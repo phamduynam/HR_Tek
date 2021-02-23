@@ -2,15 +2,19 @@ package com.toprate.hr_tek_demo.secvice.impl;
 
 import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.JobRequirements;
+import com.toprate.hr_tek_demo.model.Status;
 import com.toprate.hr_tek_demo.model.TakeCareTransaction;
 import com.toprate.hr_tek_demo.repository.ContactRepository;
 import com.toprate.hr_tek_demo.repository.JobRepository;
+import com.toprate.hr_tek_demo.repository.StatusRepository;
 import com.toprate.hr_tek_demo.repository.TakeCareTransactionRepository;
+import com.toprate.hr_tek_demo.secvice.StatusService;
 import com.toprate.hr_tek_demo.secvice.TakeCareTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,6 +29,9 @@ public class TakeCareTransactionServiceImpl implements TakeCareTransactionServic
     @Autowired
     JobRepository jobRepository;
 
+    @Autowired
+    StatusRepository statusRepository;
+
     @Override
     public List<TakeCareTransaction> getAll() {
         return takeCareTransactionRepository.findAll();
@@ -32,7 +39,9 @@ public class TakeCareTransactionServiceImpl implements TakeCareTransactionServic
 
     @Override
     public TakeCareTransaction save(String candidateId, String jobRecruitmentId) {
-        TakeCareTransaction takeCareTransaction = new TakeCareTransaction();
+        // Tạo status mặc định
+        Status status = statusRepository.findById(1).get();
+        TakeCareTransaction takeCareTransaction = new TakeCareTransaction(status);
         takeCareTransaction.setContact(contactRepository.findById(candidateId).get());
         takeCareTransaction.setJobRequirements(jobRepository.findById(jobRecruitmentId).get());
         return takeCareTransactionRepository.save(takeCareTransaction);
