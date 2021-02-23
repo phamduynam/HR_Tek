@@ -127,6 +127,7 @@ public class ContactServiceImpl implements ContactService {
         return contactRepository.findAll(new ContactSpecification().searchFilter(data));
     }
 
+
     @Override
     public void saveContact(Contact contact) {
         // Lưu contact

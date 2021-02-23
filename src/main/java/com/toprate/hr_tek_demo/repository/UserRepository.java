@@ -1,5 +1,6 @@
 package com.toprate.hr_tek_demo.repository;
 
+import com.toprate.hr_tek_demo.model.Role;
 import com.toprate.hr_tek_demo.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,5 +22,6 @@ public interface UserRepository  extends JpaRepository<Users, String> {
             , nativeQuery = true)
     List<Users> searchUser(@Param("role") String role, @Param("status") String status);
 
+    List<Users> findByRole_RoleName(String name);
 
 }

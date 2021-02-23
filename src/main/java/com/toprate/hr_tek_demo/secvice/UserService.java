@@ -22,4 +22,6 @@ public interface UserService {
     Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 
     Users getUserByGmail(String gmail);
+
+    List<Users> getAllByRole(String name);
 }
