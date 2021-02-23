@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "skill")
 public class Skill {
     @Id
@@ -19,20 +20,17 @@ public class Skill {
     private String skillName;
 
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<ContactWorkSkill> contactWorkSkillList;
 
 
 
-    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
+    @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL,orphanRemoval=true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<JobWorkSkill> jobWorkSkillList;
-
-    public Skill() {
-    }
 
     public Skill(int skillId) {
         this.skillId = skillId;
@@ -46,35 +44,18 @@ public class Skill {
         this.contactWorkSkillList = contactWorkSkillList;
     }
 
-    public int getSkillId() {
-        return skillId;
+    public void removeContactWorkSkill(ContactWorkSkill contactWorkSkill){
+        contactWorkSkill.setContact(null);
+        this.contactWorkSkillList.remove(contactWorkSkill);
     }
 
-    public void setSkillId(int skillId) {
-        this.skillId = skillId;
+    public void deleteJobWorkSkill(JobWorkSkill jobWorkSkill) {
+        jobWorkSkill.setJobRequirements(null);
+        this.contactWorkSkillList.remove(jobWorkSkill);
     }
 
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
-
-    public List<ContactWorkSkill> getContactWorkSkillList() {
-        return contactWorkSkillList;
-    }
-
-    public void setContactWorkSkillList(List<ContactWorkSkill> contactWorkSkillList) {
-        this.contactWorkSkillList = contactWorkSkillList;
-    }
-
-    public List<JobWorkSkill> getJobWorkSkillList() {
-        return jobWorkSkillList;
-    }
-
-    public void setJobWorkSkillList(List<JobWorkSkill> jobWorkSkillList) {
-        this.jobWorkSkillList = jobWorkSkillList;
+    public void addContactWorkSkill(ContactWorkSkill contactWorkSkill){
+        contactWorkSkill.setSkill(this);
+        this.contactWorkSkillList.add(contactWorkSkill);
     }
 }

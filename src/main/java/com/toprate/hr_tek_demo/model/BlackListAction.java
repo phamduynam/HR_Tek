@@ -22,7 +22,7 @@ public class BlackListAction {
 
     // FK
     @ManyToOne
-    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "takecare_transaction_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private TakeCareTransaction takeCareTransaction;

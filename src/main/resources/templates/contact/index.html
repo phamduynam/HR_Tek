@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts</title>
+</head>
+
+<body>
+
+<section layout:fragment="content" id="page_content">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card card-border-primary">
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <form id = "submit-form"  th:action="@{/contact/search}" method="post" th:object="${searchDto}">
+                            <div class="card-body">
+                                <div class="col-4 mx-auto">
+                                    <div class="input-group">
+                                        <input th:field="*{keyWord}" type="text" class="form-control" placeholder="Search">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-secondary" type="submit">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" data-select-id="1">
+                                            <label>Trạng thái</label>
+                                            <select th:field="*{status}" class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option value="0"></option>
+                                                <option th:each="status : ${statusList}"
+                                                        th:value="${{status.statusId}}"
+                                                        th:text="${status.statusName}"></option>
+
+                                            </select>
+                                        </div>
+                                        <div class="form-group" data-select-id="2">
+                                            <label>Level</label>
+                                            <select th:field="*{level}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option value ="">Please select...</option>
+                                                <option th:value="Intern" th:text="'Intern'"></option>
+                                                <option th:value="Fresher" th:text="'Fresher'"></option>
+                                                <option th:value="Junior" th:text="'Junior'"></option>
+                                                <option th:value="Middle" th:text="'Middle'"></option>
+                                                <option th:value="Senior" th:text="'Senior'"></option>
+                                                <option th:value="Master" th:text="'Master'"></option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" data-select-id="3">
+                                            <label>Vị trí ứng tuyển</label>
+                                            <select th:field="*{contactPositionList}" class="form-control choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                                <option th:each="position : ${positions}"
+                                                        th:value="${position.positionId}"
+                                                        th:text="${position.positionName}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group" data-select-id="4">
+                                            <label>Số năm kinh nghiệm</label>
+                                            <select th:field="*{yearExp}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option value ="0"></option>
+                                                <option th:value = "0.3" >3 Tháng</option>
+                                                <option th:value = "0.5" >6 Tháng</option>
+                                                <option th:value = "1" >1 Năm</option>
+                                                <option th:value = "2" >2 Năm</option>
+                                                <option th:value = "5" >5 Năm</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" data-select-id="5">
+                                            <label>Black list</label>
+                                            <select th:field="*{isBlackList}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option th:value = "ALL" >ALL</option>
+                                                <option th:value = "ON" >ON</option>
+                                                <option th:value = "OFF" >OFF</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" data-select-id="6">
+                                            <label>Skill</label>
+                                            <select th:field="*{contactWorkSkillList}" name="listSkill" class="form-control select2 select2-hidden-accessible choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                                <option th:each="skill : ${skills}"
+                                                        th:value = "${skill.skillId}"
+                                                        th:text="${skill.skillName}"></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="card-body"  >
+                            <div class="row">
+                                <div class="col-6">
+                                    <a th:href="@{/contact/add}" class="btn btn-success">Add Contact</a>
+                                </div>
+
+                                <div class="col-6">
+                                    <form id="formSubmitFile" method="post" th:object="${myFile}" th:action="@{/contact/import}" enctype="multipart/form-data" >
+                                        <div class="input-group form-group">
+                                            <div class="input-group-btn">
+                                                <button type="submit" class="btn btn-warning ">Upload</button>
+                                            </div>
+                                            <input type="file" th:field="*{multipartFile}" class="form-control" id="multipartFile" name="multipartFile">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-border-warning">
+                    <div class="card-body">
+                        <table id="example" class="table table-bordered table-hover dataTable dtr-inline">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Vị Trí</th>
+                                <th>Level</th>
+                                <th>Skill</th>
+                                <th>Exp</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Blacklist</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="myTable">
+                            <tr th:if = "${contacts.empty}">
+                                <td colspan="2"> No Result </td>
+                            </tr>
+                            <tr th:each="contact : ${contacts}">
+                                <td th:text="${contact.candidateId}"></td>
+                                <td th:text="${contact.candidateName}"></td>
+                                <td>
+                                    <p th:each="positionList : ${contact.contactPositionList}">
+                                    <span th:each="position : ${positionList.position}">
+                                        <span th:text="${position.positionName}"></span>
+                                    </span>
+                                    </p>
+                                </td>
+                                <td th:text="${contact.levels}"></td>
+                                <td>
+                                    <p th:each="skillList : ${contact.contactWorkSkillList}">
+                                    <span th:each="skill : ${skillList.skill}">
+                                        <span th:text="${skill.skillName}"></span>
+                                    </span>
+                                    </p>
+                                </td>
+                                <td th:text="${contact.yearExperience}"></td>
+                                <td th:text="${contact.email1}"></td>
+                                <td class="phone hidetext"  th:text="${contact.phone1}"></td>
+                                <td></td>
+                                <td class="text-right py-0 align-middle">
+                                    <div class="btn-group btn-group-sm btn-group-justified">
+                                        <a th:href="@{/contact/detail/{id}(id=${contact.candidateId})}" class="btn btn-sm">
+                                            <i class="icofont icofont-eye"></i></a>
+                                        <a th:href="@{/contact/edit/{id}(id=${contact.candidateId})}" class="btn btn-sm">
+                                            <i class="icofont icofont-ui-edit"></i></a>
+                                        <a  sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" id="deleteButton" th:href="@{/contact/delete/{id}(id=${contact.candidateId})}" class="btn btn-sm" >
+                                            <i class="icofont icofont-ui-delete"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    <script>
+        $(document).on("click", ".phone", function(){
+            if($(this).hasClass("hidetext")){
+                $(this).removeClass("hidetext")
+            }else{
+                $(this).addClass("hidetext")
+            }
+        });
+    </script>
+
+    <script>
+        // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+    <script>
+        // Thêm modal delete
+        $(document).ready(function() {
+            $('.table #deleteButton').on('click',function(event){
+                event.preventDefault();
+                // laays link
+                var href = $(this).attr('href');
+                console.log(href)
+                $('#deleteModal #delRef').attr('href',href);
+                // Hiển thị modal
+                $('#deleteModal').modal();
+            });
+        } );
+    </script>
+</section>
+</body>
+
+</html>

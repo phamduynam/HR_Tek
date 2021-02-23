@@ -1,121 +1,241 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 <head>
-    <title>Danh sách các job đang tuyển</title>
+    <meta charset="UTF-8">
+    <title>Danh sách các Job đang tuyển</title>
     <style>
-        table tr > td {
-            text-align: center;
+        .card-body .dataTables_wrapper .row:nth-child(3) {
+            display: none;
+        }
+        .card-body .dataTables_wrapper .row:nth-child(1) {
+            display: none;
         }
     </style>
-</head>
-<body>
 
-<div layout:fragment="content">
+</head>
+
+<section layout:fragment="content" id="page_content">
     <div class="row">
-        <div class="col-md-12">
-            <!-- Multi Select table start -->
+        <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-header-right">
-                        <ul class="list-unstyled card-option">
-                            <li><i class="feather icon-maximize full-card"></i></li>
-                            <li><i class="feather icon-minus minimize-card"></i></li>
-                            <li><i class="feather icon-trash-2 close-card"></i></li>
-                        </ul>
+                    <div class="card card-border-primary">
+                        <!-- /.box-header -->
+                        <!-- form start -->
+                        <div class="card-body">
+
+                        <form th:action="@{/job/search-job}" th:object="${searchJobDto}">
+                            <div class="col-4 mx-auto">
+                                <div class="input-group">
+                                    <input id="filterSearch" type="text" th:value="${keyword}" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Level</label>
+                                        <select th:field="*{level}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                            <option value ="">Please select level</option>
+                                            <option value="Intern">Intern</option>
+                                            <option value="Fresher">Fresher</option>
+                                            <option value="Junior">Junior</option>
+                                            <option value="Middle">Middle</option>
+                                            <option value="Senior">Senior</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Số năm kinh nghiệm</label>
+                                        <select th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                            <option value ="">Please select yearExperience</option>
+                                            <option th:value = "0.5">6 tháng</option>
+                                            <option th:value = "1">1 năm</option>
+                                            <option th:value = "2">2 năm</option>
+                                            <option th:value = "5">5 năm</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Skill</label>
+                                        <select th:field="*{jobWorkSkillList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                            <option th:each="skill : ${skills}"
+                                                    th:value = "${skill.skillId}"
+                                                    th:text="${skill.skillName}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <a href="/job/add" class="btn btn-success">Add Job</a>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Địa điểm</label>
+                                        <select th:field="*{location}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                            <option value ="">Please select location</option>
+                                            <option th:each="location : ${locations}"
+                                                    th:value = "${location.address}"
+                                                    th:text="${location.address}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Đối tác</label>
+                                        <select th:field="*{partner}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                            <option value ="">Please select partner</option>
+                                            <option th:each="partner : ${partners}"
+                                                    th:value = "${partner.partnerName}"
+                                                    th:text="${partner.partnerName}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Vị trí</label>
+                                        <select th:field="*{jobPositionList}" name="listSkill" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                            <option th:each="position : ${positions}"
+                                                    th:value = "${position.positionId}"
+                                                    th:text="${position.positionName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
                     </div>
                 </div>
-                <a href="/add-job">
-                    <div class="btn-group btn-group-sm" style="float: none;">
-                        <button type="button" class="tabledit-add-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
-                            <span class="icofont icofont-ui-add"></span>
-                        </button>
-                    </div>
-                </a>
-                <div class="card-block">
-                    <div class="dt-responsive table-responsive">
-                        <table id="multi-select" class="table table-striped table-bordered nowrap">
+
+                <div class="card card-border-warning">
+                    <div class="card-body">
+                        <table id="example" class="table table-bordered table-hover dataTable dtr-inline">
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Tiêu đề tuyển dụng</th>
-                                <th>Vị trí tuyển dụng</th>
-                                <th>Kỹ năng</th>
+                                <th>Tiêu đề</th>
+                                <th>Vị trí</th>
+                                <th>Skill</th>
                                 <th>Số lượng</th>
-                                <th>Hình thức làm việc</th>
-                                <th>Ngày bắt đầu</th>
-                                <th>Ngày kết thúc</th>
+                                <th>Level</th>
+                                <th>Exp</th>
+                                <th>Start date</th>
+                                <th>End date</th>
                                 <th>Tác vụ</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="myTable">
+                            <tr th:if = "${jobs.isEmpty}">
+                                <td colspan="2"> No Result </td>
+                            </tr>
                             <tr th:each="job : ${jobs}">
                                 <td th:text="${job.jobRecruitmentId}"></td>
                                 <td th:text="${job.jobTitle}"></td>
                                 <td>
-                                    <p th:each="jobPosition : ${job.jobPositionList}">
-                                    <span th:each="position : ${jobPosition.position}">
+                                    <p th:each="positionList : ${job.jobPositionList}">
+                                    <span th:each="position : ${positionList.position}">
+                                        <!--/*@thymesVar id="positionName" type="templates"*/-->
                                         <span th:text="${position.positionName}"></span>
                                     </span>
                                     </p>
                                 </td>
                                 <td>
-                                    <p th:each="jobSkill : ${job.jobWorkSkills}">
-                                    <span th:each="skill : ${jobSkill.skill}">
+                                    <p th:each="skillList : ${job.jobWorkSkills}">
+                                    <span th:each="skill : ${skillList.skill}">
+                                        <!--/*@thymesVar id="skillName" type="templates"*/-->
                                         <span th:text="${skill.skillName}"></span>
                                     </span>
                                     </p>
                                 </td>
                                 <td th:text="${job.quantity}"></td>
-                                <td th:text="${job.formOfWork}"></td>
-                                <td  th:text="${#dates.format(job.dateStart, 'dd/MM/yyyy')}"></td>
-                                <td  th:text="${#dates.format(job.dateEnd, 'dd/MM/yyyy')}"></td>
-
-                                <td>
-                                    <div class="btn-group btn-group-sm" style="float: none;">
-                                        <a th:href="@{/job-detail/{id}(id=${job.jobRecruitmentId})}">
-                                            <button type="button" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
-                                                <span class="icofont icofont-eye"></span>
-                                            </button>
-                                        </a>
-                                        <a th:href="@{/edit-job/{id}(id=${job.jobRecruitmentId})}">
-                                            <button type="button" class="tabledit-edit-button btn btn-primary waves-effect waves-light" style="float: none;margin: 5px;">
-                                                <span class="icofont icofont-ui-edit"></span>
-                                            </button>
-                                        </a>
-                                        <a th:href="@{/delete-job/{id}(id=${job.jobRecruitmentId})}"
-                                           onClick="if (!(confirm('Are you sure you want to delete this Job?'))) return false">
-                                            <button type="button" class="tabledit-delete-button btn btn-danger waves-effect waves-light" style="float: none;margin: 5px;">
-                                                <span class="icofont icofont-ui-delete"></span>
-                                            </button>
-                                        </a>
+                                <td th:text="${job.level}"></td>
+                                <td th:text="${job.yearExperience}"></td>
+                                <td th:text="${job.dateStart}"></td>
+                                <td th:text="${job.dateEnd}"></td>
+                                <td class="text-right py-0 align-middle">
+                                    <div class="btn-group btn-group-sm btn-group-justified">
+                                        <a th:href="@{/job/detail/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
+                                            <i  class="icofont icofont-eye"></i></a>
+                                        <a th:href="@{/job/edit/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm">
+                                            <i  class="icofont icofont-ui-edit"></i></a>
+                                        <a sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" id="deleteButton" th:href="@{/job/delete/{id}(id=${job.jobRecruitmentId})}" class="btn btn-sm" >
+                                            <i  class="icofont icofont-ui-delete"></i></a>
                                     </div>
                                 </td>
-
                             </tr>
-
                             </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tiêu đề tuyển dụng</th>
-                                <th>Vị trí tuyển dụng</th>
-                                <th>Kỹ năng</th>
-                                <th>Số lượng</th>
-                                <th>Hình thức làm việc</th>
-                                <th>Ngày bắt đầu</th>
-                                <th>Ngày kết thúc</th>
-                                <th>Tác vụ</th>
-                            </tr>
-                            </tfoot>
                         </table>
+
+                        <div th:if = "${totalPages > 1}">
+                            <div class = "row col-sm-10">
+                                <div class = "col-sm-2">
+                                    Total Rows: [[${totalItems}]]
+                                </div>
+                                <div class = "col-sm-1">
+					                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						                <a  th:if="${currentJobPage != i}" th:href="@{'/job/JobPage/' + ${i}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+						                <span style="color: #ff0000" th:unless="${currentJobPage != i}">[[${i}]]</span>  &nbsp; &nbsp;
+					                </span>
+                                </div>
+                                <div class = "col-sm-2">
+                                    <a th:if="${currentJobPage >= 2}" th:href="@{'/job/JobPage/' + ${currentJobPage - 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Trước</a>
+                                    <!--                                    <span th:unless="${currentPage < totalPages}">Next</span>-->
+                                </div>
+                                <div class = "col-sm-1">
+                                    <a th:if="${currentJobPage < totalPages}" th:href="@{'/job/JobPage/' + ${currentJobPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Tiếp</a>
+                                    <span th:unless="${currentJobPage < totalPages}">Next</span>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <a th:if="${currentJobPage < totalPages}" th:href="@{'/job/JobPage/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Cuối</a>
+                                    <span th:unless="${currentJobPage < totalPages}">Last</span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
+                <!-- /.card-body -->
             </div>
-            <!-- Multi Select table end -->
+            <!-- /.card -->
         </div>
+        <!-- /.col -->
     </div>
-</div>
+    <!-- /.row -->
+    <script>
+        $(document).on("click", ".phone", function(){
+            if($(this).hasClass("hidetext")){
+                $(this).removeClass("hidetext")
+            }else{
+                $(this).addClass("hidetext")
+            }
+        });
+    </script>
+
+    <script>
+        // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+    <script>
+        // Thêm modal delete
+        $(document).ready(function() {
+            $('.table #deleteButton').on('click',function(event){
+                event.preventDefault();
+                // laays link
+                var href = $(this).attr('href');
+                console.log(href)
+                $('#deleteModal #delRef').attr('href',href);
+                $('#deleteModal').modal();
+            });
+        } );
+    </script>
+</section>
 
 </body>
 </html>

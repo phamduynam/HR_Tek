@@ -16,4 +16,10 @@ public class SkillServiceImpl implements SkillService {
     public List<Skill> getAllSkill() {
         return skillRepository.findAll();
     }
+
+    @Override
+    public Skill getSkillByName(String name) {
+        return skillRepository.findBySkillName(name);
+    }
+
 }

@@ -13,6 +13,7 @@ public class PartnerServiceImpl implements PartnerService {
 
     @Autowired
     private PartnerRepository partnerRepository;
+
     @Override
     public List<Partner> findAllPartner() {
         return partnerRepository.findAll();

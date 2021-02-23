@@ -30,6 +30,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
     <!-- Required Fremwork -->
     <link rel="stylesheet" type="text/css" href="/dist/files/bower_components/bootstrap/css/bootstrap.min.css">
+    <!-- New Bootstrap 4 -->
+<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">-->
     <!-- Font awesome star css -->
     <link rel="stylesheet" type="text/css" href="/dist/files/bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Font awesome star css -->
@@ -88,6 +90,7 @@
     <script src="/dist/files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="/dist/files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
+
     <!-- i18next.min.js -->
     <script type="text/javascript" src="/dist/files/bower_components/i18next/js/i18next.min.js"></script>
     <script type="text/javascript" src="/dist/files/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
@@ -100,12 +103,19 @@
     <script src="/dist/files/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
     <script type="text/javascript" src="/dist/files/assets/js/script.js"></script>
 
-
     <script src="https://res.cloudinary.com/dxfq3iotg/raw/upload/v1569006273/BBBootstrap/choices.min.js?version=7.0.0"></script>
 
-    <!-- Bootstrap validate js -->
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">-->
+    <!-- Jquery validation js -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="/dist/js/validation.js"></script>
+    <script src="/dist/js/validateInputJob.js"></script>
 
+    <script src="/dist/js/additional-methods.min.js"></script>
+
+
+    <style>
+        .hidetext { -webkit-text-security: disc; /* Default */ }
+    </style>
 </head>
 
 <body>
@@ -177,23 +187,6 @@
                     <div class="pcoded-inner-content">
                         <div class="main-body">
                             <div class="page-wrapper">
-                                <div class="page-header">
-                                    <div class="row align-items-end">
-                                        <div class="col-lg-8">
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="page-header-breadcrumb">
-                                                <ul class="breadcrumb-title">
-                                                    <li class="breadcrumb-item">
-                                                        <a href="#"> <i class="feather icon-home"></i> </a>
-                                                    </li>
-                                                    <li class="breadcrumb-item"><a href="#!">Dashboard</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="page-body">
                                     <div layout:fragment="content"></div>
                                 </div>

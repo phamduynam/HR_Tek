@@ -2,7 +2,6 @@ package com.toprate.hr_tek_demo.excel;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 
 public class MyFile implements Serializable {

@@ -25,7 +25,7 @@ public class CV {
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "contact_id") // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "contact_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Contact contact;

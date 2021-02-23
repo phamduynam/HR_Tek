@@ -22,14 +22,28 @@ public class JobPosition {
 
     //FK
     @ManyToOne
-    @JoinColumn(name = "job_recruitment_id", nullable = false) // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "job_recruitment_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private JobRequirements jobRequirements;
     //FK
     @ManyToOne
-    @JoinColumn(name = "position_id", nullable = false) // thông qua khóa ngoại job_recruitment_id
+    @JoinColumn(name = "position_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Position position;
+
+    public JobPosition(Position position) {
+        this.position = position;
+    }
+    public JobPosition(JobRequirements jobRequirement) {
+        this.jobRequirements = jobRequirement;
+    }
+
+    public JobPosition(int jobPositionId, String description, JobRequirements jobRequirements, Position position) {
+        this.jobPositionId = jobPositionId;
+        this.description = description;
+        this.jobRequirements = jobRequirements;
+        this.position = position;
+    }
 }

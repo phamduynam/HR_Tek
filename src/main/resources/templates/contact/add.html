@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}">
 <head>
@@ -18,99 +18,92 @@
                     <h3 class="card-title">Thêm Mới Contact</h3>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/contact/save}" method="post" th:object="${contactDto}">
+
+                    <form id = "submit-form"  th:action="@{/contact/save}" method="post" th:object="${contactDto}">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="contact-name">Họ Tên</label>
-                                    <input id="contact-name" th:field="*{candidateName}" type="text" class="form-control"  placeholder="Enter Name">
-                                    <p th:if="${#fields.hasErrors('candidateName')}" th:errors="*{candidateName}" class="alert alert-danger"></p>
+                                    <label>Họ Tên</label>
+                                    <input name="name" th:field="*{candidateName}" type="text" class="form-control"  placeholder="Enter Name" autocomplete="off">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="day-of-birth">Ngày Sinh</label>
-                                    <input id="day-of-birth" th:field="*{birthDay}" type="date" class="form-control"  placeholder="dd/mm/yyyy">
-                                    <p th:if="${#fields.hasErrors('birthDay')}" th:errors="*{birthDay}" class="alert alert-danger"></p>
+                                    <label>Ngày Sinh</label>
+                                    <input name="birth_day" th:field="*{birthDay}"  type="date" class="form-control"  placeholder="dd/mm/yyyy">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Giới Tính</label>
-                                    <select required  th:field="*{sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
+                                    <select name="sex" th:field="*{sex}" class="form-control select2bs4 select2-hidden-accessible" style="width: 100%;" data-select2-id="17" tabindex="-1" aria-hidden="true">
                                         <option value ="">Please select...</option>
                                         <option th:value="Nam" th:text="Nam"></option>
                                         <option th:value="Nữ" th:text="Nữ"></option>
                                         <option th:value="Khác" th:text="Khác"></option>
                                     </select>
-                                    <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="alert alert-danger"></p>
                                 </div>
-                                <div class="form-group">
-                                    <label for="address">Địa Chỉ</label>
-                                    <input id="address" type="text" class="form-control"  placeholder="Enter Address">
-                                </div>
+
                                 <div class="form-group">
                                     <label>Số năm kinh nghiệm</label>
-                                    <select required  th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
+                                    <select name="exp" th:field="*{yearExperience}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="2" tabindex="-1" aria-hidden="true">
                                         <option value ="">Please select...</option>
                                         <option th:value="0.3" th:text="'3 Tháng'"></option>
                                         <option th:value="0.5" th:text="'6 Tháng'"></option>
-                                        <option th:value="1" th:text="'1 Năm'">1 Năm</option>
-                                        <option th:value="2" th:text="'2 Năm'">2 Năm</option>
-                                        <option th:value="5" th:text="'5 Năm'">5 Năm</option>
+                                        <option th:value="1" th:text="'1 Năm'"></option>
+                                        <option th:value="2" th:text="'2 Năm'"></option>
+                                        <option th:value="5" th:text="'5 Năm'"></option>
                                     </select>
                                 </div>
                                 <div class="form-group" data-select-id="4">
                                     <label>Level</label>
-                                    <select required  th:field="*{levels}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                    <select name="level" th:field="*{levels}" class="form-control select2 select2-hidden-accessible " style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                         <option value ="">Please select...</option>
+                                        <option th:value="Intern" th:text="'Intern'"></option>
+                                        <option th:value="Fresher" th:text="'Fresher'"></option>
                                         <option th:value="Junior" th:text="'Junior'"></option>
                                         <option th:value="Middle" th:text="'Middle'"></option>
                                         <option th:value="Senior" th:text="'Senior'"></option>
                                         <option th:value="Master" th:text="'Master'"></option>
                                     </select>
-                                    <p th:if="${#fields.hasErrors('levels')}" th:errors="*{levels}" class="alert alert-danger"></p>
                                 </div>
-
-
                             </div>
 
                             <div class="col-md-6">
                                 <div class="form-group">
+                                    <label >Địa Chỉ</label>
+                                    <input name = "address"  th:field="*{address}" type="text" class="form-control"  placeholder="Enter Address" autocomplete="off">
+                                </div>
+                                <div class="form-group">
                                     <label for="phone1">Phone 1</label>
-                                    <input id="phone1" th:field="*{phone1}" type="text" class="form-control"  placeholder="Enter Phone 1">
-                                    <p th:if="${#fields.hasErrors('phone1')}" th:errors="*{phone1}" class="alert alert-danger"></p>
+                                    <input name="phone_1" id="phone1" th:field="*{phone1}" type="text" class="form-control"  placeholder="Enter Main Phone" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="phone2">Phone 2</label>
-                                    <input id="phone2" th:field="*{phone2}" type="text" class="form-control" placeholder="Enter Phone 2">
-                                    <p th:if="${#fields.hasErrors('phone2')}" th:errors="*{phone2}" class="alert alert-danger"></p>
+                                    <input name="phone_2" id="phone2" th:field="*{phone2}" type="text" class="form-control" placeholder="Enter Extra Phone" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="email1">Email 1</label>
-                                    <input id="email1" th:field="*{email1}" type="email" class="form-control"  placeholder="Enter Email 1">
-                                    <p th:if="${#fields.hasErrors('email1')}" th:errors="*{email1}" class="alert alert-danger"></p>
+                                    <input name="email_1" id="email1" th:field="*{email1}" type="email" class="form-control"  placeholder="Enter Main Email" autocomplete="off">
                                 </div>
                                 <div class="form-group">
                                     <label for="email2">Email 2</label>
-                                    <input id="email2" th:field="*{email2}" type="email" class="form-control"  placeholder="Enter Email 2">
-                                    <p th:if="${#fields.hasErrors('email2')}" th:errors="*{email2}" class="alert alert-danger"></p>
+                                    <input name="email_2" id="email2" th:field="*{email2}" type="email" class="form-control"  placeholder="Enter Extra Email" autocomplete="off">
                                 </div>
-                                    <div  class="form-group" >
-                                        <label>Vị trí ứng tuyển</label>
-                                        <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
-                                            <option th:each="position : ${positions}"
-                                                    th:value="${{position.positionId}}"
-                                                    th:text="${position.positionName}"></option>
-                                        </select>
-                                    </div>
+                                <div  class="form-group" >
+                                    <label>Vị trí ứng tuyển</label>
+                                    <select th:field="*{positionList}" class="choices-multiple-remove-button" placeholder="Select upto 5 tags" multiple>
+                                        <option th:each="position : ${positions}"
+                                                th:value="${{position.positionId}}"
+                                                th:text="${position.positionName}"></option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-
                         <div class="table-wrapper">
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-sm-8"><h5>Danh Sách Skill</h5></div>
                                     <div class="col-sm-4">
-                                        <button disabled type="button" class="btn btn-info add-new float-right "><i class="fa fa-plus"></i> Add Skill</button>
+                                        <button type="button" class="btn btn-info add-new float-right "><i class="fa fa-plus"></i> Add Skill</button>
                                     </div>
                                 </div>
                             </div>
@@ -124,54 +117,46 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr class="sample-element" th:each = "contactWK,stat : ${contactDto.contactWorkSkillList}">
-                                    <td>
-                                        <select th:field="*{contactWorkSkillList[__${stat.index}__].skill}"
-                                                class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true">
-                                            <option value = ""></option>
-                                            <option th:each="skill : ${skills}"
-                                                    th:value = "${{skill.skillId}}"
-                                                    th:text="${skill.skillName}"></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select  th:field="*{contactWorkSkillList[__${stat.index}__].skillYearExperience}"
-                                                 class="form-control select2 select2-hidden-accessible" aria-hidden="true">
-                                            <option value ="0"></option>
-                                            <option th:value = "0.3" >3 Tháng</option>
-                                            <option th:value = "0.5" >6 Tháng</option>
-                                            <option th:value = "1" >1 Năm</option>
-                                            <option th:value = "2" >2 Năm</option>
-                                            <option th:value = "5" >5 Năm</option>
-                                        </select>
-                                    </td>
-                                    <td >
-                                        <textarea th:field="*{contactWorkSkillList[__${stat.index}__].description}"
-                                                  class="form-control"></textarea>
-                                    </td>
-                                    <td>
-                                        <a class="add" title="" data-toggle="tooltip" data-original-title="Add"><i class="material-icons"></i></a>
-                                        <a disabled class="edit" title="" data-toggle="tooltip" data-original-title="Edit"><i class="material-icons"></i></a>
-                                        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
-                                    </td>
-                                </tr>
+                                    <tr class="sample-element" th:each = "contactWK,stat : ${contactDto.contactWorkSkillList}"></tr>
                                 </tbody>
                             </table>
-
                             <input type="submit" value="Create new Contact" class="btn btn-success float-left">
                         </div>
                     </form>
+                    <div class="hide" hidden>
+                        <div class="list-skill">
+                            <select id="contactWorkSkillList*.skill" name="contactWorkSkillList[*].skill"
+                                    class="form-control select2bs4 select2-hidden-accessible" aria-hidden="true">
+                                <option value = ""></option>
+                                <option th:each="skill : ${skills}"
+                                        th:value = "${{skill.skillId}}"
+                                        th:text="${skill.skillName}"></option>
+                            </select>
+                        </div>
+                        <div class="list-exp">
+                            <select id="contactWorkSkillList*.skillYearExperience" name="contactWorkSkillList[*].skillYearExperience"
+                                    class="form-control select2 select2-hidden-accessible" aria-hidden="true">
+                                <option value ="0"></option>
+                                <option th:value = "0.3" >3 Tháng</option>
+                                <option th:value = "0.5" >6 Tháng</option>
+                                <option th:value = "1" >1 Năm</option>
+                                <option th:value = "2" >2 Năm</option>
+                                <option th:value = "5" >5 Năm</option>
+                            </select>
+                        </div>
+                        <div class="des">
+                                    <textarea id="contactWorkSkillList*.description" name="contactWorkSkillList[*].description"
+                                              class="form-control">
+                                    </textarea>
+                        </div>
+                        <div class="action">
+                            <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="material-icons"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        bootstrapValidate(
-            '#docs-demo',
-            'email:Enter a valid E-Mail Address!'
-        );
-    </script>
 
 
     <script>
@@ -179,59 +164,53 @@
             // Gợi ý nút action
             $('[data-toggle="tooltip"]').tooltip();
 
+            function add_element(data,index){
+                let res = data.clone()
+                var id = res[0].firstElementChild.id
+                var name = res[0].firstElementChild.name
+
+                res.html(res.html().replace(
+                    id,id.replace('*',index)
+                ))
+                res.html(res.html().replace(
+                    name,name.replace('*',index)
+                ))
+
+                return res.html()
+            }
             // Append table with add row form on add new button click
+            var index = 1;
             $(".add-new").click(function(){
-                var index = $("table tbody").find("tr style").index();
-                console.log(index);
+
+                // Nếu có skill thì gán index là số thứ tự hàng cuối cùng
+                if($('.table.table-bordered tbody tr:last-child')[0] != null){
+                    index = $('.table.table-bordered tbody tr:last-child')[0].rowIndex
+                }
+
+                // console.log(index)
+
+                var skill_new = $('.hide .list-skill ').eq(0)
+                var exp_new = $('.hide .list-exp').eq(0)
+                var des_new = $('.hide .des').eq(0)
+                var action = $('.hide .action').eq(0)
+
+                console.log(add_element(skill_new,index))
+                console.log(add_element(exp_new,index))
+                console.log(add_element(des_new,index))
+
+                var new_row = '<tr>' +
+                    '<td> ' + add_element(skill_new,index) +' </td>' +
+                    '<td> ' + add_element(exp_new,index) +' </td>' +
+                    '<td> ' + add_element(des_new,index) +' </td>' +
+                    '<td> ' + action.html() +' </td>' +
+                    '</tr>'
+
+                $('.table.table-bordered tbody').append(new_row)
+
                 $('[data-toggle="tooltip"]').tooltip();
+                index++
             });
             // Add row on add button click
-            // $(document).on("click", ".add", function(){
-            //     var empty = false;
-            //     var select = $(this).parents("tr").find('select');
-            //     var desText= $(this).parents("tr").find('textarea');
-            //     select.each(function(){
-            //         console.log($(this).val())
-            //         if($(this).val() === "" || $(this).val() === "0"){
-            //             $(this).addClass("error");
-            //             empty = true;
-            //         } else{
-            //             $(this).removeClass("error");
-            //         }
-            //     });
-            //
-            //
-            //
-            //     $(this).parents("tr").find(".error").first().focus();
-            //     if(!empty){
-            //         select.each(function(){
-            //             console.log($(this))
-            //             $(this)[0].disabled = true
-            //         });
-            //         desText.each(function(){
-            //             console.log($(this))
-            //             $(this)[0].disabled = true
-            //         });
-            //         $(this).parents("tr").find(".add, .edit").toggle();
-            //         $(".add-new").removeAttr("disabled");
-            //     }
-            // });
-            // Edit row on edit button click
-            // $(document).on("click", ".edit", function(){
-            //
-            //     var select = $(this).parents("tr").find('select');
-            //     var desText= $(this).parents("tr").find('textarea');
-            //     select.each(function(){
-            //         console.log($(this))
-            //         $(this)[0].disabled = false
-            //     });
-            //     desText.each(function(){
-            //         console.log($(this))
-            //         $(this)[0].disabled = false
-            //     });
-            //     $(this).parents("tr").find(".add, .edit").toggle();
-            //     $(".add-new").attr("disabled", "disabled");
-            // });
             // Delete row on delete button click
             $(document).on("click", ".delete", function(){
                 $(this).parents("tr").remove();

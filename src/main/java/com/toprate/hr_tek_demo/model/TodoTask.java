@@ -26,7 +26,7 @@ public class TodoTask {
     private Date dateEnd;
 
     @ManyToOne
-    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại contact_candidate_id
+    @JoinColumn(name = "takecare_transaction_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private TakeCareTransaction takeCareTransaction;

@@ -19,15 +19,8 @@ public class Status {
     @Column(name = "status_name")
     private String statusName;
 
-    @ManyToOne
-    @JoinColumn(name = "takecare_transaction_id") // thông qua khóa ngoại contact_candidate_id
+    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private TakeCareTransaction takeCareTransaction;
-
-    @OneToMany(mappedBy = "status", cascade = CascadeType.ALL) // Quan hệ 1-n với đối tượng ở dưới (Person) (1 địa điểm có nhiều người ở).
-    @EqualsAndHashCode.Exclude // không sử dụng trường này trong equals và hashcode
-    @ToString.Exclude // Khoonhg sử dụng trong toString()
-    private List<NoteStatus> noteStatusList;
-
+    private List<TakeCareTransaction> takeCareTransactionList;
 }
