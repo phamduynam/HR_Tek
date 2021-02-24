@@ -29,28 +29,27 @@ public class UserController {
         return findPaginated(1, "userId", "asc", model, searchUserDto);
     }
 
-    // Hiển thị view thêm mới
+    // Hiển thị view thêm mới người dùng
     @GetMapping("/add")
     public String showNewUserPage(Model model) {
         Users user = new Users();
         model.addAttribute("user", user);
         model.addAttribute("roles", roleService.getAllRole());
-        return "user/add";
+        return "/user/add";
     }
 
     @PostMapping("/save")
-    public String saveUser(Users user, RedirectAttributes redirAttrs) {
+    public String saveUser(Users user, RedirectAttributes redirectAttributes) {
         Users users = userService.getUserByGmail(user.getGmail());
         if(users != null){
-            redirAttrs.addFlashAttribute("error", "Gmail đã được sử dụng cho tài khoản khác !");
-            return "redirect:user/add";
+            redirectAttributes.addFlashAttribute("error", "Gmail đã được sử dụng cho tài khoản khác !");
+            return "redirect:/user/add";
         }
         userService.saveUser(user);
-        return "redirect:user/index";
+        return "redirect:/user/index";
     }
 
-
-    // Hiển thị view edit
+    // Hiển thị view chỉnh sửa người dùng
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") String id, Model model) {
         Users user = userService.findUserById(id)
@@ -65,17 +64,16 @@ public class UserController {
         return "redirect:/user/index";
     }
 
-    // Delete User
+    // Xóa người dùng
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") String id, Model model) {
         Users user = userService.findUserById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userService.deleteUser(user);
-
         return "redirect:/user/index";
     }
 
-    // Page able
+    // Phân trang
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable (value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
@@ -99,7 +97,7 @@ public class UserController {
         return "/user/index";
     }
 
-    // Search
+    // Tìm kiếm
     @PostMapping("/search")
     public String viewSearchPage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto) {
         List<Users> users = userService.searchUserByKeyword(searchUserDto);

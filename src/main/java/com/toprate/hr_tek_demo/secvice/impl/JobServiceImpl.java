@@ -68,7 +68,7 @@ public class JobServiceImpl implements JobService {
     // tim kiem tat ca Job
     @Override
     public List<JobRequirements> findAllJob() {
-        return jobRepository.findAllJob();
+        return jobRepository.findAll();
     }
 
     // chinh sua 1 Job
@@ -139,7 +139,7 @@ public class JobServiceImpl implements JobService {
                 Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return jobRepository.findAll(pageable);
+        return jobRepository.findAllJob(pageable);
     }
 
     // tim kiem Job

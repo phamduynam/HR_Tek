@@ -1,8 +1,6 @@
-
 package com.toprate.hr_tek_demo.repository.specification.base;
 
 import org.springframework.data.jpa.domain.Specification;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
@@ -70,8 +68,6 @@ public abstract class BaseQuerySpecification<E> {
     private <R, J, F> Specification<E> likeOfJoint(SingularAttribute<? super E, R> reference, SingularAttribute<J, F> idField, F value) {
         return (root, query, builder) -> builder.like(builder.lower(root.join(reference).get(idField.getName())), wrapLikeQuery(value.toString()));
     }
-
-
 
     //join many to many
     public <R, J, F extends Comparable<? super F>> Specification<E> buildJoinSpecification(Filter<F> filter, ListAttribute<? super E, R> reference, SingularAttribute<R, J> joinField, SingularAttribute<J, F> valueField) {

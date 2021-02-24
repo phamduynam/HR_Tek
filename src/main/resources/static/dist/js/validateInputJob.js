@@ -30,7 +30,6 @@ $(function () {
         rules: {
             jobTitle: {
                 required: true,
-                regexUsername: true,
             },
             quantity: {
                 required: true,
@@ -58,7 +57,6 @@ $(function () {
             jobTitle: {
                 required: "Tiêu đề không được để trống !",
                 alphanumeric: "Tiêu đề không chứa kí tự đặc biệt",
-                regexUsername: "Tiêu đề không chứa các ký tự đặc biệt"
             },
             quantity: {
                 required: "Hãy nhập số lượng"

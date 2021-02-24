@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface UserService {
 
-    List<Users> filterRecords(String keyword);
-
     List<Users> getAllUser();
 
     void saveUser(Users user);

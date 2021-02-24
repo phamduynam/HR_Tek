@@ -63,6 +63,7 @@ public class JobController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid Job Id:" + id));
         JobDto jobDetail = jobRequirement.convertToJobDto();
 
+        // tim toan bo cv phu hop voi job
         List<Contact> contacts = contactService.findAllContactForJob(id);
         model.addAttribute("contacts", contacts);
         model.addAttribute("jobDetail", jobDetail);

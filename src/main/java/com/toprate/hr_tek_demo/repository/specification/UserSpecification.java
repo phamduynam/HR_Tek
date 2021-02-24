@@ -2,21 +2,16 @@ package com.toprate.hr_tek_demo.repository.specification;
 
 import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.*;
-import com.toprate.hr_tek_demo.repository.UserRepository;
 import com.toprate.hr_tek_demo.repository.specification.base.BaseQuerySpecification;
 import com.toprate.hr_tek_demo.repository.specification.base.Filter;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserSpecification extends BaseQuerySpecification<Users> {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    // tim kiem nguoi dung theo trang thai va quyen
+    // tim kiem nguoi dung theo tat ca cac tieu chi
     public Specification<Users> searchUser(SearchUserDto data) {
         if (data.getRole().equals(StringUtils.EMPTY) && data.getStatus().equals(StringUtils.EMPTY) && data.getKeyword().equals(StringUtils.EMPTY)) {
             return super.initWhere();

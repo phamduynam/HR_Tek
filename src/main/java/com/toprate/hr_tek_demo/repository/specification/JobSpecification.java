@@ -40,7 +40,7 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
                 .and(findByPartner(data.getPartner()))
                 .and(findByPosition(data.getJobPositionList()))
                 .and(findBySkill(data.getJobWorkSkillList()))
-                .and(findByJobTitle(data.getKeyword()).or(findLikeByLevel(data.getKeyword())).or(findLikeByLocation(data.getKeyword())).or(findLikeByPartner(data.getKeyword())));
+                .and(findByJobTitle(data.getKeyword()).or(findLikeByLevel(data.getKeyword())).or(findLikeByLocation(data.getKeyword())).or(findLikeByPartner(data.getKeyword())).or(findLikeBySkill(data.getKeyword())).or(findLikeByPosition(data.getKeyword())));
     }
 
     // tim kiem theo tieu de
@@ -117,7 +117,7 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
 
     // tim kiem theo ky nang
     private Specification<JobRequirements> findBySkill(List<Integer> skills) {
-        if (skills.size() == 0) {
+        if (skills.isEmpty()) {
             return super.initWhere();
         }
         Filter<Integer> integerFilter = new Filter<>();
@@ -125,13 +125,33 @@ public class JobSpecification extends BaseQuerySpecification<JobRequirements> {
         return super.buildJoinSpecification(integerFilter, JobRequirements_.jobWorkSkills, JobWorkSkill_.skill, Skill_.skillId);
     }
 
+    // tim kiem theo ky nang su dung like
+    private Specification<JobRequirements> findLikeBySkill(String skill) {
+        if (skill == null) {
+            return super.initWhere();
+        }
+        Filter<String> stringFilter = new Filter<>();
+        stringFilter.setEquals(skill);
+        return super.buildJoinSpecification(stringFilter, JobRequirements_.jobWorkSkills, JobWorkSkill_.skill, Skill_.skillName);
+    }
+
     // tim kiem theo vi tri tuyen dung
     private Specification<JobRequirements> findByPosition(List<Integer> positions) {
-        if (positions.size() == 0) {
+        if (positions.isEmpty()) {
             return super.initWhere();
         }
         Filter<Integer> integerFilter = new Filter<>();
         integerFilter.setIn(positions);
         return super.buildJoinSpecification(integerFilter, JobRequirements_.jobPositionList, JobPosition_.position, Position_.positionId);
+    }
+
+    // tim kiem theo vi tri tuyen dung su dung like
+    private Specification<JobRequirements> findLikeByPosition(String position) {
+        if (position == null) {
+            return super.initWhere();
+        }
+        Filter<String> stringFilter = new Filter<>();
+        stringFilter.setEquals(position);
+        return super.buildJoinSpecification(stringFilter, JobRequirements_.jobPositionList, JobPosition_.position, Position_.positionName);
     }
 }

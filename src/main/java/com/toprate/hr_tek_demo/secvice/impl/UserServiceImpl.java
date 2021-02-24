@@ -20,19 +20,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // tim kiem nguoi dung bang tu khoa nhap vao
-    @Override
-    public List<Users> filterRecords(String keyword) {
-        if(keyword != null) {
-            return userRepository.filterRecords(keyword);
-        }
-        return userRepository.findAllUser();
-    }
-
     // tim kiem tat ca nguoi dung
     @Override
     public List<Users> getAllUser() {
-        return userRepository.findAllUser();
+        return userRepository.findAll();
     }
 
     // luu 1 nguoi dung moi
@@ -64,11 +55,10 @@ public class UserServiceImpl implements UserService {
     // phan trang
     @Override
     public Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
-                Sort.by(sortField).descending();
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return userRepository.findAll(pageable);
+        return userRepository.findAllUser(pageable);
     }
 
     @Override
