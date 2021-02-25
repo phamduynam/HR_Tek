@@ -100,7 +100,23 @@ public class UserController {
     // Tìm kiếm
     @PostMapping("/search")
     public String viewSearchPage(Model model, @ModelAttribute("searchUserDto") SearchUserDto searchUserDto) {
-        List<Users> users = userService.searchUserByKeyword(searchUserDto);
+
+        int pageSize = 5;
+        int pageNo = 1;
+        String sortField = "userId";
+        String sortDir = "asc";
+
+        Page<Users> page = userService.searchUserByKeyword(searchUserDto,pageNo, pageSize, sortField, sortDir);
+        List<Users> users = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
         model.addAttribute("users", users);
         model.addAttribute("roles", roleService.getAllRole());
         return "/user/index";

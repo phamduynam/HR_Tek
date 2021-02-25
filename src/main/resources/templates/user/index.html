@@ -132,12 +132,12 @@
                                     </div>
                                     <div class = "col-sm-1">
                                         <a th:if="${currentPage < totalPages}" th:href="@{'/user/page/' + ${currentPage + 1}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Tiếp</a>
-                                        <span th:unless="${currentPage < totalPages}">Next</span>
+                                        <span th:unless="${currentPage < totalPages}">Tiếp</span>
                                     </div>
 
                                     <div class="col-sm-1">
                                         <a th:if="${currentPage < totalPages}" th:href="@{'/user/page/' + ${totalPages}+ '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Cuối</a>
-                                        <span th:unless="${currentPage < totalPages}">Last</span>
+                                        <span th:unless="${currentPage < totalPages}">Cuối</span>
                                     </div>
                                 </div>
                             </div>

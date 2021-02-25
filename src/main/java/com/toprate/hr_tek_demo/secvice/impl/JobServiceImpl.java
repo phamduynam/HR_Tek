@@ -35,6 +35,7 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private JobPositionService jobPositionService;
 
+    // tim kiem job theo id
     @Override
     public Optional<JobRequirements> findJobById(String id) {
         return jobRepository.findById(id);
@@ -144,8 +145,11 @@ public class JobServiceImpl implements JobService {
 
     // tim kiem Job
     @Override
-    public List<JobRequirements> searchJobByKeyword(SearchJobDto data) {
-        return jobRepository.findAll(new JobSpecification().searchJob(data));
+    public Page<JobRequirements> searchJobByKeyword(SearchJobDto data,int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return jobRepository.findAll(new JobSpecification().searchJob(data), pageable);
     }
 
     public List<JobRequirementDTO> searchJobMatchByContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto) {

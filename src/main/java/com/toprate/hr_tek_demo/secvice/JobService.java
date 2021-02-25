@@ -27,7 +27,7 @@ public interface JobService {
 
     List<JobRequirements> searchJobForContact(Contact contact, SearchJobForContactDto searchJobForContactDto);
 
-    List<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto);
+    Page<JobRequirements> searchJobByKeyword(SearchJobDto searchJobDto,int pageNo, int pageSize, String sortField, String sortDirection);
 
     List<JobRequirementDTO> searchJobMatchByContact(ContactDto contactDto, SearchJobForContactDto searchJobForContactDto);
 

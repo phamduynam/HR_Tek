@@ -3,7 +3,6 @@ package com.toprate.hr_tek_demo.secvice;
 import com.toprate.hr_tek_demo.dto.SearchUserDto;
 import com.toprate.hr_tek_demo.model.Users;
 import org.springframework.data.domain.Page;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,7 @@ public interface UserService {
 
     Optional<Users> findUserById(String id);
 
-    List<Users> searchUserByKeyword(SearchUserDto searchUserDto);
+    Page<Users> searchUserByKeyword(SearchUserDto data, int pageNo, int pageSize, String sortField, String sortDirection) ;
 
     Page<Users> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
 

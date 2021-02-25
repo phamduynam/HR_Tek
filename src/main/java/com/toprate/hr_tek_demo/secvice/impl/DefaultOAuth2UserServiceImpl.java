@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,25 +32,17 @@ public class DefaultOAuth2UserServiceImpl extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
-        try {
-            return processOAuth2User(oAuth2UserRequest);
-        } catch (Exception ex) {
-            throw   new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
-        }
-    }
-
-    private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest) {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         String emailFromGoogle = (String) attributes.get("email");
-        Users user = userRepository.findByGmail(emailFromGoogle).orElse(null);
+        Optional<Users> user = userRepository.findByGmail(emailFromGoogle);
 
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        List<Role> roles = user.getRoles();
-        for (Role role : roles) {
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleName()));
+        if (user.isPresent()) {
+            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + user.get().getRole().getRoleName()));
+            return new DefaultOAuth2User(grantedAuthorities, attributes, "sub");
         }
-        return new DefaultOAuth2User(grantedAuthorities, attributes, "sub");
+        return oAuth2User;
     }
 }

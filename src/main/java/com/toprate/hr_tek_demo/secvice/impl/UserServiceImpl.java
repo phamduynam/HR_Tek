@@ -48,8 +48,11 @@ public class UserServiceImpl implements UserService {
 
     // tim kiem theo tat ca cac tieu chi
     @Override
-    public List<Users> searchUserByKeyword(SearchUserDto data) {
-        return userRepository.findAll( new UserSpecification().searchUser(data));
+    public Page<Users> searchUserByKeyword(SearchUserDto data,int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return userRepository.findAll( new UserSpecification().searchUser(data), pageable);
     }
 
     // phan trang

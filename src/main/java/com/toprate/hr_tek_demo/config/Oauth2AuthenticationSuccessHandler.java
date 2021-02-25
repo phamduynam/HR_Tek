@@ -39,40 +39,9 @@ public class Oauth2AuthenticationSuccessHandler implements AuthenticationSuccess
         if (user.isPresent()) {
             HttpSession session = request.getSession();
             session.setAttribute("userInfo", user);
-            session.setAttribute("ipAddress", getClientIp(request));
             redirectStrategy.sendRedirect(request, response, "/home");
         } else {
-            redirectStrategy.sendRedirect(request, response, "/");
+            redirectStrategy.sendRedirect(request, response, "/login?error");
         }
-    }
-
-    public String getClientIp(HttpServletRequest request) {
-        final String LOCALHOST_IPV4 = "127.0.0.1";
-        final String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
-        String ipAddress = request.getHeader("X-Forwarded-For");
-        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
-        }
-
-        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("WL-Proxy-Client-IP");
-        }
-
-        if (StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getRemoteAddr();
-            if (LOCALHOST_IPV4.equals(ipAddress) || LOCALHOST_IPV6.equals(ipAddress)) {
-                try {
-                    InetAddress inetAddress = InetAddress.getLocalHost();
-                    ipAddress = inetAddress.getHostAddress();
-                } catch (UnknownHostException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        if (!StringUtils.isEmpty(ipAddress) && ipAddress.length() > 15 && ipAddress.indexOf(",") > 0) {
-            ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
-        }
-        return ipAddress;
     }
 }

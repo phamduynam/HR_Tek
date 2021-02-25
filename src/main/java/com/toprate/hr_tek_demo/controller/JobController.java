@@ -206,13 +206,28 @@ public class JobController {
     // tim kiem
     @RequestMapping("/search-job")
     public String viewHomePage(Model model, @ModelAttribute("searchJobDto") SearchJobDto searchJobDto ) {
-        List<JobRequirements> jobRequirementsList = jobService.searchJobByKeyword(searchJobDto);
+
+        int pageSize = 5;
+        int pageNo = 1;
+        String sortField = "jobRecruitmentId";
+        String sortDir = "asc";
+
+        Page<JobRequirements> page = jobService.searchJobByKeyword(searchJobDto, pageNo, pageSize, sortField, sortDir);
+        List<JobRequirements> listJob = page.getContent();
 
         // loc trung ket qua
         Set<String> idSet = new HashSet<>();
-        List<JobRequirements> jobs = jobRequirementsList.stream()
+        List<JobRequirements> jobs = listJob.stream()
                 .filter(e -> idSet.add(e.getJobRecruitmentId()))
                 .collect(Collectors.toList());
+
+        model.addAttribute("currentJobPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         model.addAttribute("jobs", jobs);
         model.addAttribute("partners", partnerService.findAllPartner());
