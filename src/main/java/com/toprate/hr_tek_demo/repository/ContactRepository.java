@@ -33,4 +33,5 @@ public interface ContactRepository extends JpaRepository<Contact,String> , JpaSp
             "where c.position_id in (select d.position_id from job_position d where d.job_recruitment_id = :id)\n" +
             "and f.skill_id in (select g.skill_id from job_work_skill g where g.job_recruitment_id = :id) ", nativeQuery = true)
     List<Contact> findAllContactForJob(@Param("id") String id);
+
 }

@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class GeneratorContactId implements IdentifierGenerator {
 
-    private String prefix = "UV";
+    private String prefix = "CAND";
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object obj) throws HibernateException {
         String query = "SELECT c.candidateId FROM Contact c";

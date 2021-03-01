@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class GeneratorUserId implements IdentifierGenerator {
 
-    private String prefix = "HR";
+    private String prefix = "USER";
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object obj) throws HibernateException {
         String query = "SELECT u.userId FROM Users u";

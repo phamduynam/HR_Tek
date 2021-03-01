@@ -26,10 +26,10 @@
                         <span class="pcoded-mtext">Quản lí các job đang tuyển</span>
                     </a>
                 </li>
-                <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER') or hasRole('HR')" class="">
-                    <a href="javascript:void(0)">
+                <li sec:authorize="hasRole('ADMIN') or hasRole('MANAGER')" class="">
+                    <a href="/assign/contact">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
-                        <span class="pcoded-mtext">Quản lí TODO task</span>
+                        <span class="pcoded-mtext">Phân công</span>
                     </a>
                 </li>
                 <li sec:authorize="hasRole('MANAGER')" class="">

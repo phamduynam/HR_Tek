@@ -69,4 +69,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByGmail(gmail).orElse(null);
     }
 
+    @Override
+    public List<Users> getAllByRole(String name) {
+        return userRepository.findByRole_RoleName(name);
+    }
+
 }

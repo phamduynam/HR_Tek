@@ -29,4 +29,5 @@ public interface ContactService {
     Contact getContactByPhone_2(String phone);
 
     List<Contact> searchSpecification(SearchDto data);
+
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Assign Contact to Hr</title>
+</head>
+
+<body>
+
+<section layout:fragment="content" id="page_content">
+    <div class="col-xs-12">
+        <div class="card">
+            <div class="card-header card-border-primary">
+                <h3 class="card-title">Data Table With Full Features</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="card-body">
+                <table id="example" class="table table-bordered table-hover dataTable dtr-inline">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                    </tr>
+                    </thead>
+                    <tbody id="myTable">
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <!-- /.row -->
+    <script>
+        // Thêm các thuộc tính tìm kiếm hiển thị cho bảng
+        $(document).ready(function() {
+            $('#example').DataTable();
+        } );
+    </script>
+</section>
+</body>
+
+</html>

@@ -77,4 +77,5 @@ public class Users implements Serializable {
         this.status = "ACTIVE";
     }
 
+
 }
