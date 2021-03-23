@@ -8,7 +8,6 @@ import com.toprate.hr_tek_demo.model.Contact;
 import com.toprate.hr_tek_demo.model.ContactWorkSkill;
 import com.toprate.hr_tek_demo.model.TakeCareTransaction;
 import com.toprate.hr_tek_demo.secvice.*;
-import com.toprate.hr_tek_demo.secvice.impl.TakeCareTransactionServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

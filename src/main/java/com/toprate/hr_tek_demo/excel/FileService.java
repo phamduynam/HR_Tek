@@ -1,10 +1,9 @@
 package com.toprate.hr_tek_demo.excel;
 
-
 import com.toprate.hr_tek_demo.model.*;
-import com.toprate.hr_tek_demo.secvice.impl.ContactServiceImpl;
-import com.toprate.hr_tek_demo.secvice.impl.PositionServiceImpl;
-import com.toprate.hr_tek_demo.secvice.impl.SkillServiceImpl;
+import com.toprate.hr_tek_demo.secvice.ContactService;
+import com.toprate.hr_tek_demo.secvice.PositionService;
+import com.toprate.hr_tek_demo.secvice.SkillService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +22,26 @@ import java.util.List;
 public class FileService {
 
     @Autowired
-    private ContactServiceImpl contactService;
+    private ContactService contactService;
     @Autowired
-    private SkillServiceImpl skillService;
+    private SkillService skillService;
     @Autowired
-    private PositionServiceImpl positionService;
+    private PositionService positionService;
+
     // quản lý các dòng của file excel
     public Iterator<Row> rowIterator;
+
     // dùng để chạy các cell là hàm
     public FormulaEvaluator formulaEvaluator;
+
     // Sheet bắt đầu
     private int indexSheet = 0  ;
-    // Số dòng bở qua
+
+    // Số dòng bỏ qua
     private int countNextRow = 1;
+
     // Các cột cần lấy trong excel
-//    private final int id = 0; // ID tự động tăng
+    // private final int id = 0; // ID tự động tăng
     private final int name = 1;
     private final int dayOfBirth = 2;
     private final int address = 3;
@@ -52,9 +56,11 @@ public class FileService {
     private final int level = 12;
     private final int listSKill = 13;
     private final int listPosition = 14;
+
     // Format ngày
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+    // luu du lieu tu file excel vao DB
     public void saveDataInFile(MultipartFile fileExcel){
         // Mở file ở đây
         try {
@@ -62,7 +68,9 @@ public class FileService {
             System.out.println
                     ("============ SHEET NAME = " + workbook.getSheetAt(indexSheet).getSheetName() + " ============");
 
+            // lấy dữ liệu tại chỉ mục dã cho(index sheet)
             rowIterator = workbook.getSheetAt(indexSheet).rowIterator();
+
             // bỏ qua các hàng title
             while (countNextRow-- > 0) {
                 rowIterator.next();
@@ -73,12 +81,15 @@ public class FileService {
             e.printStackTrace();
         }
 
-        int rowSave = forEachRow();
+        // số hàng đã lưu
+        int rowSave = forEachRow(rowIterator);
         System.out.println("Saved : " + rowSave);
     }
+
     // duyệt toàn bộ hàng của sheet và chạy doWithRow với mỗi hàng
     // trả về số lượng hàng đã duyệt
-    public int forEachRow() {
+    public int forEachRow(Iterator<Row> rowIterator) {
+
         int countRows = 0;
         // duyệt tất cả hàng
         while (rowIterator.hasNext()) {
@@ -89,13 +100,15 @@ public class FileService {
             if (cellValue == null || cellValue.toString().equals("[]")) {
                 break;
             }
+
             Contact contact = new Contact();
             try {
                 contact = doWithRow(row);
             } catch (Exception e) {
                 e.printStackTrace();
                 e.getMessage();
-//                Nếu có lỗi gì sẽ đáp vào listError
+
+            //  Nếu có lỗi gì sẽ đáp vào listError
                 System.out.println("Lỗi đây này DMMMMMMMMMMMMMMMMMMMMMMM" + e.getMessage());
 
             }
@@ -105,7 +118,9 @@ public class FileService {
         return countRows;
     }
 
+    // xử lý với hàng
     protected Contact doWithRow(Row row) throws ParseException {
+
         Contact contact = new Contact();
         contact.setCandidateName(getStringCellValue(row, name));
         String date = getDateInCell(row, dayOfBirth);
@@ -122,9 +137,11 @@ public class FileService {
         contact.setYearExperience((float) getDoubleCellValue(row, year_experience));
         contact.setEnable(true);
         contact.setIsBlackList(false);
+
         // list skill String
         String[] listSkillString = processString(row, listSKill);
         String[] listPositionString = processString(row, listPosition);
+
         // Tạo list skill cho contact
         List<ContactWorkSkill> contactWorkSkillList = new ArrayList<>();
         for (String skillName : listSkillString) {
@@ -134,6 +151,7 @@ public class FileService {
             }
         }
         contact.setContactWorkSkillList(contactWorkSkillList);
+
         // Tạo list position cho contact
         List<ContactPosition> contactPositionList = new ArrayList<>();
         for (String positionName : listPositionString) {
@@ -147,7 +165,8 @@ public class FileService {
         contactService.saveContact(contact);
 
         System.out.println(contact);
-//        // Cập nhật lại khóa ngoại
+
+        // Cập nhật lại khóa ngoại
         for (ContactPosition contactPosition : contactPositionList){
             contactPosition.setContact(contact);
             System.out.println(contactPosition);
@@ -160,7 +179,6 @@ public class FileService {
         contactService.saveContact(contact);
         return contact;
     }
-
 
     private boolean checkGmail(String gmail){
         // check gmail 1
@@ -176,6 +194,7 @@ public class FileService {
         }
         return true;
     }
+
     private boolean checkPhone(String phone){
         // check gmail 1
         if(phone == null || phone.equals("")){
@@ -190,12 +209,14 @@ public class FileService {
         }
         return true;
     }
+
     public String[] processString(Row row, int colum) {
         String listObjectString = getStringCellValue(row, colum);
         // Tách thành các mảng bởi dấu ','
         String[] arrayObject = listObjectString.split(",");
         return arrayObject;
     }
+
     // xử lý evaluator (công thức trong excel) nếu có lỗi thì trả về null
     protected CellValue processCellValue(Row row, int column) {
         try {
@@ -229,8 +250,7 @@ public class FileService {
         return "";
     }
 
-
-    // trả giá trị string từ cell nếu lỗi trả về rỗng
+    // trả giá trị string từ cell, nếu lỗi trả về rỗng
     protected String getStringCellValue(Row row, int column) {
         CellValue cellValue = processCellValue(row, column);
         if (cellValue != null) {
@@ -239,8 +259,8 @@ public class FileService {
         return "";
     }
 
-    // trả giá trị boolean nếu lỗi trả về false
-    protected boolean getBolleanCellValue(Row row, int column) {
+    // trả giá trị boolean, nếu lỗi trả về false
+    protected boolean getBooleanCellValue(Row row, int column) {
         CellValue cellValue = processCellValue(row, column);
         if (cellValue != null) {
             return cellValue.getBooleanValue();
@@ -248,6 +268,7 @@ public class FileService {
         return false;
     }
 
+    // trả giá trị double, nếu lỗi trả về 0
     protected double getDoubleCellValue(Row row, int column) {
         CellValue cellValue = processCellValue(row, column);
         if (cellValue != null) {

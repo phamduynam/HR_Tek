@@ -135,7 +135,7 @@
                             </tr>
                             </thead>
                             <tbody id="myTable">
-                            <tr th:if = "${contacts.empty}">
+                            <tr th:if = "${contacts.isEmpty()}">
                                 <td colspan="2"> No Result </td>
                             </tr>
                             <tr th:each="contact : ${contacts}">
